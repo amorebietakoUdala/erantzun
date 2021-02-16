@@ -7,7 +7,7 @@
 		<div class="container">
 		    <div class="pull-left">
 			<ul class="navbar-nav mr-auto">
-			    <li class="nav-item dropdown btn-group" title="{{ "messages.eskakizunak" | trans | capitalize }}">
+			    <li class="nav-item dropdown" title="{{ "messages.eskakizunak" | trans | capitalize }}">
 			    <a class="nav-link dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-envelope prefix"></i><span class="menuaren_titulua">{{ "messages.eskakizunak" | trans | capitalize }}</span></a>
 				<div class="dropdown-menu dropdown" aria-labelledby="dropdownMenu1">
 				    {% if is_granted('ROLE_ARDURADUNA') or is_granted('ROLE_ADMIN') or is_granted('ROLE_INFORMATZAILEA')%}
@@ -22,7 +22,7 @@
 			    </li>
                             {% endif %}
                             {% if is_granted('ROLE_ADMIN') %}
-                            <li class="nav-item dropdown btn-group" title="{{ "messages.administrazioa" | trans | capitalize }}">
+                            <li class="nav-item dropdown" title="{{ "messages.administrazioa" | trans | capitalize }}">
 				<a class="nav-link dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-folder prefix"></i><span class="menuaren_titulua">{{ "messages.administrazioa" | trans | capitalize }}</span></a>
 				<div class="dropdown-menu dropdown" aria-labelledby="dropdownMenu1">
 				    <a href="{{ path('admin_zerbitzua_list') }}" class="dropdown-item"><i class="fa fa-folder-open prefix"></i>&nbsp;{{ "messages.zerbitzuak" | trans | capitalize }}</a>

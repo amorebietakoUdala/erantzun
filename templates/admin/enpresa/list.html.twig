@@ -4,12 +4,17 @@
 
 {% block stylesheets %}
     {{ parent() }}
-	<link href="{{ asset('bower_components/bootstrap-table/dist/bootstrap-table.css') }}" rel="stylesheet" type="text/css">
+		{{ encore_entry_link_tags('enpresa_list') }}
+{% endblock %}
 
-	
-	<link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset('css/bootstrap-table-personalization.css') }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset('bower_components/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet" type="text/css">
+{% block javascripts %}
+    {{ parent() }}
+    {% set agent = app.request.headers.get('user-agent') %}
+    {% if 'Trident' in agent %}
+    <script type="text/javascript" src="{{ asset('bower_components/core.js/client/core.js') }}"></script>
+    {% endif %}
+
+		{{ encore_entry_script_tags('enpresa_list') }}
 {% endblock %}
 
 {% block menua %}
@@ -53,9 +58,9 @@
 				{% if enpresa.aktibatua == 1 %}{{ "messages.bai" | trans | capitalize }}{% else %}{{ "messages.ez" | trans | capitalize }}{% endif %}
 			</td>
 			<td class="white-space-nowrap">
-			    <a href="{{ path ('admin_enpresa_show', {'id': enpresa.id }) }}"><i class="fa fa-eye prefix"></i></a>
-			    &nbsp;<a href="{{ path ('admin_enpresa_edit', {'id': enpresa.id }) }}"><i class="fa fa-edit prefix"></i></a>
-			    &nbsp;<a class="js-ezabatu_botoia" data-url="{{ path ('admin_enpresa_delete', {'id': enpresa.id }) }}" href="#"><i class="fa fa-window-close prefix"></i></a>
+			    <a href="#" class="js-erakutsi_botoia" data-url="{{ path ('admin_enpresa_show', {'id': enpresa.id }) }}"><i class="fa fa-eye prefix list-icon"></i></a>
+			    &nbsp; <a href="#" class="js-editatu_botoia"  data-url="{{ path ('admin_enpresa_edit', {'id': enpresa.id }) }}"><i class="fa fa-edit prefix list-icon"></i></a>
+			    &nbsp; <a href="#" class="js-ezabatu_botoia" data-url="{{ path ('admin_enpresa_delete', {'id': enpresa.id }) }}"><i class="fa fa-window-close prefix list-icon"></i></a>
 			</td>
 		    </tr>
 		    {% endfor %}
@@ -66,13 +71,3 @@
 	<span id="btn-berria" class="pull-right"><a href="{{ path ('admin_enpresa_new') }}" class="btn btn-primary btn-rounded btn-fixed"><i class="fa fa-plus"></i></a></span>
     </div>
 {% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript" src="{{ asset('bower_components/sweetalert2/dist/sweetalert2.min.js') }}"></script>
-    {% set agent = app.request.headers.get('user-agent') %}
-    {% if 'Trident' in agent %}
-    <script type="text/javascript" src="{{ asset('bower_components/core.js/client/core.js') }}"></script>
-    {% endif %}
-    {{ include('default/bootstrap_table_js.html.twig') }}
-{% endblock%}

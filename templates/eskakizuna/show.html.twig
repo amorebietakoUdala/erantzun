@@ -7,11 +7,16 @@
 
 {% block stylesheets %}
 	{{ parent() }}
-	<link href="{{ asset('css/chat.css') }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset('bower_components/jquery-ui/themes/base/jquery-ui.css') }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset('bower_components/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet" type="text/css">
-{% endblock %}
+	{{ encore_entry_link_tags('eskakizuna_edit') }}
+{% endblock stylesheets %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<!--Google Maps-->
+	{% set gmapAsset = 'https://maps.googleapis.com/maps/api/js?key='~googleMapsApiKey %}
+	<script type="text/javascript" src="{{ asset(gmapAsset) }}" async="async" defer="defer"></script>
+	{{ encore_entry_script_tags('eskakizuna_edit') }}
+{% endblock javascripts %}
 
 {% block body %}
 	<div class="container-fluid margin-top-13">
@@ -21,7 +26,7 @@
 	</div>
 {% endblock %}
 
-{% block javascripts %}
+{# {% block javascripts %}
 	{{ parent() }}
 	<script type="text/javascript" language="javascript">
 		$(document).ready(function () {
@@ -48,4 +53,4 @@ window.location.href = Routing.generate('admin_eskakizuna_list', {
 	<script type="text/javascript" src="{{ asset('js/orokorra.js') }}"></script>
 	{% set gmapAsset = 'https://maps.googleapis.com/maps/api/js?key='~googleMapsApiKey %}
 	<script type="text/javascript" src="{{ asset(gmapAsset) }}"></script>
-{% endblock %}
+{% endblock %} #}

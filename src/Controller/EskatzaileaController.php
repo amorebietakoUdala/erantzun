@@ -4,7 +4,7 @@
  * Description of EskatzaileaController.
  *
  * @author ibilbao
-*/
+ */
 
 namespace App\Controller;
 
@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
- /**
+/**
  * @Route("/{_locale}/admin/eskatzailea")
  */
 class EskatzaileaController extends AbstractController
@@ -43,8 +43,8 @@ class EskatzaileaController extends AbstractController
         }
 
         return $this->render('admin/eskatzailea/new.html.twig', [
-        'eskatzaileaForm' => $form->createView(),
-    ]);
+            'eskatzaileaForm' => $form->createView(),
+        ]);
     }
 
     /**
@@ -69,8 +69,8 @@ class EskatzaileaController extends AbstractController
         }
 
         return $this->render('admin/eskatzailea/edit.html.twig', [
-        'eskatzaileaForm' => $form->createView(),
-    ]);
+            'eskatzaileaForm' => $form->createView(),
+        ]);
     }
 
     /**
@@ -78,21 +78,22 @@ class EskatzaileaController extends AbstractController
      */
     public function deleteAction(Request $request, Eskatzailea $eskatzailea)
     {
+        $params = $request->query->all();
         if (!$eskatzailea) {
             $this->addFlash('error', 'messages.eskatzailea_ez_da_existitzen');
 
-            return $this->redirectToRoute('admin_eskatzailea_list');
+            return $this->redirectToRoute('admin_eskatzailea_list', $params);
         }
 
         $em = $this->getDoctrine()->getManager();
         $eskakizunak = $em->getRepository(Eskakizuna::class)->findOneBy([
-        'eskatzailea' => $eskatzailea,
-    ]);
+            'eskatzailea' => $eskatzailea,
+        ]);
 
         if ($eskakizunak) {
             $this->addFlash('error', 'messages.ezin_eskatzailea_borratu_eskakizunak_dituelako');
 
-            return $this->redirectToRoute('admin_eskatzailea_list');
+            return $this->redirectToRoute('admin_eskatzailea_list', $params);
         }
 
         $em->remove($eskatzailea);
@@ -100,7 +101,7 @@ class EskatzaileaController extends AbstractController
 
         $this->addFlash('success', 'messages.eskatzailea_ezabatua');
 
-        return $this->redirectToRoute('admin_eskatzailea_list');
+        return $this->redirectToRoute('admin_eskatzailea_list', $params);
     }
 
     /**
@@ -108,12 +109,12 @@ class EskatzaileaController extends AbstractController
      */
     public function showAction(Eskatzailea $eskatzailea, LoggerInterface $logger)
     {
-        $logger->debug('Showing: '.$eskatzailea->getId());
+        $logger->debug('Showing: ' . $eskatzailea->getId());
         $form = $this->createForm(EskatzaileaFormType::class, $eskatzailea);
 
         return $this->render('admin/eskatzailea/show.html.twig', [
-        'eskatzaileaForm' => $form->createView(),
-    ]);
+            'eskatzaileaForm' => $form->createView(),
+        ]);
     }
 
     /**
@@ -125,7 +126,7 @@ class EskatzaileaController extends AbstractController
         $eskatzaileak = $em->getRepository('App:Eskatzailea')->findAll();
 
         return $this->render('admin/eskatzailea/list.html.twig', [
-        'eskatzaileak' => $eskatzaileak,
-    ]);
+            'eskatzaileak' => $eskatzaileak,
+        ]);
     }
 }

@@ -1,0 +1,15 @@
+@import '~eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css';
+
+.timepicker-picker>table>tr>td>a.btn {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    color: #212529;
+}
+
+.timepicker-picker>table>tr>td>a.btn:hover {
+    color: #4285f4;
+}
+
+li.picker-switch>table>tbody>tr>td>a>i {
+    color: #4285f4;
+}

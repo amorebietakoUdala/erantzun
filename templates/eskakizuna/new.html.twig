@@ -7,11 +7,16 @@
 
 {% block stylesheets %}
 	{{ parent() }}
+	{{ encore_entry_link_tags('eskakizuna_edit') }}
+{% endblock stylesheets %}
 
-	<link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}">
-	<link href="{{ asset('bower_components/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset('bower_components/jquery-ui/themes/base/jquery-ui.css') }}" rel="stylesheet" type="text/css">
-{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	<!--Google Maps-->
+	{% set gmapAsset = 'https://maps.googleapis.com/maps/api/js?key='~googleMapsApiKey %}
+	<script type="text/javascript" src="{{ asset(gmapAsset) }}" async="async" defer="defer"></script>
+	{{ encore_entry_script_tags('eskakizuna_edit') }}
+{% endblock javascripts %}
 
 {% block body %}
 	<div class="container-fluid margin-top-13">
@@ -21,7 +26,7 @@
 	</div>
 {% endblock %}
 
-{% block javascripts %}
+{# {% block javascripts %}
 {{ parent() }}
 <script type="text/javascript" src="{{ asset('bower_components/tinymce/tinymce.js') }}"></script>
 <!--Google Maps-->
@@ -38,21 +43,5 @@
 
 <script type="text/javascript" src="{{ asset('js/eskakizunak/eskakizuna.js') }}"></script>
 <script type="text/javascript" language="javascript">
-	$(document).ready(function () {
-$(".js-atzera-botoia").click(function () {
-window.location.href = Routing.generate('admin_eskakizuna_list', {'_locale': $("html").attr("lang")});
-});
-locale = $("html").attr("lang");
-$('.js-datepicker').datetimepicker({
-initialDate: new Date(),
-format: 'yyyy-mm-dd hh:ii',
-autoclose: true,
-language: locale,
-fontAwesome: true
-}).attr('type', 'text'); // Honekin chromen ez da testua agertzen
-$('.js-datepicker').addClass("active");
-$('.js-datepicker').siblings().addClass("active");
-$('.js-datepicker').datetimepicker("setDate", new Date()).attr('type', 'text'); // Honekin chromen ez da testua agertzen
-});
 </script>
-{% endblock%}
+{% endblock%} #}

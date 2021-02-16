@@ -6,13 +6,51 @@
 {% endblock %}
 
 {% block stylesheets %}
+    {{ parent() }}
+		{{ encore_entry_link_tags('eskakizuna_list') }}
+{% endblock %}
+
+{% block javascripts %}
+   {{ parent() }}
+   {% set agent = app.request.headers.get('user-agent') %}
+   {% if 'Trident' in agent %}
+   <script type="text/javascript" src="{{ asset('bower_components/core.js/client/core.js') }}"></script>
+   {% endif %}
+	{{ encore_entry_script_tags('eskakizuna_list') }}
+{% endblock %}
+
+{# {% block stylesheets %}
 	{{ parent() }}
 	<link href="{{ asset('bower_components/bootstrap-table/dist/bootstrap-table.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ asset('css/bootstrap-table-personalization.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ asset('bower_components/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ asset('bower_components/jquery-ui/themes/base/jquery-ui.css') }}" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}">
-{% endblock %}
+{% endblock %} #}
+
+{# {% block javascripts %}
+{{ parent() }}
+
+<script type="text/javascript" src="{{ asset('bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bower_components/moment/min/moment.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bower_components/sweetalert2/dist/sweetalert2.min.js') }}"></script>
+{% set agent = app.request.headers.get('user-agent') %}
+{% if 'Trident' in agent %}
+	<script type="text/javascript" src="{{ asset('bower_components/core.js/client/core.js') }}"></script>
+{% endif %}
+<script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+
+{{ include('default/bootstrap_table_js.html.twig') }}
+{% if app.request.locale == 'es' %}
+	<script type="text/javascript" src="{{ asset('js/locales/bootstrap-datetimepicker.es.js') }}"></script>
+{% else %}
+	<script type="text/javascript" src="{{ asset('js/locales/bootstrap-datetimepicker.eu.js') }}"></script>
+{% endif %}
+
+<script type="text/javascript" src="{{ asset('js/eskakizunak/eskakizuna_list.js') }}"></script>
+
+{% endblock%} #}
+
 
 {% block header %}
 	{{ parent()}}
@@ -54,7 +92,7 @@
 		<div class="row">
 			<div class="margin-top-13">
 				<div id="data-menu" class="btn-group dropdown">
-					<button class="btn btn-default dropdown-toggle" href="https://example.com" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<button class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<i class="fa fa-align-justify" aria-hidden="true"></i>
 					</button>
 
@@ -63,7 +101,7 @@
 					</div>
 				</div>
 
-				<table class="taula bootstrap-table table-sm table-responsive col-12" data-icons-prefix="fa" data-icon-export="fa-file-export" data-toolbar="#data-menu">
+				<table class="taula bootstrap-table table-sm table-responsive" data-icons-prefix="fa" data-icon-export="fa-file-export" data-toolbar="#data-menu">
 					<thead>
 						<tr>
 							<th data-field="state" data-checkbox="true"></th>
@@ -152,13 +190,13 @@
 											<i class="fa fa-edit prefix list-icon" title="{{"messages.editatu" | trans | capitalize}}"></i>
 										</a>
 										&nbsp;<a class="js-ezabatu_botoia" data-url="{{ path ('admin_eskakizuna_delete', {'id': eskakizuna.id }) }}" href="#">
-											<i class="fa fa-trash prefix" title="{{"messages.ezabatu" | trans | capitalize}}"></i>
+											<i class="fa fa-trash prefix list-icon" title="{{"messages.ezabatu" | trans | capitalize}}"></i>
 										</a>
 										&nbsp;<a class="js-itxi_botoia" data-url="{{ path ('admin_eskakizuna_close', {'id': eskakizuna.id }) }}" href="#">
-											<i class="fa fa-window-close prefix" title="{{"messages.itxi" | trans | capitalize}}"></i>
+											<i class="fa fa-window-close prefix list-icon" title="{{"messages.itxi" | trans | capitalize}}"></i>
 										</a>
 										&nbsp;<a class="js-erreklamatu_botoia" data-url="{{ path ('admin_eskakizuna_resend', {'id': eskakizuna.id }) }}" href="#">
-											<i class="fa fa-forward" title="{{"messages.erreklamatu" | trans | capitalize}}"></i>
+											<i class="fa fa-forward list-icon" title="{{"messages.erreklamatu" | trans | capitalize}}"></i>
 										</a>
 									{% endif %}
 								</td>
@@ -169,32 +207,10 @@
 			</div>
 		</div>
 		<span id="btn-berria" class="pull-right">
-			<a href="{{ path ('admin_eskakizuna_new') }}" class="btn btn-primary btn-rounded btn-fixed">
+			<a href="#" class="btn btn-primary btn-rounded btn-fixed js-berria_botoia" data-url="{{ path ('admin_eskakizuna_new') }}">
 				<i class="fa fa-plus"></i>
 			</a>
 		</span>
 	</div>
 {% endblock %}
 
-{% block javascripts %}
-{{ parent() }}
-
-<script type="text/javascript" src="{{ asset('bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('bower_components/moment/min/moment.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('bower_components/sweetalert2/dist/sweetalert2.min.js') }}"></script>
-{% set agent = app.request.headers.get('user-agent') %}
-{% if 'Trident' in agent %}
-	<script type="text/javascript" src="{{ asset('bower_components/core.js/client/core.js') }}"></script>
-{% endif %}
-<script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
-
-{{ include('default/bootstrap_table_js.html.twig') }}
-{% if app.request.locale == 'es' %}
-	<script type="text/javascript" src="{{ asset('js/locales/bootstrap-datetimepicker.es.js') }}"></script>
-{% else %}
-	<script type="text/javascript" src="{{ asset('js/locales/bootstrap-datetimepicker.eu.js') }}"></script>
-{% endif %}
-
-<script type="text/javascript" src="{{ asset('js/eskakizunak/eskakizuna_list.js') }}"></script>
-
-{% endblock%}

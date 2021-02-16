@@ -36,127 +36,127 @@ class EskakizunaFormType extends AbstractType
         $readonly = $options['readonly'];
         $locale = $options['locale'];
         $builder
-        ->add('lep', null, [
-            'disabled' => $readonly,
-        ])
-        ->add('noiz', DateTimeType::class, [
-            'disabled' => $readonly,
-            'widget' => 'single_text',
-            'html5' => false,
-            'format' => 'yyyy-MM-dd HH:mm',
-            'constraints' => [new NotBlank()],
+            ->add('lep', null, [
+                'disabled' => $readonly,
             ])
-        ->add('kalea', null, [
-            'disabled' => $readonly,
-            'required' => true,
-        ])
-        ->add('zerbitzua', EntityType::class, [
-            'disabled' => $readonly,
-            'placeholder' => 'messages.hautatu_zerbitzua',
-            'class' => Zerbitzua::class,
-            'group_by' => 'enpresa',
-            'choice_label' => function ($zerbitzua) use ($locale) {
-                if ('es' === $locale) {
-                    return $zerbitzua->getIzenaEs();
-                } else {
-                    return $zerbitzua->getIzenaEu();
-                }
-            },
-            'query_builder' => function (ZerbitzuaRepository $repo) {
-                return $repo->createZerbitzuAktiboakQueryBuilder();
-            },
+            ->add('noiz', DateTimeType::class, [
+                'disabled' => $readonly,
+                'widget' => 'single_text',
+                'html5' => false,
+                'format' => 'yyyy-MM-dd HH:mm',
+                'constraints' => [new NotBlank()],
             ])
-        ->add('argazkia', FileType::class, [
-            'disabled' => $readonly,
-            'data_class' => null,
-            'label' => false,
-        ])
-        ->add('eskakizunMota', EntityType::class, [
-            'disabled' => $readonly,
-            'label' => false,
-            'placeholder' => 'messages.hautatu_eskakizun_mota',
-            'class' => EskakizunMota::class,
-            'choice_attr' => function($choice, $key, $value) {
-                return ['class' => 'form-check-input ml-1'];
-            },
-            'expanded' => true,
-            'multiple' => false,
-            'query_builder' => function (EskakizunMotaRepository $repo) {
-                return $repo->createOrderedQueryBuilder();
-            },
-            'choice_label' => function (EskakizunMota $eskakizunMota) use ($locale) {
-                if ('es' === $locale) {
-                    return $eskakizunMota->getDeskripzioaEs();
-                } else {
-                    return $eskakizunMota->getDeskripzioaEu();
-                }
-            },            
-        ])
-        ->add('jatorria', EntityType::class, [
-            'disabled' => $readonly,
-            'label' => false,
-            'placeholder' => 'messages.hautatu_jatorria',
-            'class' => Jatorria::class,
-            'choice_attr' => function($choice, $key, $value) {
-                return ['class' => 'form-check-input'];
-            },
-            'expanded' => true,
-            'multiple' => false,
-            'choice_label' => function (Jatorria $jatorria) use ($locale) {
-                if ('es' === $locale) {
-                    return $jatorria->getDeskripzioaEs();
-                } else {
-                    return $jatorria->getDeskripzioaEu();
-                }
-            },
-            'query_builder' => function (JatorriaRepository $repo) {
-                return $repo->createOrderedQueryBuilder();
-            },
+            ->add('kalea', null, [
+                'disabled' => $readonly,
+                'required' => true,
             ])
-        ->add('georeferentziazioa', GeoreferentziazioaFormType::class,[
-            'label' => false,
-        ])
-        ->add('eranskinak', CollectionType::class, [
-            'entry_type' => EranskinaFormType::class,
-    //		'entry_options' => ['label' => 'messages.ezabatu' ],
-            'allow_add' => true,
-            'allow_delete' => true,
-            'by_reference' => false,
-            'label' => false,
-        ])
-        ->add('argazkiak', CollectionType::class, [
-            'entry_type' => ArgazkiaFormType::class,
-    //		'entry_options' => ['label' => 'messages.ezabatu' ],
-            'allow_add' => true,
-            'allow_delete' => true,
-            'by_reference' => false,
-            'label' => false,
-        ])
-        ;
+            ->add('zerbitzua', EntityType::class, [
+                'disabled' => $readonly,
+                'placeholder' => 'messages.hautatu_zerbitzua',
+                'class' => Zerbitzua::class,
+                'group_by' => 'enpresa',
+                'choice_label' => function ($zerbitzua) use ($locale) {
+                    if ('es' === $locale) {
+                        return $zerbitzua->getIzenaEs();
+                    } else {
+                        return $zerbitzua->getIzenaEu();
+                    }
+                },
+                'query_builder' => function (ZerbitzuaRepository $repo) {
+                    return $repo->createZerbitzuAktiboakQueryBuilder();
+                },
+            ])
+            // ->add('argazkia', FileType::class, [
+            //     'disabled' => $readonly,
+            //     'data_class' => null,
+            //     'label' => false,
+            // ])
+            ->add('eskakizunMota', EntityType::class, [
+                'disabled' => $readonly,
+                'label' => false,
+                'placeholder' => 'messages.hautatu_eskakizun_mota',
+                'class' => EskakizunMota::class,
+                'choice_attr' => function ($choice, $key, $value) {
+                    return ['class' => 'form-check-input ml-1'];
+                },
+                'expanded' => true,
+                'multiple' => false,
+                'query_builder' => function (EskakizunMotaRepository $repo) {
+                    return $repo->createOrderedQueryBuilder();
+                },
+                'choice_label' => function (EskakizunMota $eskakizunMota) use ($locale) {
+                    if ('es' === $locale) {
+                        return $eskakizunMota->getDeskripzioaEs();
+                    } else {
+                        return $eskakizunMota->getDeskripzioaEu();
+                    }
+                },
+            ])
+            ->add('jatorria', EntityType::class, [
+                'disabled' => $readonly,
+                'label' => false,
+                'placeholder' => 'messages.hautatu_jatorria',
+                'class' => Jatorria::class,
+                'choice_attr' => function ($choice, $key, $value) {
+                    return ['class' => 'form-check-input'];
+                },
+                'expanded' => true,
+                'multiple' => false,
+                'choice_label' => function (Jatorria $jatorria) use ($locale) {
+                    if ('es' === $locale) {
+                        return $jatorria->getDeskripzioaEs();
+                    } else {
+                        return $jatorria->getDeskripzioaEu();
+                    }
+                },
+                'query_builder' => function (JatorriaRepository $repo) {
+                    return $repo->createOrderedQueryBuilder();
+                },
+            ])
+            ->add('georeferentziazioa', GeoreferentziazioaFormType::class, [
+                'label' => false,
+            ])
+            ->add('eranskinak', CollectionType::class, [
+                'entry_type' => EranskinaFormType::class,
+                //		'entry_options' => ['label' => 'messages.ezabatu' ],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'label' => false,
+            ])
+            ->add('argazkiak', CollectionType::class, [
+                'entry_type' => ArgazkiaFormType::class,
+                //		'entry_options' => ['label' => 'messages.ezabatu' ],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'label' => false,
+            ]);
         if (false === $options['editatzen']) {
             $builder->add('mamia', TextareaType::class, [
-            'attr' => ['class' => 'tinymce'],
-        ]);
+                'attr' => ['class' => 'tinymce'],
+            ]);
             if (true === $options['readonly']) {
                 $builder->add('erantzunak', ErantzunaFormType::class, [
-            'data_class' => null,
-             ]);
+                    'data_class' => null,
+                ]);
             }
         } else {
             $builder->add('mamia', TextareaType::class, [
-            'attr' => ['class' => 'tinymce readonly'],
-            'constraints' => [new NotBlank(),
-                     ],
-        ]);
+                'attr' => ['class' => 'tinymce readonly'],
+                'constraints' => [
+                    new NotBlank(),
+                ],
+            ]);
             $builder->add('erantzunak', ErantzunaFormType::class, [
-            'data_class' => null,
-        ]);
+                'data_class' => null,
+            ]);
         }
         if (in_array('ROLE_ADMIN', $options['role']) or in_array('ROLE_ARDURADUNA', $options['role']) or in_array('ROLE_INFORMATZAILEA', $options['role'])) {
             $builder->add('eskatzailea', EskatzaileaFormType::class, [
-            'disabled' => $readonly,
-            'label' => false,
-        ]);
+                'disabled' => $readonly,
+                'label' => false,
+            ]);
         }
     }
 
@@ -167,10 +167,10 @@ class EskakizunaFormType extends AbstractType
             'role',
         ));
         $resolver->setDefaults([
-        'csrf_protection' => false,
-        'readonly' => false,
-        'role' => [],
-        'locale' => 'es',
-    ]);
+            'csrf_protection' => false,
+            'readonly' => false,
+            'role' => [],
+            'locale' => 'es',
+        ]);
     }
 }

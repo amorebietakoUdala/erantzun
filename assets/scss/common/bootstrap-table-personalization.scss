@@ -1,0 +1,57 @@
+
+@import '~bootstrap-table/dist/bootstrap-table.css';
+
+.bootstrap-table .fixed-table-toolbar .btn-group button {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.page-list .btn-group button {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.bootstrap-table {
+    font-size: 0.8rem;
+}
+
+.bootstrap-table .fa {
+    font-size: 1.2rem;
+}
+
+.fixed-table-body {
+    height: auto;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.2),0 2px 10px 0 rgba(0,0,0,.1);
+    border-radius: 3px;
+}
+
+.fixed-table-container {
+    border: 0;
+}
+
+.btn-secondary, .btn-secondary:focus {
+    background-color: white !important;
+    color: #06a4d5 !important;
+}
+
+.btn-secondary:active, .btn-secondary:hover, .btn-secondary:hover:active {
+	background-color: #05a3d5 !important;
+	color: white !important;
+}
+
+.btn-secondary.dropdown-toggle {
+	background: white none repeat scroll 0 0 !important;
+	color: #06a4d5 !important;
+}
+
+.btn-secondary.dropdown-toggle:hover {
+	background-color: #05a3d5 !important;
+	color: white !important;
+}
+
+table.taula > tr > td > a > i {
+    color: #4285f4 !important;
+}
+

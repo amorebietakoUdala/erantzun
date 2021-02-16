@@ -1,18 +1,27 @@
 {%- block vich_file_row -%}
-{% set force_error = true %}
-{{- block('form_row') }}{%- endblock -%}
-{%- block vich_file_widget -%}{% apply spaceless %}<div class="vich-file">
-{{ form_widget(form.file,{ 'attr': { 'class': 'js-file' }}) }}
-{% if download_uri %}
-	<a href="{{ download_uri }}" target="_blank" title="{{ 'messages.zabaldu'|trans }}">{{ translation_domain is same as(false) ? download_label : download_label|trans({}, translation_domain) }}</a>
-{% endif %}
-{% if form.delete is defined %}
-	<span class="col-1 margin-top-08">
-		<a href="#" class="js-eranskina-ezabatu" title="ezabatu">
-			<i class="fa fa-close"></i>
-		</a>
-	</span>
-{% endif %}</div>{% endapply %}{%- endblock -%}{%- block vich_image_row -%}{% set force_error = true %}{{- block('form_row') }}{%- endblock -%}{%- block vich_image_widget -%}{% apply spaceless %}<div class="col"><span class="col-3">{{ form_widget(form.file) }}</span>{# {% if form.delete is defined %}
-			    <span class="col-1"><a href="#" class="js-argazkia-ezabatu" title="ezabatu"><i class="fa fa-close"></i></a></span>
-		    {% endif %} #}{% if download_uri %}<span>
-<a href="{{ download_uri }}">{{ translation_domain is same as(false) ? download_label : download_label|trans({}, translation_domain) }}</a></span>{% endif %}</div>{% endapply %}{%- endblock -%}
+	{% set force_error = true %}
+	{{- block('form_row') }}{%- endblock -%}
+	{%- block vich_file_widget -%}{% apply spaceless %}
+		<div class="vich-file">
+		{{ form_widget(form.file,{ 'attr': { 'class': 'js-file' }}) }}
+		{% if download_uri %}
+			<a href="{{ download_uri }}" target="_blank" title="{{ 'messages.zabaldu'|trans }}">{{ translation_domain is same as(false) ? download_label : download_label|trans({}, translation_domain) }}</a>
+		{% endif %}
+		{% if form.delete is defined %}
+			<span class="col-1">
+				<a href="#" class="js-eranskina-ezabatu" title="ezabatu">
+					<i class="fa fa-close"></i>
+				</a>
+			</span>
+		{% endif %}
+		</div>
+		{% endapply %}
+	{%- endblock -%}
+	{%- block vich_image_row -%}
+		{% set force_error = true %}
+		{{- block('form_row') }}{%- endblock -%}
+		{%- block vich_image_widget -%}{% apply spaceless %}<div class="col"><span class="col-3">{{ form_widget(form.file) }}</span>{# {% if form.delete is defined %}
+					<span class="col-1"><a href="#" class="js-argazkia-ezabatu" title="ezabatu"><i class="fa fa-close"></i></a></span>
+				{% endif %} #}{% if download_uri %}<span>
+	<a href="{{ download_uri }}">{{ translation_domain is same as(false) ? download_label : download_label|trans({}, translation_domain) }}</a></span>{% endif %}</div>{% endapply %}
+{%- endblock -%}
