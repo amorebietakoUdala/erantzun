@@ -23,36 +23,40 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
  *
  * @author ibilbao
  */
-class EskatzaileaFormType extends AbstractType {
+class EskatzaileaFormType extends AbstractType
+{
 
-    public function buildForm(FormBuilderInterface $builder, array $options) {
-	$builder
-            ->add('id', HiddenType::class)
-	    ->add('nan', TextType::class,[
-		'constraints' => [new Regex([
-		    'pattern' => '/^\d{7,8}[a-z]$/i',
-		    'message' => 'NANa ez da zuzena'
-		]),]
-	    ])
-	    ->add('izena', TextType::class,[
-		'constraints' => [new NotBlank(),]
-	    ])
-	    ->add('telefonoa')
-	    ->add('faxa')
-	    ->add('helbidea')
-	    ->add('emaila',EmailType::class,[
-		'constraints' => [new Email(),]
-	    ])
-	    ->add('herria')
-	    ->add('postaKodea')
-//	    ->add('aktibatua', CheckboxType::class)
-	;
-    }
+	public function buildForm(FormBuilderInterface $builder, array $options)
+	{
+		$builder
+			->add('id', HiddenType::class)
+			->add('nan', TextType::class, [
+				// If I enable the following error message appears twice because it's validated here and in the entity. So I'll comment this for now.			 
+				// 'constraints' => [new Regex([
+				//     'pattern' => '/^\d{7,8}[a-z]$/i',
+				//     'message' => 'NANa ez da zuzena'
+				// ]),]
+			])
+			->add('izena', TextType::class, [
+				'constraints' => [new NotBlank(),]
+			])
+			->add('telefonoa')
+			->add('faxa')
+			->add('helbidea')
+			->add('emaila', EmailType::class, [
+				// If I enable the following error message appears twice because it's validated here and in the entity. So I'll comment this for now.			 
+				//		'constraints' => [new Email(),]
+			])
+			->add('herria')
+			->add('postaKodea')
+			//	    ->add('aktibatua', CheckboxType::class)
+		;
+	}
 
-    public function configureOptions(OptionsResolver $resolver) {
-	$resolver->setDefaults([
-	    'data_class' => '\App\Entity\Eskatzailea'
-	]);
-    }
-
+	public function configureOptions(OptionsResolver $resolver)
+	{
+		$resolver->setDefaults([
+			'data_class' => '\App\Entity\Eskatzailea'
+		]);
+	}
 }

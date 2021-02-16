@@ -7,16 +7,21 @@
 
 {% block stylesheets %}
 	{{ parent() }}
+	{{ encore_entry_link_tags('enpresa_edit') }}
+{% endblock stylesheets %}
 
-{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('enpresa_edit') }}
+{% endblock javascripts %}
 
 {% block body %}
 	<div class="container">
 		<div class="row">
-			<div id="arduradunaren_datuak" class="card margin-top-13 col-6">
+			<div id="enpresaren_datuak" class="card margin-top-13 col-6">
 				<div class="card-block col">
 					<div class="text-center">
-						<div id="arduradun_titulua" class="text-primary">{{"messages.enpresa" | trans | capitalize}}
+						<div id="enpresaren_titulua" class="text-primary">{{"messages.enpresa" | trans | capitalize}}
 							{{"messages.editatu" | trans | capitalize}}</div>
 						<hr class="mt-1 mb-1">
 					</div>
@@ -30,16 +35,3 @@
 		</div>
 	</div>
 {% endblock %}
-
-{% block javascripts %}
-{{ parent() }}
-<script type="text/javascript" language="javascript">
-	$(document).ready(function () {
-
-$("#atzera").click(function () {
-window.location.href = Routing.generate('admin_enpresa_list', {'_locale': '{{ app.request.getLocale() }}'});
-});
-});
-</script>
-
-{% endblock%}

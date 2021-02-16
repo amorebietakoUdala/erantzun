@@ -1,0 +1,348 @@
+@import '~font-awesome/css/font-awesome.min.css';
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~mdbootstrap/css/mdb';
+@import 'common/mdb-overrides.scss';
+
+/* Estilos Generales */
+
+body {
+    padding: 0.1em 0.1em 0.1em 0.1em;
+    line-height: 1;
+    margin-bottom: 2.5rem;
+}
+
+#header {
+    border-bottom: #ddd solid thin;
+}
+
+main {
+    margin-bottom: 2rem;
+}
+
+#span-logo img {
+    /*    height: 80px; */
+    height: 4rem;
+    width: auto;
+}
+
+#span-titulua {
+    font-family: 'Monda', sans-serif;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 1.3rem;
+}
+
+#span-erabiltzailea {
+    float: left;
+    margin-left: auto;
+}
+
+#span-erabiltzailea div a p {
+    float: left;
+    padding-top: 1.3rem;
+    width: 140px;
+    overflow: hidden;
+}
+
+#span-erabiltzailea div {
+    min-width: 150px;
+}
+
+#span-erabiltzailea a img {
+    height: 4rem;
+    width: auto;
+    padding-top: 1rem;
+}
+
+#hizkuntza {
+    float: right;
+    width: auto;
+    margin-right: 10px;
+    margin-left: auto;
+}
+
+.margin-left-08 {
+    margin-left: 0.8rem;
+}
+
+.avatar-img {
+    float: right;
+    height: 3rem;
+    border-radius: 3rem;
+}
+
+.user {
+    width: 90%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.profile {
+    color: #dddddd;
+    font-weight: bold;
+}
+
+.rounder-edge {
+    border-radius: 0.5rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+footer.page-footer {
+    background-color: white;
+    color: #ddd;
+    margin-top: 0.2rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.3rem;
+}
+
+.padding-right-13 {
+    padding-right: 1.3rem;
+}
+
+.padding-top-18 {
+    padding-top: 1.8rem;
+}
+
+.padding-top-06 {
+    padding-top: 0.6rem;
+}
+
+.padding-08 {
+    padding: 0.8rem;
+}
+
+.margin-top-13 {
+    margin-top: 1.3rem;
+}
+
+.margin-bottom-08 {
+    margin-top: 0.8rem;
+}
+
+.margin-top-30 {
+    margin-top: 30px;
+}
+
+.border-top-grey-thin {
+    border-top: #ddd solid thin;
+    height: 10px;
+}
+
+/* FIN Estilos Generales */
+
+
+/* Estilos Página Login */
+
+.login-form {
+    color: white !important;
+}
+
+.login-form a {
+    color: white !important;
+}
+
+.login-form a:hover {
+    color: black !important;
+}
+/* FIN Estilos página Login */
+
+
+/* Estilos página alta solicitud */
+
+.breadcrumb {
+    padding: 0.3rem 0.1rem;
+}
+
+.breadcrumb .breadcrumb-item.active {
+    color: #5e676e;
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+    color: #ffffff;
+}
+
+.panel-default {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+
+#etiqueta-argazkia {
+    position: relative;
+    top: 0;
+}
+
+#eskatzailea {
+    margin-bottom: 1rem;
+}
+
+#eskaria {
+    margin-bottom: 1rem;
+}
+/* FIN Estilos página alta solicitud */
+
+
+/* Estilos pagina listado */
+
+.btn-rounded {
+    background: #06a4d5 none repeat scroll 0 0 !important;
+    border-radius: 50%;
+    padding: 1rem 1rem !important;
+}
+
+.white-space-nowrap {
+    white-space: nowrap;
+}
+
+select.form-control:not([size]):not([multiple]) {
+    height: calc(2rem + 2px) !important;
+    width: calc(100% - 2rem);
+    margin-left: 2rem;
+    padding-top: 0.6rem;
+}
+
+select.form-control:not([size]):not([multiple]):focus {
+    background-image: url('../images/select-up.png') !important;
+    background-position: center right !important;
+    background-repeat: no-repeat !important;
+}
+
+select.form-control:not(:focus), select.form-control:not(:active) {
+    background-image: url('../images/select-down.png') !important;
+    background-position: center right !important;
+    background-repeat: no-repeat !important;
+}
+
+.md-select {
+    color: #757575;
+    border-color: #ccc;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 1px;
+    height: 1.8rem;
+    font-size: 0.9rem;
+    /*    line-height: 0.5; */
+    padding-left: 0.0rem;
+    padding-bottom: 0;
+    padding-top: 0.5rem;
+    border-color: currentcolor currentcolor #ccc;
+    border-style: none none solid;
+    outline: medium none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* remove default arrow */
+    background-image: url('../images/select-down.png') !important;
+    background-position: center right !important;
+    background-repeat: no-repeat !important;
+    -webkit-user-select: none;
+    -webkit-padding-end: 20px;
+    -moz-padding-end: 20px;
+    -webkit-padding-start: 2px;
+    -moz-padding-start: 2px;
+    font-family: "Roboto", sans-serif;
+    margin-left: 2rem;
+}
+
+.md-select:focus {
+    background-image: url('../images/select-down.png');
+    background-position: center right;
+    background-repeat: no-repeat;
+    -webkit-padding-start: 0px;
+    -moz-padding-start: 0px;
+    font-family: "Roboto", sans-serif;
+}
+
+select::-ms-expand {
+    display: none;
+    /* hide the default arrow in ie10 and ie11 */
+}
+
+.btn-fixed {
+    position: fixed;
+    right: 20px;
+    bottom: 50px;
+}
+
+
+/* FIN Estilos pagina listado */
+
+
+/* INICIO Administrar enpresa */
+
+.checkbox input {
+    margin-left: 15px;
+    margin-bottom: 4px;
+}
+
+.checkbox input:active,
+input:focus,
+input:hover {
+    color: #4285f4;
+}
+
+.form-inline .form-control {
+    margin-right: 21px;
+}
+
+#botonera {
+    margin-top: 1rem;
+}
+
+#goiko-botoiak {
+    font-size: 1.4rem;
+}
+
+
+/* FIN administrar enpresa */
+
+.chart {
+    width: 100%;
+    min-height: 450px;
+}
+
+#js-argazkiak-list li {
+    display: none;
+}
+
+
+/* #eskakizuna_form_argazkia {
+    display: none;
+} */
+
+.js-file {
+    display: none;
+}
+
+.list-icon {
+    color: #06a4d5;
+}
+
+@media screen and (max-width: 699px) {
+    h1 {
+        font-size: 2.0rem;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    #span-titulua {
+        width: 190px !important;
+    }
+    #span-erabiltzailea {
+        display: none;
+    }
+    #span-logo {
+        width: auto !important;
+    }
+    .menuaren_titulua {
+        display: none;
+    }
+    .navbar.navbar-dark .nav-link,
+    .navbar.navbar-dark .navbar-toggler {
+        display: inline-flex;
+    }
+}

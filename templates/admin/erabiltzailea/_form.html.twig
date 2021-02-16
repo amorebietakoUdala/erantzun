@@ -56,7 +56,7 @@
 
 {% if profile == false %}
 	{# {{ form_widget(erabiltzaileaForm.roles, { 'attr': { 'class' : 'form-group form-sm form-check form-check-inline' } }) }} #}
-	{{ form_widget(erabiltzaileaForm.roles, { 'attr': { 'class' : 'form-group form-sm' } }) }}
+	{{ form_widget(erabiltzaileaForm.roles, { 'attr': { 'class' : 'form-group form-sm form-inline' } }) }}
 	{{ form_errors(erabiltzaileaForm.roles) }}
 
 	<div class="md-form form-group form-sm">
@@ -78,7 +78,7 @@
 {% endif %}
 <div class="row md-form form-group form-sm col">
 	{% if (gordeBotoia == true) %}
-		<button class="col-3 btn btn-primary form-control" type="submit" formnovalidate>
+		<button class="col-3 btn btn-primary form-control mr-2" type="submit" formnovalidate>
 			<i class="fa fa-save left"></i>
 			{{"messages.gorde" | trans | capitalize}}</button>
 	{% endif %}

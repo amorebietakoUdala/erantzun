@@ -91,17 +91,17 @@
 								<i class="fa fa-reply left"></i>
 							</a>
 						{% endif %}
-						&nbsp;<a title="{{"messages.atzera" | trans | capitalize}}" href="{{ path ('admin_eskakizuna_list',{'returnPage': returnPage }) }}">
+						&nbsp;<a title="{{"messages.atzera" | trans | capitalize}}" class="js-atzera-botoia" data-url="{{ path ('admin_eskakizuna_list') }}">
 							<i class="fa fa-arrow-circle-left left"></i>
 						</a>
 						{% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_ARDURADUNA') or is_granted('ROLE_INFORMATZAILEA')) and editatzen == true %}
-							&nbsp;<a class="js-ezabatu_botoia" title="{{"messages.ezabatu" | trans | capitalize}}" data-url="{{ path ('admin_eskakizuna_delete', {'id': eskakizunaForm.vars.value.id, 'returnPage': returnPage }) }}" href="#">
+							&nbsp;<a class="js-ezabatu_botoia" title="{{"messages.ezabatu" | trans | capitalize}}" data-url="{{ path ('admin_eskakizuna_delete', {'id': eskakizunaForm.vars.value.id }) }}" href="#">
 								<i class="fa fa-trash prefix" title="{{"messages.ezabatu" | trans | capitalize}}"></i>
 							</a>
-							&nbsp;<a class="js-itxi_botoia" title="{{"messages.itxi" | trans | capitalize}}" data-url="{{ path ('admin_eskakizuna_close', {'id': eskakizunaForm.vars.value.id, 'returnPage': returnPage }) }}" href="#">
+							&nbsp;<a class="js-itxi_botoia" title="{{"messages.itxi" | trans | capitalize}}" data-url="{{ path ('admin_eskakizuna_close', {'id': eskakizunaForm.vars.value.id }) }}" href="#">
 								<i class="fa fa-window-close prefix" title="{{"messages.itxi" | trans | capitalize}}"></i>
 							</a>
-							&nbsp;<a class="js-erreklamatu_botoia" title="{{"messages.erreklamatu" | trans | capitalize}}" data-url="{{ path ('admin_eskakizuna_resend', {'id': eskakizunaForm.vars.value.id, 'returnPage': returnPage }) }}" href="#">
+							&nbsp;<a class="js-erreklamatu_botoia" title="{{"messages.erreklamatu" | trans | capitalize}}" data-url="{{ path ('admin_eskakizuna_resend', {'id': eskakizunaForm.vars.value.id }) }}" href="#">
 								<i class="fa fa-forward" title="{{"messages.erreklamatu" | trans | capitalize}}"></i>
 							</a>
 						{% endif %}
@@ -117,13 +117,13 @@
 							{{ form_errors(eskakizunaForm.lep) }}
 						</div>
 
-						<div class="col-lg-2 col-md-3 md-form form-group form-sm">
+						<div class="col-lg-3 col-md-4 md-form form-group form-sm">
 							<i class="fa fa-calendar prefix js-calendar"></i>
 							<label class="js-noiz-label" for="noiz">{{ 'messages.noiz' | trans | capitalize }}</label>
 							{{ form_widget(eskakizunaForm.noiz, { 'attr': { 'class' : 'js-datepicker' } }) }}
 							{{ form_errors(eskakizunaForm.noiz) }}
 						</div>
-						<div class="col-lg-8 md-form form-group form-sm">
+						<div class="col-lg-7 md-form form-group form-sm">
 							<i class="fa fa-crosshairs prefix"></i>
 							{{ form_widget(eskakizunaForm.zerbitzua, { 'attr': { 'class' : 'md-select' } }) }}
 							{{ form_errors(eskakizunaForm.zerbitzua) }}
@@ -196,7 +196,7 @@
 								{% if gordeBotoia == true %}
 									<a id="add-another-eranskina" href="#" class="add_tag_link">{{ 'messages.eranskina-gehitu' | trans }}</a>
 								{% endif %}
-								<ul id="js-eranskinak-list" class="eranskinak margin-top-13" data-prototype="{{ form_widget(eskakizunaForm.eranskinak.vars.prototype)|e('html_attr') }}">
+								<ul id="js-eranskinak-list" class="eranskinak" data-prototype="{{ form_widget(eskakizunaForm.eranskinak.vars.prototype)|e('html_attr') }}">
 									{% for eranskina in eskakizunaForm.eranskinak %}
 										<li>{{ form_widget(eranskina.eranskinaFile) }}
 											{{ form_errors(eranskina.eranskinaFile) }}
@@ -268,26 +268,26 @@
 						</div>
 						<div id="beheko-botoiak" class="row col-12 md-form form-group form-sm margin-top-13">
 							{% if (gordeBotoia == true) %}
-								<button class="col-2 btn btn-primary form-control js-gorde_botoia" type="button" formnovalidate>
+								<button class="col-2 btn btn-primary form-control js-gorde_botoia mr-2" type="button" formnovalidate>
 									<i class="fa fa-save left"></i>
 									{{"messages.gorde" | trans | capitalize}}</button>
 							{% endif %}
 							{% if (erantzun == true) %}
-								<button class="col-2 btn btn-primary form-control js-erantzun_botoia" type="button" formnovalidate>
+								<button class="col-2 btn btn-primary form-control js-erantzun_botoia mr-2" type="button" formnovalidate>
 									<i class="fa fa-reply left"></i>
 									{{"messages.erantzun" | trans | capitalize}}</button>
 							{% endif %}
-							<button class="col-2 btn btn-primary form-control js-atzera-botoia" type="button" data-url="{{ path ('admin_eskakizuna_list',{'returnPage': returnPage }) }}">
+							<button class="col-2 btn btn-primary form-control js-atzera-botoia mr-2" type="button" data-url="{{ path ('admin_eskakizuna_list') }}">
 								<i class="fa fa-arrow-circle-left left"></i>
 								{{"messages.utzi" | trans | capitalize}}</button>
 							{% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_ARDURADUNA') or is_granted('ROLE_INFORMATZAILEA')) and editatzen == true %}
-								<button id="js-ezabatu_botoia_azpikoa" class="col-2 btn btn-primary form-control js-ezabatu_botoia" type="button" data-url="{{ path ('admin_eskakizuna_delete', {'id': eskakizunaForm.vars.value.id, 'returnPage': returnPage }) }}">
+								<button id="js-ezabatu_botoia_azpikoa" class="col-2 btn btn-primary form-control js-ezabatu_botoia mr-2" type="button" data-url="{{ path ('admin_eskakizuna_delete', {'id': eskakizunaForm.vars.value.id }) }}">
 									<i class="fa fa-trash left"></i>
 									{{"messages.ezabatu" | trans | capitalize}}</button>
-								<button id="js-itxi_botoia_azpikoa" class="col-2 btn btn-primary form-control js-itxi_botoia" type="button" data-url="{{ path ('admin_eskakizuna_close', {'id': eskakizunaForm.vars.value.id, 'returnPage': returnPage }) }}">
+								<button id="js-itxi_botoia_azpikoa" class="col-2 btn btn-primary form-control js-itxi_botoia mr-2" type="button" data-url="{{ path ('admin_eskakizuna_close', {'id': eskakizunaForm.vars.value.id }) }}">
 									<i class="fa fa-window-close left"></i>
 									{{"messages.itxi" | trans | capitalize}}</button>
-								<button id="js-erreklamatu_botoia_azpikoa" class="col-2 btn btn-primary form-control js-erreklamatu_botoia" type="button" data-url="{{ path ('admin_eskakizuna_resend', {'id': eskakizunaForm.vars.value.id, 'returnPage': returnPage }) }}">
+								<button id="js-erreklamatu_botoia_azpikoa" class="col-2 btn btn-primary form-control js-erreklamatu_botoia mr-2" type="button" data-url="{{ path ('admin_eskakizuna_resend', {'id': eskakizunaForm.vars.value.id }) }}">
 									<i class="fa fa-forward left"></i>
 									{{"messages.erreklamatu" | trans | capitalize}}</button>
 							{% endif %}

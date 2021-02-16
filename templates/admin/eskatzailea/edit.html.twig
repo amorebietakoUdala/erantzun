@@ -7,8 +7,13 @@
 
 {% block stylesheets %}
 	{{ parent() }}
+	{{ encore_entry_link_tags('eskatzailea_edit') }}
+{% endblock stylesheets %}
 
-{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('eskatzailea_edit') }}
+{% endblock javascripts %}
 
 {% block body %}
 	<div class="container">
@@ -30,15 +35,3 @@
 		</div>
 	</div>
 {% endblock %}
-
-{% block javascripts %}
-{{ parent() }}
-<script type="text/javascript" language="javascript">
-	$(document).ready(function () {
-
-$("#atzera").click(function () {
-window.location.href = Routing.generate('admin_eskatzailea_list', {'_locale': '{{ app.request.getLocale() }}'});
-});
-});
-</script>
-{% endblock%}

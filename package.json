@@ -1,0 +1,42 @@
+{
+    "devDependencies": {
+        "@symfony/webpack-encore": "^1.0.0",
+        "bootstrap": "^4.6.0",
+        "bootswatch": "^4.3.1",
+        "core-js": "^3.8.3",
+        "file-loader": "^6.0.0",
+        "font-awesome": "^4.7.0",
+        "jquery": "^3.5.1",
+        "node-sass": "^4.12.0",
+        "popper.js": "^1.16.1",
+        "regenerator-runtime": "^0.13.2",
+        "sass": "^1.32.6",
+        "sass-loader": "^10.0.0",
+        "webpack-notifier": "^1.6.0"
+    },
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress"
+    },
+    "dependencies": {
+        "bootstrap-table": "^1.14.2",
+        "eonasdan-bootstrap-datetimepicker": "^4.17.49",
+        "hammerjs": "^2.0.8",
+        "jquery-ui-bundle": "^1.12.1-migrate",
+        "mdbootstrap": "4.5.*",
+        "moment": "^2.10\n",
+        "node-waves": "^0.7.6",
+        "pc-bootstrap4-datetimepicker": "^4.17.51",
+        "sweetalert2": "^6.6.6",
+        "tableexport.jquery.plugin": "^1.9.4",
+        "tinymce": "^4.6.5",
+        "urijs": "1.19"
+    },
+    "browserslist": [
+        "> .05%"
+    ]
+}

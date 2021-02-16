@@ -1,25 +1,32 @@
 {% extends 'base.html.twig' %}
 {% trans_default_domain 'user_bundle' %}
 
-{% block menu %}
+{% block stylesheets %}
 	{{ parent() }}
-{% endblock %}
-
-{% block message %}
-	{{ parent() }}
-{% endblock %}
-
-{% block body %}
-	{% block user_content %}{% endblock %}
+	{{ encore_entry_link_tags('login') }}
 {% endblock %}
 
 {% block javascripts %}
 	{{ parent() }}
-	<script type="text/javascript" language="javascript">
+	{{ encore_entry_script_tags('login') }}
+	{# <script type="text/javascript" language="javascript">
 		$(document).ready(function () {
 $("#atzera").click(function () {
 window.location.href = Routing.generate('admin_users_list');
 });
 });
-	</script>
+	</script> #}
 {% endblock %}
+
+{# {% block menu %}
+	{{ parent() }}
+{% endblock %}
+
+{% block message %}
+	{{ parent() }}
+{% endblock %} #}
+
+{% block body %}
+	{% block user_content %}{% endblock %}
+{% endblock %}
+
