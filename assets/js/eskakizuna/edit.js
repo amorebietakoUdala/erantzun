@@ -10,7 +10,6 @@ import '../common/datetime-picker-personalization';
 import 'tinymce/tinymce';
 import 'tinymce/themes/modern';
 
-
 $(function () {
     console.log('Ready!!');
     var latitudea = 43.2206664;
@@ -33,7 +32,7 @@ $(function () {
                 minLength: 3,
                 source: function (request, response) {
                     $.ajax({
-                        url: Routing.generate('api_eskatzailea_list'),
+                        url: global.app_base + Routing.generate('api_eskatzailea_list'),
                         dataType: "json",
                         data: {
                             izena: request.term
@@ -260,7 +259,7 @@ $(function () {
     var uri = new URI(document.location.href);
     $(document).on('click', '.js-atzera-botoia', function (e) {
         e.preventDefault();
-        var url = Routing.generate('admin_eskakizuna_list', {
+        var url = global.app_base + Routing.generate('admin_eskakizuna_list', {
             '_locale': locale
         }) + '?' + uri.query();
         window.location.href = url;
