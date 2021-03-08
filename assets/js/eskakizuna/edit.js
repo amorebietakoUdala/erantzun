@@ -11,6 +11,329 @@ import 'tinymce/tinymce';
 import 'tinymce/themes/modern';
 
 
+$(function () {
+    console.log('Ready!!');
+    var latitudea = 43.2206664;
+    var longitudea = -2.733066600000029;
+    var locale = $('html').attr('lang');
+    var role = $('html').attr('role');
+    var returnPage = getUrlParameter(document.location.href, 'returnPage');
+    var pageSize = getUrlParameter(document.location.href, 'pageSize');
+    console.log(returnPage, pageSize);
+    Routing.setRoutingData(routes);
+
+    if ($("#eskakizuna_form_georeferentziazioa_longitudea").val() !== '' && $("#eskakizuna_form_georeferentziazioa_latitudea").val() !== '') {
+        latitudea = $("#eskakizuna_form_georeferentziazioa_latitudea").val();
+        longitudea = $("#eskakizuna_form_georeferentziazioa_longitudea").val();
+    }
+
+    if (typeof $("#eskakizuna_form_eskatzailea_izena").val() !== "undefined") {
+        /* INICIO Autocompletes */
+        $("#eskakizuna_form_eskatzailea_izena").autocomplete({
+                minLength: 3,
+                source: function (request, response) {
+                    $.ajax({
+                        url: Routing.generate('api_eskatzailea_list'),
+                        dataType: "json",
+                        data: {
+                            izena: request.term
+                        },
+                        success: function (data) {
+                            response(data.eskatzaileak);
+                        }
+                    });
+                },
+                focus: function (event, ui) {
+                    $("#eskakizuna_form_eskatzailea_izena").val(ui.item.izena);
+                    return false;
+                },
+                select: function (event, ui) {
+                    $("#eskakizuna_form_eskatzailea_id").val(ui.item.id);
+                    $("#eskakizuna_form_eskatzailea_nan").val(ui.item.nan);
+                    $("#eskakizuna_form_eskatzailea_izena").val(ui.item.izena);
+                    $("#eskakizuna_form_eskatzailea_emaila").val(ui.item.emaila);
+                    $("#eskakizuna_form_eskatzailea_telefonoa").val(ui.item.telefonoa);
+                    $("#eskakizuna_form_eskatzailea_faxa").val(ui.item.faxa);
+                    $("#eskakizuna_form_eskatzailea_helbidea").val(ui.item.helbidea);
+                    $("#eskakizuna_form_eskatzailea_postaKodea").val(ui.item.posta_kodea);
+                    $("#eskakizuna_form_eskatzailea_herria").val(ui.item.herria);
+                    $("i + label + input").each(function (x) {
+                        if ($(this).val() !== "") {
+                            $(this).addClass("active");
+                            $(this).siblings().addClass("active");
+                        }
+                    });
+                    return false;
+                }
+            })
+            .autocomplete("instance")._renderItem = function (ul, item) {
+                return $("<li>")
+                    .append("<div>" + item.izena + "</div>")
+                    .appendTo(ul);
+            };
+    }
+    if (typeof $("#eskakizuna_form_eskatzailea_nan").val() !== "undefined") {
+        $("#eskakizuna_form_eskatzailea_nan").autocomplete({
+                minLength: 3,
+                source: function (request, response) {
+                    $.ajax({
+                        url: "../../api/eskatzailea",
+                        dataType: "json",
+                        data: {
+                            nan: request.term
+                        },
+                        success: function (data) {
+                            console.log(data);
+                            response(data.eskatzaileak);
+                        }
+                    });
+                },
+                focus: function (event, ui) {
+                    $("#eskakizuna_form_eskatzailea_nan").val(ui.item.nan);
+                    return false;
+                },
+                select: function (event, ui) {
+                    $("#eskakizuna_form_eskatzailea_id").val(ui.item.id);
+                    $("#eskakizuna_form_eskatzailea_nan").val(ui.item.nan);
+                    $("#eskakizuna_form_eskatzailea_izena").val(ui.item.izena);
+                    $("#eskakizuna_form_eskatzailea_emaila").val(ui.item.emaila);
+                    $("#eskakizuna_form_eskatzailea_telefonoa").val(ui.item.telefonoa);
+                    $("#eskakizuna_form_eskatzailea_faxa").val(ui.item.faxa);
+                    $("#eskakizuna_form_eskatzailea_helbidea").val(ui.item.helbidea);
+                    $("#eskakizuna_form_eskatzailea_postaKodea").val(ui.item.postaKodea);
+                    $("#eskakizuna_form_eskatzailea_herria").val(ui.item.herria);
+                    $("i + label + input").each(function (x) {
+                        if ($(this).val() !== "") {
+                            $(this).addClass("active");
+                            $(this).siblings().addClass("active");
+                        }
+                    });
+                    return false;
+                }
+            })
+            .autocomplete("instance")._renderItem = function (ul, item) {
+                return $("<li>")
+                    .append("<div>" + item.nan + "</div>")
+                    .appendTo(ul);
+            };
+    }
+    /* FIN Autocompletes */
+
+    tinymce.init({
+        selector: 'textarea',
+        menubar: false,
+        resize: false,
+        statusbar: false,
+        theme: 'modern',
+        init_instance_callback: function (editor) {
+            if (editor.id === 'eskakizuna_form_mamia') {
+                if (role === "KANPOKO_TEKNIKARIA") {
+                    editor.setMode('readonly');
+                }
+            }
+        }
+    });
+
+    /* INICIO Eventos */
+    $("label[for], input[type='text']").on('click', function (e) {
+        $(this).addClass("active");
+        $(this).siblings("input[type='text']").addClass("active").focus();
+    });
+
+    $("select").on('click', function (e) {
+        $(this).addClass("active");
+        $(this).siblings().addClass("active").focus();
+    });
+
+    // $.extend(true, $.fn.datetimepicker.defaults, {
+    //     icons: {
+    //         time: 'fa fa-clock-o',
+    //         date: 'fa fa-calendar',
+    //         up: 'fa fa-arrow-up',
+    //         down: 'fa fa-arrow-down',
+    //         previous: 'fa fa-chevron-left',
+    //         next: 'fa fa-chevron-right',
+    //         today: 'fa fa-calendar-check-o',
+    //         clear: 'fa fa-trash',
+    //         close: 'fa fa-times'
+    //     }
+    // });
+
+    $('.js-datepicker').datetimepicker({
+        locale: locale + '-' + locale,
+        format: 'YYYY-MM-DD HH:mm',
+    }).attr('type', 'text'); // Honekin chromen ez da testua agertzen
+    if (document.location.href.includes('/new')) {
+        // If it's new eskakizuna we initialize date to current date
+        $('.js-datepicker').data("DateTimePicker").date(new Date());
+    }
+
+    if ($('.js-datepicker').val() !== '') {
+        $('.js-datepicker').siblings().addClass("active");
+    }
+
+    $(".js-btn-erantzun").on('click', function () {
+        $(".js-erantzuna").show();
+    });
+
+    $("#buscar").on('click', function () {
+        var direccion = $("#eskakizuna_form_kalea").val();
+        if (direccion !== "") {
+            localizar("map-container", direccion + ", Amorebieta-Etxano");
+        }
+    });
+
+    google.maps.event.addDomListener(window, 'load', init_map(latitudea, longitudea));
+
+    var max_size = 4 * 1024 * 1024;
+
+    $(".js-gorde_botoia, .js-erantzun_botoia").on('click', function (e) {
+        // Eranskinak eta argazkien tamainia konprobatu
+        var files = $('.js-eranskinaFile,.js-file');
+        var all_ok = true;
+        var ok = true;
+        var i;
+        for (i = 0; i < files.length; i++) {
+            var file = files[i];
+            ok = checkSize(file, max_size);
+            if (!ok) {
+                all_ok = false;
+            }
+        }
+
+        if (!all_ok) {
+            swal_alert(locale,
+                "El fichero es demasiado grande", "Elija uno más pequeño. Menor de " + max_size / 1024 / 1024 + "Mb",
+                "Fitxategia handiegia da.", "Hautatu beste bat mesedez. " + max_size / 1024 / 1024 + "Mb baino txikiago.");
+        } else {
+            $('#eskakizunaForm').submit();
+        }
+    });
+
+    /* INICIO Eranskinak */
+    $('#add-another-eranskina').on('click', function (e) {
+        e.preventDefault();
+
+        var eranskinakList = $('#js-eranskinak-list');
+        var eranskinakCount = $('#js-eranskinak-list li').length;
+
+        var newWidget = eranskinakList.attr('data-prototype');
+
+        newWidget = newWidget.replace(/__name__/g, eranskinakCount);
+        eranskinakCount++;
+
+        // create a new list element and add it to the list
+        var newLi = $('<li></li>').html(newWidget);
+        newLi.appendTo(eranskinakList);
+        $(newLi).show();
+        $(newLi).find('.js-file').css('opacity', '1');
+        $(newLi).find('.js-file').show();
+        addEventToCheckSize(locale, $(newWidget).find('.js-file').attr('id'), max_size);
+    });
+
+    $('.js-eranskina-ezabatu').on('click', function (e) {
+        $(e.currentTarget).parents('li').remove();
+    });
+
+    /* FIN Eranskinak */
+
+    /* INICIO Argazkiak */
+    $('#add-another-argazkia').on('click', function (e) {
+        e.preventDefault();
+        var argazkiakList = $('#js-argazkiak-list');
+        var argazkiakCount = $('#js-argazkiak-list li').length;
+
+        var newWidget = argazkiakList.attr('data-prototype');
+
+        newWidget = newWidget.replace(/__name__/g, argazkiakCount);
+        argazkiakCount++;
+
+        // create a new list element and add it to the list
+        var newLi = $('<li></li>').html(newWidget);
+        newLi.appendTo(argazkiakList);
+        $(newLi).show();
+        $(newLi).find('.js-file').css('opacity', '1');
+        $(newLi).find('.js-file').show();
+        addEventToCheckSize(locale, '.js-file', max_size);
+    });
+
+    var uri = new URI(document.location.href);
+    $(document).on('click', '.js-atzera-botoia', function (e) {
+        e.preventDefault();
+        var url = Routing.generate('admin_eskakizuna_list', {
+            '_locale': locale
+        }) + '?' + uri.query();
+        window.location.href = url;
+    });
+
+    $(document).on("click", ".js-ezabatu_botoia", function (e) {
+        e.preventDefault();
+        var url = $(e.currentTarget).data('url');
+        var uri = new URI(url);
+        uri.addQuery("returnPage", returnPage);
+        uri.addQuery("pageSize", pageSize);
+        url = uri.toString();
+        Swal({
+            title: locale === 'eu' ? 'Ezabatu?' : 'Borrar?',
+            text: locale === 'eu' ? 'Konfirmatu mesedez' : 'Confirme por favor',
+            confirmButtonText: locale === 'eu' ? 'Bai' : 'Sí',
+            cancelButtonText: locale === 'eu' ? 'Ez' : 'No',
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+            preConfirm: () => Promise.resolve([url]).then(url => document.location.href = url)
+        }).catch(function (arg) {
+            console.log('Cancelado!');
+        });
+    });
+
+    $(document).on('click', '.js-itxi_botoia', function (e) {
+        var url = $(e.currentTarget).data('url');
+        e.preventDefault();
+        Swal({
+            title: locale === 'eu' ? 'Itxi?' : 'Cerrar?',
+            text: locale === 'eu' ? 'Konfirmatu mesedez' : 'Confirme por favor',
+            confirmButtonText: locale === 'eu' ? 'Bai' : 'Sí',
+            cancelButtonText: locale === 'eu' ? 'Ez' : 'No',
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+            preConfirm: () => Promise.resolve([url]).then(function () {
+                var uri = new URI(url);
+                uri.addQuery("returnPage", returnPage);
+                uri.addQuery("pageSize", pageSize);
+                url = uri.toString();
+                window.location.href = url;
+            })
+        }).catch(function (arg) {
+            console.log('Cancelado!');
+        });
+    });
+
+    $(document).on('click', '.js-erreklamatu_botoia', function (e) {
+        e.preventDefault();
+        console.log('Erreklamatu botoia clicked!!!');
+        var url = $(e.currentTarget).data('url');
+        console.log(url);
+        Swal({
+            title: locale === 'eu' ? 'Erreklamatu?' : 'Reclamar?',
+            text: locale === 'eu' ? 'Konfirmatu mesedez' : 'Confirme por favor',
+            confirmButtonText: locale === 'eu' ? 'Bai' : 'Sí',
+            cancelButtonText: locale === 'eu' ? 'Ez' : 'No',
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+            preConfirm: () => Promise.resolve([url]).then(function () {
+                var uri = new URI(url);
+                uri.addQuery("returnPage", returnPage);
+                uri.addQuery("pageSize", pageSize);
+                url = uri.toString();
+                window.location.href = url;
+            })
+        }).catch(function (arg) {
+            console.log('Cancelado!');
+        });
+    });
+
+});
+
 function getUrlParameter(url, name) {
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -146,256 +469,3 @@ function addEventToCheckSize(locale, selector, max_size) {
         });
     }
 }
-
-$(function () {
-    var latitudea = 43.2206664;
-    var longitudea = -2.733066600000029;
-    var locale = $('html').attr('lang');
-    var role = $('html').attr('role');
-    Routing.setRoutingData(routes);
-
-    if ($("#eskakizuna_form_georeferentziazioa_longitudea").val() !== '' && $("#eskakizuna_form_georeferentziazioa_latitudea").val() !== '') {
-        latitudea = $("#eskakizuna_form_georeferentziazioa_latitudea").val();
-        longitudea = $("#eskakizuna_form_georeferentziazioa_longitudea").val();
-    }
-
-    if (typeof $("#eskakizuna_form_eskatzailea_izena").val() !== "undefined") {
-        /* INICIO Autocompletes */
-        $("#eskakizuna_form_eskatzailea_izena").autocomplete({
-                minLength: 3,
-                source: function (request, response) {
-                    $.ajax({
-                        url: Routing.generate('api_eskatzailea_list'),
-                        dataType: "json",
-                        data: {
-                            izena: request.term
-                        },
-                        success: function (data) {
-                            response(data.eskatzaileak);
-                        }
-                    });
-                },
-                focus: function (event, ui) {
-                    $("#eskakizuna_form_eskatzailea_izena").val(ui.item.izena);
-                    return false;
-                },
-                select: function (event, ui) {
-                    $("#eskakizuna_form_eskatzailea_id").val(ui.item.id);
-                    $("#eskakizuna_form_eskatzailea_nan").val(ui.item.nan);
-                    $("#eskakizuna_form_eskatzailea_izena").val(ui.item.izena);
-                    $("#eskakizuna_form_eskatzailea_emaila").val(ui.item.emaila);
-                    $("#eskakizuna_form_eskatzailea_telefonoa").val(ui.item.telefonoa);
-                    $("#eskakizuna_form_eskatzailea_faxa").val(ui.item.faxa);
-                    $("#eskakizuna_form_eskatzailea_helbidea").val(ui.item.helbidea);
-                    $("#eskakizuna_form_eskatzailea_postaKodea").val(ui.item.posta_kodea);
-                    $("#eskakizuna_form_eskatzailea_herria").val(ui.item.herria);
-                    $("i + label + input").each(function (x) {
-                        if ($(this).val() !== "") {
-                            $(this).addClass("active");
-                            $(this).siblings().addClass("active");
-                        }
-                    });
-                    return false;
-                }
-            })
-            .autocomplete("instance")._renderItem = function (ul, item) {
-                return $("<li>")
-                    .append("<div>" + item.izena + "</div>")
-                    .appendTo(ul);
-            };
-    }
-    if (typeof $("#eskakizuna_form_eskatzailea_nan").val() !== "undefined") {
-        $("#eskakizuna_form_eskatzailea_nan").autocomplete({
-                minLength: 3,
-                source: function (request, response) {
-                    $.ajax({
-                        url: "../../api/eskatzailea",
-                        dataType: "json",
-                        data: {
-                            nan: request.term
-                        },
-                        success: function (data) {
-                            console.log(data);
-                            response(data.eskatzaileak);
-                        }
-                    });
-                },
-                focus: function (event, ui) {
-                    $("#eskakizuna_form_eskatzailea_nan").val(ui.item.nan);
-                    return false;
-                },
-                select: function (event, ui) {
-                    $("#eskakizuna_form_eskatzailea_id").val(ui.item.id);
-                    $("#eskakizuna_form_eskatzailea_nan").val(ui.item.nan);
-                    $("#eskakizuna_form_eskatzailea_izena").val(ui.item.izena);
-                    $("#eskakizuna_form_eskatzailea_emaila").val(ui.item.emaila);
-                    $("#eskakizuna_form_eskatzailea_telefonoa").val(ui.item.telefonoa);
-                    $("#eskakizuna_form_eskatzailea_faxa").val(ui.item.faxa);
-                    $("#eskakizuna_form_eskatzailea_helbidea").val(ui.item.helbidea);
-                    $("#eskakizuna_form_eskatzailea_postaKodea").val(ui.item.postaKodea);
-                    $("#eskakizuna_form_eskatzailea_herria").val(ui.item.herria);
-                    $("i + label + input").each(function (x) {
-                        if ($(this).val() !== "") {
-                            $(this).addClass("active");
-                            $(this).siblings().addClass("active");
-                        }
-                    });
-                    return false;
-                }
-            })
-            .autocomplete("instance")._renderItem = function (ul, item) {
-                return $("<li>")
-                    .append("<div>" + item.nan + "</div>")
-                    .appendTo(ul);
-            };
-    }
-    /* FIN Autocompletes */
-
-    tinymce.init({
-        selector: 'textarea',
-        menubar: false,
-        resize: false,
-        statusbar: false,
-        theme: 'modern',
-        init_instance_callback: function (editor) {
-            if (editor.id === 'eskakizuna_form_mamia') {
-                if (role === "KANPOKO_TEKNIKARIA") {
-                    editor.setMode('readonly');
-                }
-            }
-        }
-    });
-
-    /* INICIO Eventos */
-    $("label[for], input[type='text']").on('click', function (e) {
-        $(this).addClass("active");
-        $(this).siblings("input[type='text']").addClass("active").focus();
-    });
-
-    $("select").on('click', function (e) {
-        $(this).addClass("active");
-        $(this).siblings().addClass("active").focus();
-    });
-
-    $.extend(true, $.fn.datetimepicker.defaults, {
-        icons: {
-            time: 'fa fa-clock-o',
-            date: 'fa fa-calendar',
-            up: 'fa fa-arrow-up',
-            down: 'fa fa-arrow-down',
-            previous: 'fa fa-chevron-left',
-            next: 'fa fa-chevron-right',
-            today: 'fa fa-calendar-check-o',
-            clear: 'fa fa-trash',
-            close: 'fa fa-times'
-        }
-    });
-
-    $('.js-datepicker').datetimepicker({
-        locale: locale + '-' + locale,
-        format: 'YYYY-MM-DD HH:mm',
-    }).attr('type', 'text'); // Honekin chromen ez da testua agertzen
-    if (document.location.href.includes('/new')) {
-        // If it's new eskakizuna we initialize date to current date
-        $('.js-datepicker').data("DateTimePicker").date(new Date());
-    }
-
-    if ($('.js-datepicker').val() !== '') {
-        $('.js-datepicker').siblings().addClass("active");
-    }
-
-    $(".js-btn-erantzun").on('click', function () {
-        $(".js-erantzuna").show();
-    });
-
-    $("#buscar").on('click', function () {
-        var direccion = $("#eskakizuna_form_kalea").val();
-        if (direccion !== "") {
-            localizar("map-container", direccion + ", Amorebieta-Etxano");
-        }
-    });
-
-    google.maps.event.addDomListener(window, 'load', init_map(latitudea, longitudea));
-
-    var max_size = 4 * 1024 * 1024;
-
-    $(".js-gorde_botoia, .js-erantzun_botoia").on('click', function (e) {
-        // Eranskinak eta argazkien tamainia konprobatu
-        var files = $('.js-eranskinaFile,.js-file');
-        var all_ok = true;
-        var ok = true;
-        var i;
-        for (i = 0; i < files.length; i++) {
-            var file = files[i];
-            ok = checkSize(file, max_size);
-            if (!ok) {
-                all_ok = false;
-            }
-        }
-
-        if (!all_ok) {
-            swal_alert(locale,
-                "El fichero es demasiado grande", "Elija uno más pequeño. Menor de " + max_size / 1024 / 1024 + "Mb",
-                "Fitxategia handiegia da.", "Hautatu beste bat mesedez. " + max_size / 1024 / 1024 + "Mb baino txikiago.");
-        } else {
-            $('#eskakizunaForm').submit();
-        }
-    });
-
-    /* INICIO Eranskinak */
-    $('#add-another-eranskina').on('click', function (e) {
-        e.preventDefault();
-
-        var eranskinakList = $('#js-eranskinak-list');
-        var eranskinakCount = $('#js-eranskinak-list li').length;
-
-        var newWidget = eranskinakList.attr('data-prototype');
-
-        newWidget = newWidget.replace(/__name__/g, eranskinakCount);
-        eranskinakCount++;
-
-        // create a new list element and add it to the list
-        var newLi = $('<li></li>').html(newWidget);
-        newLi.appendTo(eranskinakList);
-        $(newLi).show();
-        $(newLi).find('.js-file').css('opacity', '1');
-        $(newLi).find('.js-file').show();
-        addEventToCheckSize(locale, $(newWidget).find('.js-file').attr('id'), max_size);
-    });
-
-    $('.js-eranskina-ezabatu').on('click', function (e) {
-        $(e.currentTarget).parents('li').remove();
-    });
-
-    /* FIN Eranskinak */
-
-    /* INICIO Argazkiak */
-    $('#add-another-argazkia').on('click', function (e) {
-        e.preventDefault();
-        var argazkiakList = $('#js-argazkiak-list');
-        var argazkiakCount = $('#js-argazkiak-list li').length;
-
-        var newWidget = argazkiakList.attr('data-prototype');
-
-        newWidget = newWidget.replace(/__name__/g, argazkiakCount);
-        argazkiakCount++;
-
-        // create a new list element and add it to the list
-        var newLi = $('<li></li>').html(newWidget);
-        newLi.appendTo(argazkiakList);
-        $(newLi).show();
-        $(newLi).find('.js-file').css('opacity', '1');
-        $(newLi).find('.js-file').show();
-        addEventToCheckSize(locale, '.js-file', max_size);
-    });
-
-    var uri = new URI(document.location.href);
-    $(document).on('click', '.js-atzera-botoia', function (e) {
-        e.preventDefault();
-        var url = Routing.generate('admin_eskakizuna_list', {
-            '_locale': locale
-        }) + '?' + uri.query();
-        window.location.href = url;
-    });
-
-});
