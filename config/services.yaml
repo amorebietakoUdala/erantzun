@@ -15,6 +15,7 @@ parameters:
   eranskinak_uploads_url: /images/uploads
   eranskinak_uploads_directory: "%kernel.project_dir%/public/images/uploads"
   mailer_from: "%env(MAILER_USER)%"
+  googleMapsApiKey: "%env(GOOGLE_MAPS_API_KEY)%"
 
 services:
   # default configuration for services in *this* file
