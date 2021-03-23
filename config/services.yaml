@@ -3,6 +3,7 @@
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+
 parameters:
   images_uploads_url: /erantzun/images/uploads
   images_uploads_directory: "%kernel.project_dir%/public/images/uploads"
@@ -11,12 +12,35 @@ parameters:
   max_upload_image_size: 3M
   erantzundakoan_mezua_bidali: false
   mezuak_bidali: true
-  eranskinak_uploads_url: erantzun/docs
-  eranskinak_uploads_directory: "%kernel.project_dir%/public/docs"
+  eranskinak_uploads_url: /images/uploads
+  eranskinak_uploads_directory: "%kernel.project_dir%/public/images/uploads"
   mailer_from: "%env(MAILER_USER)%"
-  googleMapsApiKey: "%env(GOOGLE_MAPS_API_KEY)%"
 
 services:
+  # default configuration for services in *this* file
+  _defaults:
+    autowire: true # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+  # makes classes in src/ available to be used as services
+  # this creates a service per class whose id is the fully-qualified class name
+  App\:
+    resource: "../src/"
+    exclude:
+      - "../src/DependencyInjection/"
+      - "../src/Entity/"
+      - "../src/Kernel.php"
+      - "../src/Tests/"
+
+  # controllers are imported separately to make sure services can be injected
+  # as action arguments even if you don't extend any base controller class
+  App\Controller\:
+    resource: "../src/Controller/"
+    tags: ["controller.service_arguments"]
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
   Symfony\Component\Ldap\Ldap:
     arguments: ['@Symfony\Component\Ldap\Adapter\ExtLdap\Adapter']
 
@@ -31,26 +55,6 @@ services:
         options:
           protocol_version: 3
           referrals: false
-
-  # default configuration for services in *this* file
-  _defaults:
-    autowire: true # Automatically injects dependencies in your services.
-    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-
-  # makes classes in src/ available to be used as services
-  # this creates a service per class whose id is the fully-qualified class name
-  App\:
-    resource: "../src/*"
-    exclude: "../src/{DependencyInjection,Entity,Tests,Kernel.php}"
-
-  # controllers are imported separately to make sure services can be injected
-  # as action arguments even if you don't extend any base controller class
-  App\Controller\:
-    resource: "../src/Controller"
-    tags: ["controller.service_arguments"]
-
-  # add more service definitions when explicit configuration is needed
-  # please note that last definitions always *replace* previous ones
 
   App\Form\UserFormType:
     arguments:
