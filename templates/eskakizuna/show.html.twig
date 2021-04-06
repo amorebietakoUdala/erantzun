@@ -14,7 +14,7 @@
 	{{ parent() }}
 	<!--Google Maps-->
 	{% set gmapAsset = 'https://maps.googleapis.com/maps/api/js?key='~googleMapsApiKey %}
-	<script type="text/javascript" src="{{ asset(gmapAsset) }}" async="async" defer="defer"></script>
+	<script type="text/javascript" src="{{ asset(gmapAsset) }}"></script>
 	{{ encore_entry_script_tags('eskakizuna_edit') }}
 {% endblock javascripts %}
 
@@ -25,32 +25,3 @@
 			    }) }}
 	</div>
 {% endblock %}
-
-{# {% block javascripts %}
-	{{ parent() }}
-	<script type="text/javascript" language="javascript">
-		$(document).ready(function () {
-$(".js-atzera-botoia").click(function () {
-var returnPage = $('form').attr('returnPage');
-window.location.href = Routing.generate('admin_eskakizuna_list', {
-'_locale': $("html").attr("lang"),
-'returnPage': returnPage
-});
-});
-});
-	</script>
-	<script type="text/javascript" src="{{ asset('bower_components/tinymce/tinymce.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('bower_components/sweetalert2/dist/sweetalert2.min.js') }}"></script>
-	<!--Google Maps-->
-	<script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
-	{% if app.request.locale == 'es' %}
-		<script type="text/javascript" src="{{ asset('js/locales/bootstrap-datetimepicker.es.js') }}"></script>
-	{% else %}
-		<script type="text/javascript" src="{{ asset('js/locales/bootstrap-datetimepicker.eu.js') }}"></script>
-	{% endif %}
-	<script type="text/javascript" src="{{ asset('js/eskakizunak/eskakizuna.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('js/orokorra.js') }}"></script>
-	{% set gmapAsset = 'https://maps.googleapis.com/maps/api/js?key='~googleMapsApiKey %}
-	<script type="text/javascript" src="{{ asset(gmapAsset) }}"></script>
-{% endblock %} #}

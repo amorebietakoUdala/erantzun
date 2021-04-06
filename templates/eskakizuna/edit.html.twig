@@ -18,38 +18,6 @@
 	{{ encore_entry_script_tags('eskakizuna_edit') }}
 {% endblock javascripts %}
 
-
-{# {% block stylesheets %}
-	{{ parent() }}
-	<link href="{{ asset('css/chat.css') }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset('bower_components/jquery-ui/themes/base/jquery-ui.css') }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset('bower_components/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css">
-{% endblock %} #}
-
-{# {% block javascripts %}
-{{ parent() }}
-<script type="text/javascript" src="{{ asset('bower_components/tinymce/tinymce.js') }}"></script>
-<script type="text/javascript" src="{{ asset('bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('bower_components/sweetalert2/dist/sweetalert2.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
-{% if app.request.locale == 'es' %}
-	<script type="text/javascript" src="{{ asset('js/locales/bootstrap-datetimepicker.es.js') }}"></script>
-{% else %}
-	<script type="text/javascript" src="{{ asset('js/locales/bootstrap-datetimepicker.eu.js') }}"></script>
-{% endif %}
-
-
-<script type="text/javascript" src="{{ asset('js/eskakizunak/eskakizuna.js') }}"></script>
-<script type="text/javascript" src="{{ asset('js/orokorra.js') }}"></script>
-
-<!--Google Maps-->
-{% set gmapAsset = 'https://maps.googleapis.com/maps/api/js?key='~googleMapsApiKey %}
-<script type="text/javascript" src="{{ asset(gmapAsset) }}"></script>
-
-{% endblock%} #}
-
-
 {% block body %}
 	<div class="container-fluid margin-top-13">
 		{{ include('eskakizuna/_form.html.twig',{
