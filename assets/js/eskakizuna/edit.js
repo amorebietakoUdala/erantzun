@@ -3,14 +3,13 @@ import '../../scss/eskakizuna/edit.scss';
 const routes = require('../../../public/js/fos_js_routes.json');
 import $ from 'jquery';
 import Routing from '../../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
-import 'urijs/src/URI.min.js';
 import Swal from 'sweetalert2';
 import 'jquery-ui-bundle/jquery-ui';
 import '../common/datetime-picker-personalization';
 import 'tinymce/tinymce';
 import 'tinymce/themes/modern';
 
-$(function () {
+$(function() {
     console.log('Ready!!');
     var latitudea = 43.2206664;
     var longitudea = -2.733066600000029;
@@ -30,23 +29,23 @@ $(function () {
         /* INICIO Autocompletes */
         $("#eskakizuna_form_eskatzailea_izena").autocomplete({
                 minLength: 3,
-                source: function (request, response) {
+                source: function(request, response) {
                     $.ajax({
                         url: global.app_base + Routing.generate('api_eskatzailea_list'),
                         dataType: "json",
                         data: {
                             izena: request.term
                         },
-                        success: function (data) {
+                        success: function(data) {
                             response(data.eskatzaileak);
                         }
                     });
                 },
-                focus: function (event, ui) {
+                focus: function(event, ui) {
                     $("#eskakizuna_form_eskatzailea_izena").val(ui.item.izena);
                     return false;
                 },
-                select: function (event, ui) {
+                select: function(event, ui) {
                     $("#eskakizuna_form_eskatzailea_id").val(ui.item.id);
                     $("#eskakizuna_form_eskatzailea_nan").val(ui.item.nan);
                     $("#eskakizuna_form_eskatzailea_izena").val(ui.item.izena);
@@ -56,7 +55,7 @@ $(function () {
                     $("#eskakizuna_form_eskatzailea_helbidea").val(ui.item.helbidea);
                     $("#eskakizuna_form_eskatzailea_postaKodea").val(ui.item.posta_kodea);
                     $("#eskakizuna_form_eskatzailea_herria").val(ui.item.herria);
-                    $("i + label + input").each(function (x) {
+                    $("i + label + input").each(function(x) {
                         if ($(this).val() !== "") {
                             $(this).addClass("active");
                             $(this).siblings().addClass("active");
@@ -65,7 +64,7 @@ $(function () {
                     return false;
                 }
             })
-            .autocomplete("instance")._renderItem = function (ul, item) {
+            .autocomplete("instance")._renderItem = function(ul, item) {
                 return $("<li>")
                     .append("<div>" + item.izena + "</div>")
                     .appendTo(ul);
@@ -74,24 +73,24 @@ $(function () {
     if (typeof $("#eskakizuna_form_eskatzailea_nan").val() !== "undefined") {
         $("#eskakizuna_form_eskatzailea_nan").autocomplete({
                 minLength: 3,
-                source: function (request, response) {
+                source: function(request, response) {
                     $.ajax({
                         url: "../../api/eskatzailea",
                         dataType: "json",
                         data: {
                             nan: request.term
                         },
-                        success: function (data) {
+                        success: function(data) {
                             console.log(data);
                             response(data.eskatzaileak);
                         }
                     });
                 },
-                focus: function (event, ui) {
+                focus: function(event, ui) {
                     $("#eskakizuna_form_eskatzailea_nan").val(ui.item.nan);
                     return false;
                 },
-                select: function (event, ui) {
+                select: function(event, ui) {
                     $("#eskakizuna_form_eskatzailea_id").val(ui.item.id);
                     $("#eskakizuna_form_eskatzailea_nan").val(ui.item.nan);
                     $("#eskakizuna_form_eskatzailea_izena").val(ui.item.izena);
@@ -101,7 +100,7 @@ $(function () {
                     $("#eskakizuna_form_eskatzailea_helbidea").val(ui.item.helbidea);
                     $("#eskakizuna_form_eskatzailea_postaKodea").val(ui.item.postaKodea);
                     $("#eskakizuna_form_eskatzailea_herria").val(ui.item.herria);
-                    $("i + label + input").each(function (x) {
+                    $("i + label + input").each(function(x) {
                         if ($(this).val() !== "") {
                             $(this).addClass("active");
                             $(this).siblings().addClass("active");
@@ -110,7 +109,7 @@ $(function () {
                     return false;
                 }
             })
-            .autocomplete("instance")._renderItem = function (ul, item) {
+            .autocomplete("instance")._renderItem = function(ul, item) {
                 return $("<li>")
                     .append("<div>" + item.nan + "</div>")
                     .appendTo(ul);
@@ -124,7 +123,7 @@ $(function () {
         resize: false,
         statusbar: false,
         theme: 'modern',
-        init_instance_callback: function (editor) {
+        init_instance_callback: function(editor) {
             if (editor.id === 'eskakizuna_form_mamia') {
                 if (role === "KANPOKO_TEKNIKARIA") {
                     editor.setMode('readonly');
@@ -134,12 +133,12 @@ $(function () {
     });
 
     /* INICIO Eventos */
-    $("label[for], input[type='text']").on('click', function (e) {
+    $("label[for], input[type='text']").on('click', function(e) {
         $(this).addClass("active");
         $(this).siblings("input[type='text']").addClass("active").focus();
     });
 
-    $("select").on('click', function (e) {
+    $("select").on('click', function(e) {
         $(this).addClass("active");
         $(this).siblings().addClass("active").focus();
     });
@@ -171,11 +170,11 @@ $(function () {
         $('.js-datepicker').siblings().addClass("active");
     }
 
-    $(".js-btn-erantzun").on('click', function () {
+    $(".js-btn-erantzun").on('click', function() {
         $(".js-erantzuna").show();
     });
 
-    $("#buscar").on('click', function () {
+    $("#buscar").on('click', function() {
         var direccion = $("#eskakizuna_form_kalea").val();
         if (direccion !== "") {
             localizar("map-container", direccion + ", Amorebieta-Etxano");
@@ -186,7 +185,7 @@ $(function () {
 
     var max_size = 4 * 1024 * 1024;
 
-    $(".js-gorde_botoia, .js-erantzun_botoia").on('click', function (e) {
+    $(".js-gorde_botoia, .js-erantzun_botoia").on('click', function(e) {
         // Eranskinak eta argazkien tamainia konprobatu
         var files = $('.js-eranskinaFile,.js-file');
         var all_ok = true;
@@ -210,7 +209,7 @@ $(function () {
     });
 
     /* INICIO Eranskinak */
-    $('#add-another-eranskina').on('click', function (e) {
+    $('#add-another-eranskina').on('click', function(e) {
         e.preventDefault();
 
         var eranskinakList = $('#js-eranskinak-list');
@@ -230,14 +229,14 @@ $(function () {
         addEventToCheckSize(locale, $(newWidget).find('.js-file').attr('id'), max_size);
     });
 
-    $('.js-eranskina-ezabatu').on('click', function (e) {
+    $('.js-eranskina-ezabatu').on('click', function(e) {
         $(e.currentTarget).parents('li').remove();
     });
 
     /* FIN Eranskinak */
 
     /* INICIO Argazkiak */
-    $('#add-another-argazkia').on('click', function (e) {
+    $('#add-another-argazkia').on('click', function(e) {
         e.preventDefault();
         var argazkiakList = $('#js-argazkiak-list');
         var argazkiakCount = $('#js-argazkiak-list li').length;
@@ -256,22 +255,19 @@ $(function () {
         addEventToCheckSize(locale, '.js-file', max_size);
     });
 
-    var uri = new URI(document.location.href);
-    $(document).on('click', '.js-atzera-botoia', function (e) {
+    $(document).on('click', '.js-atzera-botoia', function(e) {
+        console.log('Atzera');
         e.preventDefault();
         var url = global.app_base + Routing.generate('admin_eskakizuna_list', {
             '_locale': locale
-        }) + '?' + uri.query();
+        }) + window.location.search;
         window.location.href = url;
     });
 
-    $(document).on("click", ".js-ezabatu_botoia", function (e) {
+    $(document).on("click", ".js-ezabatu_botoia", function(e) {
         e.preventDefault();
-        var url = $(e.currentTarget).data('url');
-        var uri = new URI(url);
-        uri.addQuery("returnPage", returnPage);
-        uri.addQuery("pageSize", pageSize);
-        url = uri.toString();
+        var url = new URL($(e.currentTarget).data('url'));
+        url = buildURL(url, pageSize, returnPage);
         Swal({
             title: locale === 'eu' ? 'Ezabatu?' : 'Borrar?',
             text: locale === 'eu' ? 'Konfirmatu mesedez' : 'Confirme por favor',
@@ -280,13 +276,14 @@ $(function () {
             showCancelButton: true,
             showLoaderOnConfirm: true,
             preConfirm: () => Promise.resolve([url]).then(url => document.location.href = url)
-        }).catch(function (arg) {
+        }).catch(function(arg) {
             console.log('Cancelado!');
         });
     });
 
-    $(document).on('click', '.js-itxi_botoia', function (e) {
-        var url = $(e.currentTarget).data('url');
+    $(document).on('click', '.js-itxi_botoia', function(e) {
+        var url = new URL($(e.currentTarget).data('url'));
+        url = buildURL(url, pageSize, returnPage);
         e.preventDefault();
         Swal({
             title: locale === 'eu' ? 'Itxi?' : 'Cerrar?',
@@ -295,23 +292,19 @@ $(function () {
             cancelButtonText: locale === 'eu' ? 'Ez' : 'No',
             showCancelButton: true,
             showLoaderOnConfirm: true,
-            preConfirm: () => Promise.resolve([url]).then(function () {
-                var uri = new URI(url);
-                uri.addQuery("returnPage", returnPage);
-                uri.addQuery("pageSize", pageSize);
-                url = uri.toString();
+            preConfirm: () => Promise.resolve([url]).then(function() {
                 window.location.href = url;
             })
-        }).catch(function (arg) {
+        }).catch(function(arg) {
             console.log('Cancelado!');
         });
     });
 
-    $(document).on('click', '.js-erreklamatu_botoia', function (e) {
+    $(document).on('click', '.js-erreklamatu_botoia', function(e) {
         e.preventDefault();
         console.log('Erreklamatu botoia clicked!!!');
-        var url = $(e.currentTarget).data('url');
-        console.log(url);
+        var url = new URL($(e.currentTarget).data('url'));
+        url = buildURL(url, pageSize, returnPage);
         Swal({
             title: locale === 'eu' ? 'Erreklamatu?' : 'Reclamar?',
             text: locale === 'eu' ? 'Konfirmatu mesedez' : 'Confirme por favor',
@@ -319,14 +312,10 @@ $(function () {
             cancelButtonText: locale === 'eu' ? 'Ez' : 'No',
             showCancelButton: true,
             showLoaderOnConfirm: true,
-            preConfirm: () => Promise.resolve([url]).then(function () {
-                var uri = new URI(url);
-                uri.addQuery("returnPage", returnPage);
-                uri.addQuery("pageSize", pageSize);
-                url = uri.toString();
+            preConfirm: () => Promise.resolve([url]).then(function() {
                 window.location.href = url;
             })
-        }).catch(function (arg) {
+        }).catch(function(arg) {
             console.log('Cancelado!');
         });
     });
@@ -339,6 +328,14 @@ function getUrlParameter(url, name) {
     var results = regex.exec(url);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 };
+
+function buildURL(url, pageSize, pageNumber) {
+    let params = new URLSearchParams(url.search.slice(1));
+    params.append("returnPage", pageNumber);
+    params.append("pageSize", pageSize);
+    url = url.toString() + '?' + params.toString();
+    return url;
+}
 
 function init_map(latitudea, longitudea) {
     var var_location = new google.maps.LatLng(latitudea, longitudea);
@@ -362,12 +359,12 @@ function init_map(latitudea, longitudea) {
 
     var_marker.setMap(var_map);
 
-    google.maps.event.addListener(var_marker, 'drag', function (event) {
+    google.maps.event.addListener(var_marker, 'drag', function(event) {
         document.getElementById('eskakizuna_form_georeferentziazioa_latitudea').value = event.latLng.lat();
         document.getElementById('eskakizuna_form_georeferentziazioa_longitudea').value = event.latLng.lng();
     });
 
-    google.maps.event.addListener(var_marker, 'dragend', function (event) {
+    google.maps.event.addListener(var_marker, 'dragend', function(event) {
         document.getElementById('eskakizuna_form_georeferentziazioa_latitudea').value = event.latLng.lat();
         document.getElementById('eskakizuna_form_georeferentziazioa_longitudea').value = event.latLng.lng();
     });
@@ -393,7 +390,7 @@ function localizar(elemento, direccion) {
 
     geocoder.geocode({
         'address': direccion
-    }, function (results, status) {
+    }, function(results, status) {
         if (status === 'OK') {
             var resultados = results[0].geometry.location,
                 resultados_lat = resultados.lat(),
@@ -407,12 +404,12 @@ function localizar(elemento, direccion) {
                 animation: google.maps.Animation.DROP,
                 draggable: true
             });
-            google.maps.event.addListener(marker, 'drag', function (event) {
+            google.maps.event.addListener(marker, 'drag', function(event) {
                 document.getElementById('eskakizuna_form_georeferentziazioa_latitudea').value = event.latLng.lat();
                 document.getElementById('eskakizuna_form_georeferentziazioa_longitudea').value = event.latLng.lng();
             });
 
-            google.maps.event.addListener(marker, 'dragend', function (event) {
+            google.maps.event.addListener(marker, 'dragend', function(event) {
                 document.getElementById('eskakizuna_form_georeferentziazioa_latitudea').value = event.latLng.lat();
                 document.getElementById('eskakizuna_form_georeferentziazioa_longitudea').value = event.latLng.lng();
             });
@@ -459,7 +456,7 @@ function addEventToCheckSize(locale, selector, max_size) {
     var i;
     for (i = 0; i < files.length; i++) {
         var file = $(selector)[i];
-        $(file).on('change', function () {
+        $(file).on('change', function() {
             var ok = checkSize(file, max_size);
             if (!ok)
                 swal_alert(locale,

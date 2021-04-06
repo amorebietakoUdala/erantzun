@@ -1,71 +1,86 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{"messages.jatorrien" | trans | capitalize}} {{"messages.zerrenda" | trans | capitalize}}{% endblock %}
+{% block title %}
+	{{"messages.jatorrien" | trans | capitalize}}
+	{{"messages.zerrenda" | trans | capitalize}}
+{% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
-		{{ encore_entry_link_tags('jatorria_list') }}
+	{{ parent() }}
+	{{ encore_entry_link_tags('jatorria_list') }}
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-    {% set agent = app.request.headers.get('user-agent') %}
-    {% if 'Trident' in agent %}
-    <script type="text/javascript" src="{{ asset('bower_components/core.js/client/core.js') }}"></script>
-    {% endif %}
+	{{ parent() }}
+	{% set agent = app.request.headers.get('user-agent') %}
+	{% if 'Trident' in agent %}
+		<script type="text/javascript" src="{{ asset('bower_components/core.js/client/core.js') }}"></script>
+	{% endif %}
 
-		{{ encore_entry_script_tags('jatorria_list') }}
+	{{ encore_entry_script_tags('jatorria_list') }}
 {% endblock %}
 
 {% block header %}
-    {{ parent()}}
+	{{ parent()}}
 {% endblock %}
 
 {% block menua %}
-    {{ parent() }}
+	{{ parent() }}
 {% endblock %}
 
 {% block message %}
-    {% for msg in app.session.flashBag.get('success') %}
-	<div class="alert alert-success margin-top-13">
-	    {{ msg | trans}}
-	</div>
-    {% endfor %}
-    {% for msg in app.session.flashBag.get('error') %}
-	<div class="alert alert-danger margin-top-13">
-	    {{ msg | trans}}
-	</div>
-    {% endfor %}
+	{% for msg in app.session.flashBag.get('success') %}
+		<div class="alert alert-success margin-top-13">
+			{{ msg | trans}}
+		</div>
+	{% endfor %}
+	{% for msg in app.session.flashBag.get('error') %}
+		<div class="alert alert-danger margin-top-13">
+			{{ msg | trans}}
+		</div>
+	{% endfor %}
 {% endblock %}
-    
+
 {% block body %}
-    <div class="container">
-	<div class="row">
-	    <div class="margin-top-13">
-		<table class="col-12 taula bootstrap-table">
-		<thead>
-		    <tr>
-			<th data-sortable="true">{{"messages.deskripzioa_es" | trans | capitalize}}</th>
-			<th data-sortable="true">{{"messages.deskripzioa_eu" | trans | capitalize}}</th>
-			<th>{{"messages.aukerak" | trans | capitalize}}</th>
-		    </tr>
-		</thead>
-		<tbody>
-		    {% for jatorria in jatorriak %}
-		    <tr>
-			<td>{{jatorria.deskripzioa_es }}</td>
-			<td>{{jatorria.deskripzioa_eu }}</td>
-			<td class="white-space-nowrap">
-			    <a href="#" class="js-erakutsi_botoia" data-url="{{ path ('admin_jatorria_show', {'id': jatorria.id }) }}"><i class="fa fa-eye prefix list-icon"></i></a>
-			    &nbsp; <a href="#" class="js-editatu_botoia"  data-url="{{ path ('admin_jatorria_edit', {'id': jatorria.id }) }}"><i class="fa fa-edit prefix list-icon"></i></a>
-			    &nbsp; <a href="#" class="js-ezabatu_botoia" data-url="{{ path ('admin_jatorria_delete', {'id': jatorria.id }) }}"><i class="fa fa-window-close prefix list-icon"></i></a>
-			</td>
-		    </tr>
-		    {% endfor %}
-		</tbody>
-		</table>
-	    </div>
+	<div class="container">
+		<div class="row">
+			<div class="margin-top-13">
+				<table class="col-12 taula bootstrap-table">
+					<thead>
+						<tr>
+							<th data-sortable="true">{{"messages.deskripzioa_es" | trans | capitalize}}</th>
+							<th data-sortable="true">{{"messages.deskripzioa_eu" | trans | capitalize}}</th>
+							<th>{{"messages.aukerak" | trans | capitalize}}</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for jatorria in jatorriak %}
+							<tr>
+								<td>{{jatorria.deskripzioa_es }}</td>
+								<td>{{jatorria.deskripzioa_eu }}</td>
+								<td class="white-space-nowrap">
+									<a href="#" class="js-erakutsi_botoia" data-url="{{ absolute_url(path ('admin_jatorria_show', {'id': jatorria.id })) }}">
+										<i class="fa fa-eye prefix list-icon"></i>
+									</a>
+									&nbsp;
+									<a href="#" class="js-editatu_botoia" data-url="{{ absolute_url(path ('admin_jatorria_edit', {'id': jatorria.id })) }}">
+										<i class="fa fa-edit prefix list-icon"></i>
+									</a>
+									&nbsp;
+									<a href="#" class="js-ezabatu_botoia" data-url="{{ absolute_url(path ('admin_jatorria_delete', {'id': jatorria.id })) }}">
+										<i class="fa fa-window-close prefix list-icon"></i>
+									</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<span id="btn-berria" class="pull-right">
+			<a href="{{ path ('admin_jatorria_new') }}" class="btn btn-primary btn-rounded btn-fixed">
+				<i class="fa fa-plus"></i>
+			</a>
+		</span>
 	</div>
-	<span id="btn-berria" class="pull-right"><a href="{{ path ('admin_jatorria_new') }}" class="btn btn-primary btn-rounded btn-fixed"><i class="fa fa-plus"></i></a></span>
-    </div>
 {% endblock %}

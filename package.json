@@ -33,8 +33,7 @@
         "pc-bootstrap4-datetimepicker": "^4.17.51",
         "sweetalert2": "^6.6.6",
         "tableexport.jquery.plugin": "^1.9.4",
-        "tinymce": "^4.6.5",
-        "urijs": "1.19"
+        "tinymce": "^4.6.5"
     },
     "browserslist": [
         "> .05%"

@@ -6,16 +6,16 @@
 {% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
-		{{ encore_entry_link_tags('eskakizuna_list') }}
+	{{ parent() }}
+	{{ encore_entry_link_tags('eskakizuna_list') }}
 {% endblock %}
 
 {% block javascripts %}
-   {{ parent() }}
-   {% set agent = app.request.headers.get('user-agent') %}
-   {% if 'Trident' in agent %}
-   <script type="text/javascript" src="{{ asset('bower_components/core.js/client/core.js') }}"></script>
-   {% endif %}
+	{{ parent() }}
+	{% set agent = app.request.headers.get('user-agent') %}
+	{% if 'Trident' in agent %}
+		<script type="text/javascript" src="{{ asset('bower_components/core.js/client/core.js') }}"></script>
+	{% endif %}
 	{{ encore_entry_script_tags('eskakizuna_list') }}
 {% endblock %}
 
@@ -182,20 +182,20 @@
 									{% endif %}
 								</td>
 								<td class="white-space-nowrap">
-									<a class="js-erakutsi_botoia" data-url="{{ path ('admin_eskakizuna_show', {'id': eskakizuna.id }) }}">
+									<a class="js-erakutsi_botoia" data-url="{{ absolute_url(path ('admin_eskakizuna_show', {'id': eskakizuna.id })) }}">
 										<i class="fa fa-eye prefix list-icon" title="{{"messages.ikusi" | trans | capitalize }}"></i>
 									</a>
 									{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ARDURADUNA') or is_granted('ROLE_INFORMATZAILEA') %}
-										&nbsp;<a class="js-editatu_botoia" data-url="{{ path ('admin_eskakizuna_edit', {'id': eskakizuna.id }) }}">
+										&nbsp;<a class="js-editatu_botoia" data-url="{{ absolute_url(path ('admin_eskakizuna_edit', {'id': eskakizuna.id })) }}">
 											<i class="fa fa-edit prefix list-icon" title="{{"messages.editatu" | trans | capitalize}}"></i>
 										</a>
-										&nbsp;<a class="js-ezabatu_botoia" data-url="{{ path ('admin_eskakizuna_delete', {'id': eskakizuna.id }) }}" href="#">
+										&nbsp;<a class="js-ezabatu_botoia" data-url="{{ absolute_url(path ('admin_eskakizuna_delete', {'id': eskakizuna.id })) }}" href="#">
 											<i class="fa fa-trash prefix list-icon" title="{{"messages.ezabatu" | trans | capitalize}}"></i>
 										</a>
-										&nbsp;<a class="js-itxi_botoia" data-url="{{ path ('admin_eskakizuna_close', {'id': eskakizuna.id }) }}" href="#">
+										&nbsp;<a class="js-itxi_botoia" data-url="{{ absolute_url(path ('admin_eskakizuna_close', {'id': eskakizuna.id })) }}" href="#">
 											<i class="fa fa-window-close prefix list-icon" title="{{"messages.itxi" | trans | capitalize}}"></i>
 										</a>
-										&nbsp;<a class="js-erreklamatu_botoia" data-url="{{ path ('admin_eskakizuna_resend', {'id': eskakizuna.id }) }}" href="#">
+										&nbsp;<a class="js-erreklamatu_botoia" data-url="{{ absolute_url(path ('admin_eskakizuna_resend', {'id': eskakizuna.id })) }}" href="#">
 											<i class="fa fa-forward list-icon" title="{{"messages.erreklamatu" | trans | capitalize}}"></i>
 										</a>
 									{% endif %}
@@ -207,10 +207,9 @@
 			</div>
 		</div>
 		<span id="btn-berria" class="pull-right">
-			<a href="#" class="btn btn-primary btn-rounded btn-fixed js-berria_botoia" data-url="{{ path ('admin_eskakizuna_new') }}">
+			<a href="#" class="btn btn-primary btn-rounded btn-fixed js-berria_botoia" data-url="{{ absolute_url(path ('admin_eskakizuna_new')) }}">
 				<i class="fa fa-plus"></i>
 			</a>
 		</span>
 	</div>
 {% endblock %}
-

@@ -62,24 +62,7 @@
 			</footer>
 		{% endblock %}
 		{% block javascripts %}
-		{{ encore_entry_script_tags('app') }}
-			<!-- JQuery -->
-			{# <script type="text/javascript" src="{{ asset('bower_components/MDBootstrap/js/jquery-3.1.1.min.js') }}"></script> #}
-			{# <script type="text/javascript" src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"> </script> #}
-			<!-- Bootstrap tooltips -->
-			{# <script type="text/javascript" src="{{ asset('bower_components/MDBootstrap/js/tether.min.js') }}"></script> #}
-			<!-- Bootstrap core JavaScript -->
-			{# <script type="text/javascript" src="{{ asset('bower_components/MDBootstrap/js/bootstrap.min.js') }}"></script> #}
-			<!-- MDB core JavaScript -->
-			{# <script type="text/javascript" src="{{ asset('bower_components/MDBootstrap/js/mdb.min.js') }}"></script> #}
-			<!-- FOSRouting Symfony Bundle -->
-			<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-
-			<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-
-			<script type="text/javascript" src="{{ asset('bower_components/urijs/src/URI.js') }}"></script>
-
-			{# <script type="text/javascript" src="{{ asset('js/orokorra.js') }}"></script> #}
+			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</body>
 </html>

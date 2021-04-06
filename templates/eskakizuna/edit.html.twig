@@ -13,8 +13,8 @@
 {% block javascripts %}
 	{{ parent() }}
 	<!--Google Maps-->
-	{% set gmapAsset = 'https://maps.googleapis.com/maps/api/js?key='~googleMapsApiKey %}
-	<script type="text/javascript" src="{{ asset(gmapAsset) }}" async="async" defer="defer"></script>
+	{% set gmapAsset = 'https://maps.googleapis.com/maps/api/js?key='~googleMapsApiKey~'&callback=initMap' %}
+	<script type="text/javascript" src="{{ asset(gmapAsset) }}"></script>
 	{{ encore_entry_script_tags('eskakizuna_edit') }}
 {% endblock javascripts %}
 
@@ -57,4 +57,3 @@
 			    }) }}
 	</div>
 {% endblock %}
-

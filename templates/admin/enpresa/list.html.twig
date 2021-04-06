@@ -1,73 +1,92 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{"messages.enpresa" | trans | capitalize}} {{"messages.zerrenda" | trans | capitalize}}{% endblock %}
+{% block title %}
+	{{"messages.enpresa" | trans | capitalize}}
+	{{"messages.zerrenda" | trans | capitalize}}
+{% endblock %}
 
 {% block stylesheets %}
-    {{ parent() }}
-		{{ encore_entry_link_tags('enpresa_list') }}
+	{{ parent() }}
+	{{ encore_entry_link_tags('enpresa_list') }}
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-    {% set agent = app.request.headers.get('user-agent') %}
-    {% if 'Trident' in agent %}
-    <script type="text/javascript" src="{{ asset('bower_components/core.js/client/core.js') }}"></script>
-    {% endif %}
+	{{ parent() }}
+	{% set agent = app.request.headers.get('user-agent') %}
+	{% if 'Trident' in agent %}
+		<script type="text/javascript" src="{{ asset('bower_components/core.js/client/core.js') }}"></script>
+	{% endif %}
 
-		{{ encore_entry_script_tags('enpresa_list') }}
+	{{ encore_entry_script_tags('enpresa_list') }}
 {% endblock %}
 
 {% block menua %}
-    {{ parent() }}
+	{{ parent() }}
 {% endblock %}
 
 {% block message %}
-    {% for msg in app.session.flashBag.get('success') %}
-	<div class="alert alert-success margin-top-13">
-	    {{ msg | trans}}
-	</div>
-    {% endfor %}
-    {% for msg in app.session.flashBag.get('error') %}
-	<div class="alert alert-danger margin-top-13">
-	    {{ msg | trans}}
-	</div>
-    {% endfor %}
+	{% for msg in app.session.flashBag.get('success') %}
+		<div class="alert alert-success margin-top-13">
+			{{ msg | trans}}
+		</div>
+	{% endfor %}
+	{% for msg in app.session.flashBag.get('error') %}
+		<div class="alert alert-danger margin-top-13">
+			{{ msg | trans}}
+		</div>
+	{% endfor %}
 {% endblock %}
-    
+
 {% block body %}
-    <div class="container">
-	<div class="row">
-	    <div class="margin-top-13">
-		<table class="taula bootstrap-table">
-		<thead>
-		    <tr>
-			<th data-sortable="true">{{"messages.id" | trans | capitalize}}</th>
-			<th data-sortable="true">{{"messages.izena" | trans | capitalize}}</th>
-			<th data-sortable="true">{{"messages.ordena" | trans | capitalize}}</th>
-			<th data-sortable="true">{{"messages.aktibatua" | trans | capitalize}}</th>
-			<th>{{"messages.aukerak" | trans | capitalize}}</th>
-		    </tr>
-		</thead>
-		<tbody>
-		    {% for enpresa in enpresak %}
-		    <tr>
-			<td>{{enpresa.id }}</td>
-			<td>{{enpresa.izena }}</td>
-			<td>{{enpresa.ordena }}</td>
-			<td>
-				{% if enpresa.aktibatua == 1 %}{{ "messages.bai" | trans | capitalize }}{% else %}{{ "messages.ez" | trans | capitalize }}{% endif %}
-			</td>
-			<td class="white-space-nowrap">
-			    <a href="#" class="js-erakutsi_botoia" data-url="{{ path ('admin_enpresa_show', {'id': enpresa.id }) }}"><i class="fa fa-eye prefix list-icon"></i></a>
-			    &nbsp; <a href="#" class="js-editatu_botoia"  data-url="{{ path ('admin_enpresa_edit', {'id': enpresa.id }) }}"><i class="fa fa-edit prefix list-icon"></i></a>
-			    &nbsp; <a href="#" class="js-ezabatu_botoia" data-url="{{ path ('admin_enpresa_delete', {'id': enpresa.id }) }}"><i class="fa fa-window-close prefix list-icon"></i></a>
-			</td>
-		    </tr>
-		    {% endfor %}
-		</tbody>
-		</table>
-	    </div>
+	<div class="container">
+		<div class="row">
+			<div class="margin-top-13">
+				<table class="taula bootstrap-table">
+					<thead>
+						<tr>
+							<th data-sortable="true">{{"messages.id" | trans | capitalize}}</th>
+							<th data-sortable="true">{{"messages.izena" | trans | capitalize}}</th>
+							<th data-sortable="true">{{"messages.ordena" | trans | capitalize}}</th>
+							<th data-sortable="true">{{"messages.aktibatua" | trans | capitalize}}</th>
+							<th>{{"messages.aukerak" | trans | capitalize}}</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for enpresa in enpresak %}
+							<tr>
+								<td>{{enpresa.id }}</td>
+								<td>{{enpresa.izena }}</td>
+								<td>{{enpresa.ordena }}</td>
+								<td>
+									{% if enpresa.aktibatua == 1 %}
+										{{ "messages.bai" | trans | capitalize }}
+									{% else %}
+										{{ "messages.ez" | trans | capitalize }}
+									{% endif %}
+								</td>
+								<td class="white-space-nowrap">
+									<a href="#" class="js-erakutsi_botoia" data-url="{{ absolute_url(path ('admin_enpresa_show', {'id': enpresa.id })) }}">
+										<i class="fa fa-eye prefix list-icon"></i>
+									</a>
+									&nbsp;
+									<a href="#" class="js-editatu_botoia" data-url="{{ absolute_url(path ('admin_enpresa_edit', {'id': enpresa.id })) }}">
+										<i class="fa fa-edit prefix list-icon"></i>
+									</a>
+									&nbsp;
+									<a href="#" class="js-ezabatu_botoia" data-url="{{ absolute_url(path ('admin_enpresa_delete', {'id': enpresa.id })) }}">
+										<i class="fa fa-window-close prefix list-icon"></i>
+									</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<span id="btn-berria" class="pull-right">
+			<a href="{{ path ('admin_enpresa_new') }}" class="btn btn-primary btn-rounded btn-fixed">
+				<i class="fa fa-plus"></i>
+			</a>
+		</span>
 	</div>
-	<span id="btn-berria" class="pull-right"><a href="{{ path ('admin_enpresa_new') }}" class="btn btn-primary btn-rounded btn-fixed"><i class="fa fa-plus"></i></a></span>
-    </div>
 {% endblock %}
