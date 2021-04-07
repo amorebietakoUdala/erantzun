@@ -37,7 +37,7 @@ $(function() {
         let params = new URLSearchParams(url.search.slice(1));
         params.append("returnPage", 1);
         params.append("pageSize", $('li[role="menuitem"].active a').text());
-        $('form[name="eskakizuna_bilatzailea_form"]').attr('action', action.toString());
+        $('form[name="eskakizuna_bilatzailea_form"]').attr('action', url.toString());
         $('form[name="eskakizuna_bilatzailea_form"]').submit();
     });
 
