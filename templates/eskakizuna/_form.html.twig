@@ -143,11 +143,11 @@
 											)
 										</span>
 										<span class="text-muted">
-											(
 											{% if eskakizunaForm.vars.value.noizErreklamatua is defined and eskakizunaForm.vars.value.noizErreklamatua != null %}
+												(
 												{{ "messages.erreklamatua" | trans }}{{ eskakizunaForm.vars.value.noizErreklamatua | date('Y-m-d H:i') }}
+												)
 											{% endif %}
-											)
 										</span>
 									{% endif %}
 								{% endif %}
