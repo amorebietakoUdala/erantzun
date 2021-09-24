@@ -20,13 +20,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation as JMS;
 use AMREU\UserBundle\Model\UserInterface as AMREUserInterface;
 use AMREU\UserBundle\Model\User as BaseUser;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 
 /**
-* @ORM\Entity(repositoryClass="App\Repository\UserRepository")
-* @ORM\Table(name="user")
-*/
-class User extends BaseUser implements AMREUserInterface {
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Table(name="user")
+ */
+class User extends BaseUser implements AMREUserInterface,  PasswordAuthenticatedUserInterface
+{
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -69,7 +71,7 @@ class User extends BaseUser implements AMREUserInterface {
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $lastLogin;
-    
+
     /**
      * @ORM\Column(type="string", nullable=true)
      */
@@ -81,90 +83,105 @@ class User extends BaseUser implements AMREUserInterface {
     private $passwordRequestedAt;
 
     /**
-    * @ORM\ManyToOne (targetEntity="Enpresa", inversedBy="erabiltzaileak")
-    * @ORM\JoinColumn(nullable=true);
-    */
+     * @ORM\ManyToOne (targetEntity="Enpresa", inversedBy="erabiltzaileak")
+     * @ORM\JoinColumn(nullable=true);
+     */
     private $enpresa;
 
     /**
-    * @ORM\Column(type="string", nullable=true)
-    * @JMS\Exclude()
-    */
+     * @ORM\Column(type="string", nullable=true)
+     * @JMS\Exclude()
+     */
     private $telefonoa;
     /**
-    * @ORM\Column(type="string", nullable=true)
-    * @JMS\Exclude()
-    */
+     * @ORM\Column(type="string", nullable=true)
+     * @JMS\Exclude()
+     */
     private $telefonoa2;
 
     /**
-    * @Assert\GreaterThan(0)
-    * @ORM\Column(type="integer", nullable=true)
-    * @JMS\Exclude()
-    */
+     * @Assert\GreaterThan(0)
+     * @ORM\Column(type="integer", nullable=true)
+     * @JMS\Exclude()
+     */
     private $ordena;
 
-    public function getId(): ?int {
-	    return $this->id;
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
-    public function getConfirmationToken(): string {
+    public function getConfirmationToken(): string
+    {
         return $this->confirmationToken;
     }
 
-    public function setConfirmationToken(string $confirmationToken) {
+    public function setConfirmationToken(string $confirmationToken)
+    {
         $this->confirmationToken = $confirmationToken;
 
         return $this;
     }
 
-    public function getPasswordRequestedAt(): \DateTime {
+    public function getPasswordRequestedAt(): \DateTime
+    {
         return $this->passwordRequestedAt;
     }
 
-    public function setPasswordRequestedAt(\DateTime $passwordRequestedAt) {
+    public function setPasswordRequestedAt(\DateTime $passwordRequestedAt)
+    {
         $this->passwordRequestedAt = $passwordRequestedAt;
 
         return $this;
     }
-    
-    public function getEnpresa() {
-	return $this->enpresa;
+
+    public function getEnpresa()
+    {
+        return $this->enpresa;
     }
 
-    public function getTelefonoa() {
-	return $this->telefonoa;
+    public function getTelefonoa()
+    {
+        return $this->telefonoa;
     }
 
-    public function getTelefonoa2() {
-	return $this->telefonoa2;
+    public function getTelefonoa2()
+    {
+        return $this->telefonoa2;
     }
 
-    public function setEnpresa(Enpresa $enpresa = null) {
-	$this->enpresa = $enpresa;
+    public function setEnpresa(Enpresa $enpresa = null)
+    {
+        $this->enpresa = $enpresa;
     }
 
-    public function setTelefonoa($telefonoa) {
-	$this->telefonoa = $telefonoa;
+    public function setTelefonoa($telefonoa)
+    {
+        $this->telefonoa = $telefonoa;
     }
 
-    public function setTelefonoa2($telefonoa2) {
-	$this->telefonoa2 = $telefonoa2;
+    public function setTelefonoa2($telefonoa2)
+    {
+        $this->telefonoa2 = $telefonoa2;
     }
 
-    public function getOrdena() {
-	return $this->ordena;
+    public function getOrdena()
+    {
+        return $this->ordena;
     }
 
-    public function setOrdena($ordena) {
-	$this->ordena = $ordena;
-    }
-    
-    public function __toString() {
-	return $this->getIzena();
+    public function setOrdena($ordena)
+    {
+        $this->ordena = $ordena;
     }
 
-    public function getUsername(): string {
+    public function __toString()
+    {
+        return $this->getFirstName();
+    }
+
+    public function getUsername(): string
+    {
         return $this->username;
     }
 
@@ -173,5 +190,4 @@ class User extends BaseUser implements AMREUserInterface {
         $this->username = $username;
         return $this;
     }
-
 }

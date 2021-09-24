@@ -1,57 +1,54 @@
 security:
-  encoders:
-    legacy_bcrypt:
-      algorithm: bcrypt
+  # https://symfony.com/doc/current/security/authenticator_manager.html
+  enable_authenticator_manager: true
+  # https://symfony.com/doc/current/security.html#c-hashing-passwords
+  password_hashers:
+      legacy:
+          algorithm: sodium
+          
+      App\Entity\User:
+          algorithm: bcrypt
+          migrate_from: 
+              - legacy
 
-    App\Entity\User:
-      algorithm: auto
-      migrate_from:
-        - legacy_bcrypt
+      Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
 
   # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
   providers:
-    # used to reload user from session & other features (e.g. switch_user)
-    amreu_user_provider:
-      entity:
-        class: App\Entity\User
-        property: username
-  #        logout:
-  #            path: app_logout
-
+      # used to reload user from session & other features (e.g. switch_user)
+      amreu_user_provider:
+          entity:
+              class: App\Entity\User
+              property: username
+      
   firewalls:
-    dev:
-      pattern: ^/(_(profiler|wdt)|css|images|js)/
-      security: false
-    main:
-      anonymous: true
-      lazy: true
-      provider: amreu_user_provider
+      dev:
+          pattern: ^/(_(profiler|wdt)|css|images|js)/
+          security: false
+      main:
+          lazy: true
+          provider: amreu_user_provider
 
-      guard:
-        authenticators:
-          - amreu.login.form.authenticator
-        entry_point: amreu.login.form.authenticator
+          custom_authenticators:
+                  - amreu.login.form.passportauthenticator
+                  - amreu.ldap.basic.passportauthenticator
+          entry_point: amreu.login.form.passportauthenticator
+              
+          logout:
+              path: user_security_logout
+              # where to redirect after logout
+              # target: app_any_route
 
-      form_login:
-        login_path: user_security_login_check
-        check_path: user_security_login_check
+          # It's adds a cookie to get authenticated for 1 month if remember_me checkbox is activated
+          remember_me:
+            secret: "%kernel.secret%"
+            lifetime: 2592000
 
-      logout:
-        path: user_security_logout
+          # activate different ways to authenticate
+          # https://symfony.com/doc/current/security.html#firewalls-authentication
 
-      # It's adds a cookie to get authenticated for 1 month if remember_me checkbox is activated
-      remember_me:
-        secret: "%kernel.secret%"
-        lifetime: 2592000
-
-        # where to redirect after logout
-        # target: app_any_route
-
-      # activate different ways to authenticate
-      # https://symfony.com/doc/current/security.html#firewalls-authentication
-
-      # https://symfony.com/doc/current/security/impersonating_user.html
-      # switch_user: true
+          # https://symfony.com/doc/current/security/impersonating_user.html
+          # switch_user: true
 
   # Easy way to control access for large sections of your site
   # Note: Only the *first* access control that matches will be used
