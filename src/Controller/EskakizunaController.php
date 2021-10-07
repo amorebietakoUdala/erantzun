@@ -126,6 +126,7 @@ class EskakizunaController extends AbstractController
             'erantzun' => false,
             'editatzen' => false,
             'googleMapsApiKey' => $this->getParameter('googleMapsApiKey'),
+            'images_uploads_url' => $this->getParameter('images_uploads_url')
         ]);
     }
 
