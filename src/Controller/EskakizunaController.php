@@ -458,9 +458,15 @@ class EskakizunaController extends AbstractController
         $user = $this->get('security.token_storage')->getToken()->getUser();
         if (!$eskakizuna) {
             $this->addFlash('error', 'messages.eskakizuna_ez_da_existitzen');
-            $this->redirectToRoute('admin_eskakizuna_list', $params);
+            return $this->redirectToRoute('admin_eskakizuna_list', $params);
         }
 
+        if ( $eskakizuna->getEnpresa() === null ) {
+            $this->addFlash('error', 'messages.ez_da_konpontzeko_enpresarik_hautatu');
+            $title = 'Intzidentzia hau erreklamatua izan da, baina oraindik ez dago zerbitzu batera ezarria. Eskakizun zenbakia: ';
+            $this->_mezuaBidaliArduradunei($title,$eskakizuna);
+            return $this->redirectToRoute('admin_eskakizuna_list', $params);
+        }
         $em = $this->getDoctrine()->getManager();
         $eskakizuna->setNoizErreklamatua(new DateTime());
         $eskakizuna->setNorkErreklamatua($user);

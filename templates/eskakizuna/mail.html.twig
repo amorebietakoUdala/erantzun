@@ -5,7 +5,10 @@
 
 <p>
 <b>Número de aviso / Ohar zenbakia:</b> {{ eskakizuna.id }} <br/> 
-<b>Servicio / Zerbitzua:</b> {{ eskakizuna.zerbitzua.izena_es }} / {{ eskakizuna.zerbitzua.izena_eu }}<br/>
+<b>Servicio / Zerbitzua:</b> 
+    {% if eskakizuna.zerbitzua is not null %}
+        {{ eskakizuna.zerbitzua.izena_es }} / {{ eskakizuna.zerbitzua.izena_eu }}
+    {% endif %}<br/>
 <b>Fecha conocimiento/Ezagutza data:</b> {{ eskakizuna.noiz | date('Y-m-d') }}<br/>
 <b>Texto/Testua:</b><br/>
 {{ eskakizuna.mamia | raw }}<br/>

@@ -145,7 +145,7 @@ messages:
   sent: "El mensaje se ha enviado correctamente"
   pasahitza_ondo_aldatu_da: "La contraseña se ha cambiado correctamente"
   token_expired: "Se ha superado el tiempo para resetear la contraseña"
-
+  ez_da_konpontzeko_enpresarik_hautatu: "La incidencia no se ha asignado a ningún servicio o enpresa. No se le puede enviar una reclamación. Se avisa a la oficina técnica."
 btn:
   bidali: "Enviar"
 

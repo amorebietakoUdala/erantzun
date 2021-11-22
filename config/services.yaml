@@ -6,14 +6,14 @@
 
 parameters:
   app_name: erantzun
-  images_uploads_url: /erantzun/images/uploads
+  images_uploads_url: "/erantzun/images/uploads"
   images_uploads_directory: "%kernel.project_dir%/public/images/uploads"
   images_width: 640
   images_thumb_width: 200
   max_upload_image_size: 3M
   erantzundakoan_mezua_bidali: false
   mezuak_bidali: true
-  eranskinak_uploads_url: /images/uploads
+  eranskinak_uploads_url: "/images/uploads"
   eranskinak_uploads_directory: "%kernel.project_dir%/public/images/uploads"
   mailer_from: "%env(MAILER_USER)%"
   googleMapsApiKey: "%env(GOOGLE_MAPS_API_KEY)%"
