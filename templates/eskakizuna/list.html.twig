@@ -90,6 +90,7 @@
 			</div>
 		</div>
 		<div class="row">
+			{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_ARDURADUNA') %}
 			<div class="margin-top-13">
 				<div id="data-menu" class="btn-group dropdown">
 					<button class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -100,7 +101,7 @@
 						<a id="batchclose" class="dropdown-item" href="#">{{ 'messages.itxi_aukeratutakoak' | trans | capitalize }}</a>
 					</div>
 				</div>
-
+			{% endif %}
 				<table class="taula bootstrap-table table-sm table-responsive" data-icons-prefix="fa" data-icon-export="fa-file-export" data-toolbar="#data-menu">
 					<thead>
 						<tr>
