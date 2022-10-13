@@ -42,10 +42,9 @@ class DefaultController extends AbstractController
         ]);
         } elseif ($authorization_checker->isGranted('ROLE_KANPOKO_TEKNIKARIA')) {
             $logger->debug('Kanpoko Teknikaria erabiltzailea: '.$user->getUsername());
-
-            return $this->redirectToRoute('admin_eskakizuna_list', [
-        '_locale' => $request->getLocale(),
-        ]);
         }
+        return $this->redirectToRoute('admin_eskakizuna_list', [
+            '_locale' => $request->getLocale(),
+        ]);
     }
 }
