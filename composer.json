@@ -34,6 +34,7 @@
         "symfony/http-kernel": "5.3.*",
         "symfony/intl": "5.3.*",
         "symfony/ldap": "5.3.*",
+        "symfony/mailer": "5.*",
         "symfony/mime": "5.3.*",
         "symfony/monolog-bridge": "5.3.*",
         "symfony/monolog-bundle": "^3.6",
@@ -51,7 +52,6 @@
         "symfony/serializer": "5.3.*",
         "symfony/stopwatch": "5.3.*",
         "symfony/string": "5.3.*",
-        "symfony/swiftmailer-bundle": "^3.5",
         "symfony/translation": "5.3.*",
         "symfony/twig-bridge": "5.3.*",
         "symfony/twig-bundle": "5.3.*",
@@ -75,7 +75,11 @@
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/flex": true,
+            "symfony/runtime": true
+        }
     },
     "autoload": {
         "psr-4": {

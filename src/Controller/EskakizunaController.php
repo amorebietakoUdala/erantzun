@@ -23,8 +23,8 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Imagick;
 use Psr\Log\LoggerInterface;
-use Swift_Message;
-use \Swift_Mailer;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\File\File;
@@ -46,9 +46,9 @@ class EskakizunaController extends AbstractController
     private $eskatzailea;
     private $eskakizuna;
     private $georeferentziazioa;
-    private $mailer;
+    private MailerInterface $mailer;
 
-    public function __construct(\Swift_Mailer $mailer)
+    public function __construct(MailerInterface $mailer)
     {
         $this->mailer = $mailer;
     }
@@ -543,18 +543,20 @@ class EskakizunaController extends AbstractController
 
     private function _mezuaBidali($title, $eskakizuna, $emailak)
     {
-        $from = $this->getParameter('mailer_from');
-        $message = new Swift_Message($title . ' ' . $eskakizuna->getId());
-        $message->setFrom($from);
-        $message->setTo($emailak);
-        $message->setBody(
-            $this->renderView('/eskakizuna/mail.html.twig', [
-                'eskakizuna' => $eskakizuna,
-            ])
-        );
-        $message->setContentType('text/html');
-
-        $this->mailer->send($message);
+        //dd($emailak);
+        $email = (new Email())
+            ->from($this->getParameter('mailer_from'))
+            ->subject($title . ' ' . $eskakizuna->getId())
+            ->html($this->renderView('/eskakizuna/mail.html.twig', [
+                    'eskakizuna' => $eskakizuna,
+            ]),
+            'text/html'
+            );
+        foreach ($emailak as $helbidea) {
+            $email->addTo($helbidea);
+        }
+        
+        $this->mailer->send($email);
     }
 
     private function _remove_blank_filters($criteria)

@@ -15,7 +15,7 @@ parameters:
   mezuak_bidali: true
   eranskinak_uploads_url: "/images/uploads"
   eranskinak_uploads_directory: "%kernel.project_dir%/public/images/uploads"
-  mailer_from: "%env(MAILER_USER)%"
+  mailer_from: "%env(MAILER_FROM)%"
   googleMapsApiKey: "%env(GOOGLE_MAPS_API_KEY)%"
 
 services:
