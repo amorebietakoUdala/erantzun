@@ -22,7 +22,8 @@ use App\Form\PasswordResetRequestFormType;
 use App\Form\PasswordResetFormType;
 use DateTime;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use \Swift_Mailer;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 /**
  * Description of ErabiltzaileakController.
@@ -34,10 +35,10 @@ class ErabiltzaileaController extends AbstractController
 {
 
     private $translator;
-    private $mailer;
+    private MailerInterface $mailer;
     private $userManager;
 
-    public function __construct(TranslatorInterface $translator, \Swift_Mailer $mailer, UserManager $userManager)
+    public function __construct(TranslatorInterface $translator, MailerInterface $mailer, UserManager $userManager)
     {
         $this->translator = $translator;
         $this->mailer = $mailer;
@@ -279,18 +280,17 @@ class ErabiltzaileaController extends AbstractController
     private function sendResetPasswordMessage(User $user, string $token)
     {
         $from = $this->getParameter('mailer_from');
-        $message = new \Swift_Message($this->translator->trans('messages.password_reset_message_title'));
-        $message->setFrom($from);
-        $message->setTo($user->getEmail());
-        $message->setBody(
-            $this->renderView('/admin/erabiltzailea/reset_password_email.html.twig', [
-                'token' => $token,
-                'user' => $user,
-            ])
-        );
-        $message->setContentType('text/html');
-
-        $this->mailer->send($message);
+        $email = (new Email())
+            ->from($from)
+            ->to($user->getEmail())
+            ->subject($this->translator->trans('messages.password_reset_message_title'))
+            ->html($this->renderView('/admin/erabiltzailea/reset_password_email.html.twig', [
+                    'token' => $token,
+                    'user' => $user,
+                ]),
+                'text/html'
+            );
+        $this->mailer->send($email);
     }
 
     private function generateToken()
@@ -323,12 +323,8 @@ class ErabiltzaileaController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-
-
             $this->userManager->updatePassword($user, $data['password']);
-
             $this->addFlash('success', 'message.pasahitza_ondo_aldatu_da');
-
             return $this->redirectToRoute('user_security_login_check');
         }
 
