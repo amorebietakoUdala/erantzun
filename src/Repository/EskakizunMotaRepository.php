@@ -7,10 +7,10 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method User|null find($id, $lockMode = null, $lockVersion = null)
- * @method User|null findOneBy(array $criteria, array $orderBy = null)
- * @method User[]    findAll()
- * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method EskakizunMota|null find($id, $lockMode = null, $lockVersion = null)
+ * @method EskakizunMota|null findOneBy(array $criteria, array $orderBy = null)
+ * @method EskakizunMota[]    findAll()
+ * @method EskakizunMota[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class EskakizunMotaRepository extends ServiceEntityRepository
 {

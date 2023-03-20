@@ -5,12 +5,13 @@ namespace App\Repository;
 use App\Entity\Eskatzailea;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
 
 /**
- * @method User|null find($id, $lockMode = null, $lockVersion = null)
- * @method User|null findOneBy(array $criteria, array $orderBy = null)
- * @method User[]    findAll()
- * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Eskatzailea|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Eskatzailea|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Eskatzailea[]    findAll()
+ * @method Eskatzailea[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class EskatzaileaRepository extends ServiceEntityRepository
 {
@@ -20,7 +21,7 @@ class EskatzaileaRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return \Doctrine\DBAL\Query\QueryBuilder
+     * @return QueryBuilder
      */
     public function createOrderedQueryBuilder()
     {
@@ -31,7 +32,7 @@ class EskatzaileaRepository extends ServiceEntityRepository
     /**
      * 
      * @param type $id
-     * @result Eskatzailea
+     * @return Eskatzailea
      */
     public function getEskatzaileaById($id)
     {
@@ -45,8 +46,8 @@ class EskatzaileaRepository extends ServiceEntityRepository
 
     /**
      * 
-     * @param type $izena
-     * @result Eskatzailea
+     * @param string $izena
+     * @return Eskatzailea
      */
     public function getEskatzaileaByIzenaLike($izena)
     {
@@ -61,8 +62,8 @@ class EskatzaileaRepository extends ServiceEntityRepository
     }
 
      /**
-     * @param type array $criteria
-     * @return \Doctrine\DBAL\Query\QueryBuilder
+     * @param array $criteria
+     * @return QueryBuilder
      */
     public function findAllLikeQueryBuilder($criteria = null )
     {
@@ -79,12 +80,11 @@ class EskatzaileaRepository extends ServiceEntityRepository
     }
 
      /**
-     * @param type array $criteria
-     * @result Eskatzailea[]
+     * @param array $criteria
+     * @return Eskatzailea[]
      */
     public function findAllLike($criteria = null )
     {
         return $this->findAllLikeQueryBuilder($criteria)->getQuery()->getResult();
     }
-    
 }

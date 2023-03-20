@@ -8,7 +8,12 @@ use App\Entity\Erantzuna;
 use App\Entity\Eskakizuna;
 use App\Entity\Eskatzailea;
 use App\Entity\Egoera;
+use App\Repository\ErantzunaRepository;
+use App\Repository\EskakizunaRepository;
+use App\Repository\EskatzaileaRepository;
+use App\Repository\UserRepository;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,18 +21,37 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/api")
+ * @isGranted("ROLE_ERANTZUN")
  */
 class ApiController extends AbstractController
 {
 
     private $serializer;
+    private EntityManagerInterface $em;
+    private EskatzaileaRepository $eskatzaileaRepo;
+    // private EskakizunaRepository $eskakizunaRepo;
+    // private UserRepository $userRepo;
+    private ErantzunaRepository $erantzunaRepo;
 
-    public function __construct(SerializerInterface $serializer)
+    public function __construct(
+        SerializerInterface $serializer, 
+        EntityManagerInterface $em,
+        EskatzaileaRepository $eskatzaileaRepo,
+        // EskakizunaRepository $eskakizunaRepo,
+        // UserRepository $userRepo,
+        ErantzunaRepository $erantzunaRepo)
     {
         $this->serializer = $serializer;
+        $this->em = $em;
+        $this->eskatzaileaRepo = $eskatzaileaRepo;
+        // $this->eskakizunaRepo = $eskakizunaRepo;
+        // $this->userRepo = $userRepo;
+        $this->erantzunaRepo = $erantzunaRepo;
     }
 
     /**
@@ -35,19 +59,12 @@ class ApiController extends AbstractController
      */
     public function listAction(Request $request)
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-//        $izena = $request->query->get('izena');
         $criteria = $request->query->all();
         if ($criteria) {
-            $eskatzaileak = $this->getDoctrine()
-                ->getRepository('App:Eskatzailea')
-                ->findAllLike($criteria);
+            $eskatzaileak = $this->eskatzaileaRepo->findAllLike($criteria);
         } else {
-            $eskatzaileak = $this->getDoctrine()
-                ->getRepository('App:Eskatzailea')
-                ->findAll();
+            $eskatzaileak = $this->eskatzaileaRepo->findAll();
         }
-
         $response = $this->createApiResponse(['eskatzaileak' => $eskatzaileak], 200);
 
         return $response;
@@ -62,15 +79,13 @@ class ApiController extends AbstractController
         $form = $this->createForm(EskatzaileaFormType::class, $eskatzailea);
         $this->processForm($request, $form);
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($eskatzailea);
-        $em->flush();
+        $this->em->persist($eskatzailea);
+        $this->em->flush();
 
         $response = $this->createApiResponse($eskatzailea, 201);
-        $eskatzaileaUrl = $this->generateUrl(
-            'api_eskatzailea_show',
-            ['id' => $eskatzailea->getId()]
-        );
+        $eskatzaileaUrl = $this->generateUrl('api_eskatzailea_show', [
+            'id' => $eskatzailea->getId()
+        ]);
         $response->headers->set('Location', $eskatzaileaUrl);
 
         return $response;
@@ -81,12 +96,10 @@ class ApiController extends AbstractController
      */
     public function showAction($id)
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-        $eskatzailea = $this->getDoctrine()
-            ->getRepository('App:Eskatzailea')
-            ->findOneBy([
-                'id' => $id,
-            ]);
+        $this->denyAccessUnlessGranted('ROLE_ERANTZUN');
+        $eskatzailea = $this->eskatzaileaRepo->findOneBy([
+            'id' => $id,
+        ]);
 
         if (!$eskatzailea) {
             throw $this->createNotFoundException('Ez da eskatzailerik aurkitu.');
@@ -97,113 +110,55 @@ class ApiController extends AbstractController
         return $response;
     }
 
-//    /**
-//     * @Route("/api/eskatzailea/{id}", methods={"PUT", PATCH})
-//     */
-//    public function updateAction($id, Request $request)
-//    {
-//        $programmer = $this->getDoctrine()
-//            ->getRepository('AppBundle:Eskatzailea')
-//            ->findOneByNickname($nickname);
-//
-//        if (!$programmer) {
-//            throw $this->createNotFoundException(sprintf(
-//                'No programmer found with nickname "%s"',
-//                $nickname
-//            ));
-//        }
-//
-//        $form = $this->createForm(new UpdateProgrammerType(), $programmer);
-//        $this->processForm($request, $form);
-//
-//        $em = $this->getDoctrine()->getManager();
-//        $em->persist($programmer);
-//        $em->flush();
-//
-//        $response = $this->createApiResponse($programmer, 200);
-//
-//        return $response;
-//    }
-//
-//    /**
-//     * @Route("/api/eskatzailea/{nickname}", methods={"DELETE"})
-//     */
-//    public function deleteAction($nickname)
-//    {
-//        $programmer = $this->getDoctrine()
-//            ->getRepository('AppBundle:Programmer')
-//            ->findOneByNickname($nickname);
-//
-//        if ($programmer) {
-//            // debated point: should we 404 on an unknown nickname?
-//            // or should we just return a nice 204 in all cases?
-//            // we're doing the latter
-//            $em = $this->getDoctrine()->getManager();
-//            $em->remove($programmer);
-//            $em->flush();
-//        }
-//
-//        return new Response(null, 204);
-//    }
-
     /**
      * @Route("/eskakizuna/{id}/erantzuna/new", name="api_erantzuna_new", methods={"GET"}, options={"expose" = true})
      */
-    public function newErantzunaAction(Request $request, $id)
-    {
-        //	$this->denyAccessUnlessGranted('ROLE_USER');
-        //	$user = $this->get('security.token_storage')->getToken()->getUser();
-        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy([
-        'username' => 'admin',
-    ]);
-        $erantzuna = new Erantzuna();
-        $form = $this->createForm(ErantzunaFormType::class, $erantzuna);
-        $this->processForm($request, $form);
+    // public function newErantzunaAction(Request $request, $id)
+    // {
+    //     //	$this->denyAccessUnlessGranted('ROLE_ERANTZUN');
+    //     $user = $this->getUser();
+    // //     $user = $this->userRepo->findOneBy([
+    // //     'username' => 'admin',
+    // // ]);
+    //     $erantzuna = new Erantzuna();
+    //     $form = $this->createForm(ErantzunaFormType::class, $erantzuna);
+    //     $this->processForm($request, $form);
 
-        $em = $this->getDoctrine()->getManager();
-        $eskakizuna = $this->getDoctrine()
-            ->getRepository('App:Eskakizuna')
-            ->findOneBy([
-                'id' => $id,
-            ]);
+    //     $eskakizuna = $this->eskakizunaRepo->findOneBy([
+    //         'id' => $id,
+    //     ]);
 
-        if (null == $eskakizuna) {
-            throw $this->createNotFoundException('Ez da ezkakizuna aurkitu beraz ezin da erantzuna gehitu.');
-        }
+    //     if (null == $eskakizuna) {
+    //         throw $this->createNotFoundException('Ez da eskakizuna aurkitu beraz ezin da erantzuna gehitu.');
+    //     }
 
-        if (null != $eskakizuna) {
-            $erantzuna->setEskakizuna($eskakizuna);
-            $erantzuna->setNoiz(new DateTime());
-            $erantzuna->setErantzulea($user);
-            $em->persist($erantzuna);
-            $em->flush();
+    //     if (null != $eskakizuna) {
+    //         $erantzuna->setEskakizuna($eskakizuna);
+    //         $erantzuna->setNoiz(new DateTime());
+    //         $erantzuna->setErantzulea($user);
+    //         $this->em->persist($erantzuna);
+    //         $this->em->flush();
 
-            $response = $this->createApiResponse($erantzuna, 201);
-            $erantzunaUrl = $this->generateUrl(
-        'api_erantzuna_show',
-        ['id' => $erantzuna->getId()]
-        );
-            $response->headers->set('Location', $erantzunaUrl);
-
-            return $response;
-        }
-    }
+    //         $response = $this->createApiResponse($erantzuna, 201);
+    //         $erantzunaUrl = $this->generateUrl('api_erantzuna_show',[
+    //             'id' => $erantzuna->getId()
+    //         ]);
+    //         $response->headers->set('Location', $erantzunaUrl);
+    //         return $response;
+    //     }
+    // }
 
     /**
-     * @Route("/erantzuna/{$id}", name="api_erantzuna_show", methods={"GET"}, options={"expose" = true})
+     * @Route("/erantzuna/{id}", name="api_erantzuna_show", methods={"GET"}, options={"expose" = true})
      */
-    public function showErantzunaAction(Request $request, $id)
+    public function showErantzunaAction($id)
     {
-        $erantzuna = $this->getDoctrine()
-            ->getRepository('App:Erantzuna')
-            ->findOneBy([
-                'id' => $id,
-            ]);
-
+        $erantzuna = $this->erantzunaRepo->findOneBy([
+            'id' => $id,
+        ]);
         if (!$erantzuna) {
             throw $this->createNotFoundException('Ez da erantzunik aurkitu.');
         }
-
         $response = $this->createApiResponse($erantzuna, 200);
 
         return $response;
@@ -212,57 +167,56 @@ class ApiController extends AbstractController
     /**
      * @Route("/eskakizuna", name="api_eskakizuna_list", methods={"GET"}, options={"expose" = true} )
      */
-    public function listEskakizunaAction(Request $request)
-    {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        $authorization_checker = $this->get('security.authorization_checker');
-        $bilatzaileaForm->handleRequest($request);
+    // public function listEskakizunaAction(Request $request)
+    // {
+    //     /** @var User $user */
+    //     $user = $this->getUser();
+    //     $bilatzaileaForm->handleRequest($request);
 
-        if ($bilatzaileaForm->isSubmitted() && $bilatzaileaForm->isValid()) {
-            $criteria = $bilatzaileaForm->getData();
-            $criteria['role'] = null;
-            if ($authorization_checker->isGranted('ROLE_KANPOKO_TEKNIKARIA')) {
-                $criteria['enpresa'] = $user->getEnpresa();
-            }
-            if (array_key_exists('noiztik', $criteria)) {
-                $from = $criteria['noiztik'];
-                $criteria['noiztik'] = null;
-            }
-            if (array_key_exists('nora', $criteria)) {
-                $to = $criteria['nora'];
-                $criteria['nora'] = null;
-            }
-            $criteria_without_blanks = $this->_remove_blank_filters($criteria);
-            if ($criteria_without_blanks || null != $from || null != $to) {
-                $eskakizunak = $this->getDoctrine()
-            ->getRepository(Eskakizuna::class)
-            ->findAllFromTo($criteria_without_blanks, $from, $to);
-            } else {
-                $eskakizunak = $this->getDoctrine()
-            ->getRepository(Eskakizuna::class)
-            ->findAllOpen();
-            }
-            $response = $this->createApiResponse(['eskakizunak' => $eskakizunak], 200);
+    //     if ($bilatzaileaForm->isSubmitted() && $bilatzaileaForm->isValid()) {
+    //         $criteria = $bilatzaileaForm->getData();
+    //         $criteria['role'] = null;
+    //         if ($this->security->isGranted('ROLE_KANPOKO_TEKNIKARIA')) {
+    //             $criteria['enpresa'] = $user->getEnpresa();
+    //         }
+    //         if (array_key_exists('noiztik', $criteria)) {
+    //             $from = $criteria['noiztik'];
+    //             $criteria['noiztik'] = null;
+    //         }
+    //         if (array_key_exists('nora', $criteria)) {
+    //             $to = $criteria['nora'];
+    //             $criteria['nora'] = null;
+    //         }
+    //         $criteria_without_blanks = $this->_remove_blank_filters($criteria);
+    //         if ($criteria_without_blanks || null != $from || null != $to) {
+    //             $eskakizunak = $this->getDoctrine()
+    //         ->getRepository(Eskakizuna::class)
+    //         ->findAllFromTo($criteria_without_blanks, $from, $to);
+    //         } else {
+    //             $eskakizunak = $this->getDoctrine()
+    //         ->getRepository(Eskakizuna::class)
+    //         ->findAllOpen();
+    //         }
+    //         $response = $this->createApiResponse(['eskakizunak' => $eskakizunak], 200);
 
-            return $response;
-        }
+    //         return $response;
+    //     }
 
-        $em = $this->getDoctrine()->getManager();
-        if ($authorization_checker->isGranted('ROLE_KANPOKO_TEKNIKARIA')) {
-            $eskakizunak = $em->getRepository(Eskakizuna::class)->findBy([
-            'enpresa' => $user->getEnpresa(),
-            ]
-        );
-        } else {
-            $eskakizunak = $this->getDoctrine()
-            ->getRepository(Eskakizuna::class)
-            ->findAllOpen();
-        }
+    //     if ($authorization_checker->isGranted('ROLE_KANPOKO_TEKNIKARIA')) {
+    //         $eskakizunak = $this->em->getRepository(Eskakizuna::class)->findBy([
+    //         'enpresa' => $user->getEnpresa(),
+    //         ]
+    //     );
+    //     } else {
+    //         $eskakizunak = $this->getDoctrine()
+    //         ->getRepository(Eskakizuna::class)
+    //         ->findAllOpen();
+    //     }
 
-        $response = $this->createApiResponse(['eskakizunak' => $eskakizunak], 200);
+    //     $response = $this->createApiResponse(['eskakizunak' => $eskakizunak], 200);
 
-        return $response;
-    }
+    //     return $response;
+    // }
 
     /**
      * @Route("/batchclose", name="api_eskakizuna_batchclose", methods={"POST"})
@@ -271,16 +225,14 @@ class ApiController extends AbstractController
     {
         $ids = \json_decode($request->get('ids'));
 
-        $em = $this->getDoctrine()->getManager();
-
         foreach ($ids as $id) {
-            $eskakizuna = $em->getRepository(Eskakizuna::class)->find($id);
+            $eskakizuna = $this->em->getRepository(Eskakizuna::class)->find($id);
             $eskakizuna->setItxieraData(new \DateTime());
-            $egoera = $em->getRepository(Egoera::class)->find(Egoera::EGOERA_ITXIA);
+            $egoera = $this->em->getRepository(Egoera::class)->find(Egoera::EGOERA_ITXIA);
             $eskakizuna->setEgoera($egoera);
-            $em->persist($eskakizuna);
+            $this->em->persist($eskakizuna);
         }
-        $em->flush();
+        $this->em->flush();
 
         return $this->createApiResponse(
             ['Deskripzioa' => 'Eskakizun guztiak ondo itxi dira'], 200);
@@ -291,18 +243,6 @@ class ApiController extends AbstractController
         $data = json_decode($request->getContent(), true);
         $clearMissing = 'PATCH' != $request->getMethod();
         $form->submit($data, $clearMissing);
-    }
-
-    private function _remove_blank_filters($criteria)
-    {
-        $new_criteria = [];
-        foreach ($criteria as $key => $value) {
-            if (!empty($value)) {
-                $new_criteria[$key] = $value;
-            }
-        }
-
-        return $new_criteria;
     }
 
     protected function createApiResponse($data, $statusCode = 200)

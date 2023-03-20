@@ -20,7 +20,13 @@ security:
           entity:
               class: App\Entity\User
               property: username
-      
+
+  role_hierarchy:
+      ROLE_INFORMATZAILEA: ["ROLE_ERANTZUN"]
+      ROLE_ARDURADUNA: ["ROLE_ERANTZUN"]
+      ROLE_KANPOKO_TEKNIKARIA: ["ROLE_ERANTZUN"]
+      ROLE_ADMIN: ["ROLE_ERANTZUN"]
+
   firewalls:
       dev:
           pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -57,7 +63,7 @@ security:
     - { path: ^/(es|eu)/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/(es|eu)/request_reset, role: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/(es|eu)/reset, role: IS_AUTHENTICATED_ANONYMOUSLY }
-    - { path: ^/api, role: ROLE_USER }
+    - { path: ^/api, role: ROLE_ERANTZUN }
     - { path: ^/admin/, role: ROLE_ADMIN }
-    - { path: ^/eskakizuna/, role: ROLE_USER }
-    - { path: ^/, role: ROLE_USER }
+    - { path: ^/eskakizuna/, role: ROLE_ERANTZUN }
+    - { path: ^/, role: ROLE_ERANTZUN }

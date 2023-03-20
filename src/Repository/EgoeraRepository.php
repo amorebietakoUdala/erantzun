@@ -7,10 +7,10 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method User|null find($id, $lockMode = null, $lockVersion = null)
- * @method User|null findOneBy(array $criteria, array $orderBy = null)
- * @method User[]    findAll()
- * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Egoera|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Egoera|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Egoera[]    findAll()
+ * @method Egoera[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class EgoeraRepository extends ServiceEntityRepository
 {

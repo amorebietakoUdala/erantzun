@@ -14,7 +14,7 @@ class DefaultController extends AbstractController
 {
     /**
      * @Route("/", name="homepage")
-     * @IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_ERANTZUN")
      */
     public function homeAction(Request $request, LoggerInterface $logger)
     {

@@ -38,7 +38,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 
 /**
- * @isGranted("ROLE_USER");
+ * @isGranted("ROLE_ERANTZUN");
  * @Route("/{_locale}/eskakizuna")
  */
 class EskakizunaController extends AbstractController
@@ -543,15 +543,12 @@ class EskakizunaController extends AbstractController
 
     private function _mezuaBidali($title, $eskakizuna, $emailak)
     {
-        //dd($emailak);
         $email = (new Email())
             ->from($this->getParameter('mailer_from'))
             ->subject($title . ' ' . $eskakizuna->getId())
             ->html($this->renderView('/eskakizuna/mail.html.twig', [
                     'eskakizuna' => $eskakizuna,
-            ]),
-            'text/html'
-            );
+            ]));
         foreach ($emailak as $helbidea) {
             $email->addTo($helbidea);
         }

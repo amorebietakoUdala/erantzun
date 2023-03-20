@@ -47,7 +47,7 @@ class ErabiltzaileaController extends AbstractController
 
     /**
      * @Route("/{_locale}/profile", name="user_profile_action")
-     * @IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_ERANTZUN")
      */
     public function profleAction(Request $request, LoggerInterface $logger)
     {

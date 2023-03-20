@@ -33,7 +33,7 @@
 		{% block header %}
 			{{ include('default/header.html.twig') }}
 		{% endblock %}
-		{% if is_granted('ROLE_USER') %}
+		{% if is_granted('ROLE_ERANTZUN') %}
 			{% block menu %}
 				{{ include('default/menua.html.twig') }}
 			{% endblock %}
