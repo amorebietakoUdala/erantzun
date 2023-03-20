@@ -1,4 +1,4 @@
-import '../../scss/egoera/list.scss';
+import '../../css/egoera/list.css';
 
 import '../common/table-list.js';
 

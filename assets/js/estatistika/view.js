@@ -1,4 +1,4 @@
-import '../../scss/estatistika/view.scss';
+import '../../css/estatistika/view.css';
 
 import '../common/table-list.js';
 

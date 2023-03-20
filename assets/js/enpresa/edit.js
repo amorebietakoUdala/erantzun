@@ -1,4 +1,4 @@
-import '../../scss/enpresa/edit.scss';
+import '../../css/enpresa/edit.css';
 
 import $ from 'jquery';
 const routes = require('../../../public/js/fos_js_routes.json');

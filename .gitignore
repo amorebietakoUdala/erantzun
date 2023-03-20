@@ -18,3 +18,5 @@ yarn-error.log
 public/images/uploads/
 public/docs/
 erantzun.code-workspace
+
+/.yarn/

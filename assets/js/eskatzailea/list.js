@@ -1,4 +1,4 @@
-import '../../scss/eskatzailea/list.scss';
+import '../../css/eskatzailea/list.css';
 
 import '../common/table-list.js';
 

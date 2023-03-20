@@ -1,4 +1,4 @@
-import '../../scss/eskakizun_mota/list.scss';
+import '../../css/eskakizun_mota/list.css';
 
 import '../common/table-list.js';
 

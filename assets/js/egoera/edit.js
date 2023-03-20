@@ -1,4 +1,4 @@
-import '../../scss/egoera/edit.scss';
+import '../../css/egoera/edit.css';
 
 import $ from 'jquery';
 const routes = require('../../../public/js/fos_js_routes.json');

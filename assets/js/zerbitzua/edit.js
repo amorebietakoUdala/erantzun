@@ -1,4 +1,4 @@
-import '../../scss/zerbitzua/edit.scss';
+import '../../css/zerbitzua/edit.css';
 
 import $ from 'jquery';
 const routes = require('../../../public/js/fos_js_routes.json');

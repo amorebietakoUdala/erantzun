@@ -1,4 +1,4 @@
-import '../../scss/eskakizun_mota/edit.scss';
+import '../../css/eskakizun_mota/edit.css';
 
 import $ from 'jquery';
 const routes = require('../../../public/js/fos_js_routes.json');

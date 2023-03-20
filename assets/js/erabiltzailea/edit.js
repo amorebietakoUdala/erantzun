@@ -1,4 +1,4 @@
-import '../../scss/erabiltzailea/edit.scss';
+import '../../css/erabiltzailea/edit.css';
 
 import $ from 'jquery';
 const routes = require('../../../public/js/fos_js_routes.json');

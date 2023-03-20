@@ -1,3 +1,3 @@
-import '../../scss/zerbitzua/list.scss';
+import '../../css/zerbitzua/list.css';
 
 import '../common/table-list.js';

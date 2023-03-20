@@ -1,4 +1,4 @@
-import '../../scss/eskakizuna/list.scss';
+import '../../css/eskakizuna/list.css';
 
 import '../common/table-list.js';
 import '../common/datetime-picker-personalization';

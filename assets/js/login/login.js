@@ -1,1 +1,1 @@
-import '../../scss/login/login.scss';
+import '../../css/login/login.css';

@@ -74,8 +74,8 @@ Encore
     config.corejs = 3;
 })
 
-// enables Sass/SCSS support
-.enableSassLoader()
+// enables Sass/css support
+//.enableSassLoader()
 
 // uncomment if you use TypeScript
 //.enableTypeScriptLoader()

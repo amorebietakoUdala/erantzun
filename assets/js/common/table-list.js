@@ -1,8 +1,10 @@
-import '../../scss/common/table-list.scss';
+import '../../css/common/table-list.css';
 
-import 'bootstrap-table/dist/bootstrap-table.js';
-import 'tableexport.jquery.plugin';
-import 'bootstrap-table/dist/extensions/export/bootstrap-table-export'
+import $ from 'jquery';
+
+import 'bootstrap-table/dist/bootstrap-table';
+import 'tableexport.jquery.plugin/tableExport.min';
+import 'bootstrap-table/dist/extensions/export/bootstrap-table-export';
 import 'bootstrap-table/dist/locale/bootstrap-table-es-ES';
 import 'bootstrap-table/dist/locale/bootstrap-table-eu-EU';
 import Swal from 'sweetalert2';

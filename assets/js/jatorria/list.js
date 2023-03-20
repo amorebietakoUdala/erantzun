@@ -1,4 +1,4 @@
-import '../../scss/jatorria/list.scss';
+import '../../css/jatorria/list.css';
 
 import '../common/table-list.js';
 

@@ -1,4 +1,4 @@
-import '../../scss/jatorria/edit.scss';
+import '../../css/jatorria/edit.css';
 
 import $ from 'jquery';
 const routes = require('../../../public/js/fos_js_routes.json');
