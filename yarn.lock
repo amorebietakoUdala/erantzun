@@ -7325,7 +7325,7 @@ __metadata:
     popper.js: ^1.16.1
     regenerator-runtime: ^0.13.2
     sweetalert2: ^6.6.6
-    tableexport.jquery.plugin: ^1.9.4
+    tableexport.jquery.plugin: 1.26.0
     tinymce: ^4.6.5
     webpack-notifier: ^1.6.0
   languageName: unknown
@@ -8102,9 +8102,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tableexport.jquery.plugin@npm:^1.9.4":
-  version: 1.27.0
-  resolution: "tableexport.jquery.plugin@npm:1.27.0"
+"tableexport.jquery.plugin@npm:1.26.0":
+  version: 1.26.0
+  resolution: "tableexport.jquery.plugin@npm:1.26.0"
   dependencies:
     file-saver: ">=2.0.1"
     html2canvas: ">=1.0.0"
@@ -8112,7 +8112,7 @@ __metadata:
     jspdf: ">=2.0.0"
     pdfmake: ^0.1.71
     xlsx: ">=0.16.0"
-  checksum: 1c123b6437c63e54309b23fe935a6700682f58f7ce7bc885973290c54bc0eb8b3aec4925cd5b15f7c9f516f75ed8896610f3341661a3e20afbf62e3b7697a603
+  checksum: b417a9290aa9e309897310aa11549183bc5bb07d1a1232f1a716bd0feb83037c91801ad5416bd73ebe7c06c82c1427ff1341763aa7c7e85d96fee4ca9c814a75
   languageName: node
   linkType: hard
 

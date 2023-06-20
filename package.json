@@ -30,7 +30,7 @@
         "node-waves": "^0.7.6",
         "pc-bootstrap4-datetimepicker": "^4.17.51",
         "sweetalert2": "^6.6.6",
-        "tableexport.jquery.plugin": "^1.9.4",
+        "tableexport.jquery.plugin": "1.26.0",
         "tinymce": "^4.6.5"
     },
     "browserslist": [
