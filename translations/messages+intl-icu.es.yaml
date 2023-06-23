@@ -101,6 +101,7 @@ messages:
   erabiltzailea_gordea: "El usuario se ha guardado correctamente"
   erabiltzailea_ezabatua: "El usuario se ha borrado correctamente"
   erabiltzailea_ez_da_existitzen: "El usuario no existe"
+  erabiltzailea_hori_sortuta_dago_jadanik: "El usuario ya existe"
   username: "Usuario"
   email: "Email"
   lep: "Ppi"

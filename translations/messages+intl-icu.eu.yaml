@@ -101,6 +101,7 @@ messages:
   erabiltzailea_gordea: "Erabiltzailea ondo gorde da"
   erabiltzailea_ezabatua: "Erabiltzailea ondo ezabatu da"
   erabiltzailea_ez_da_existitzen: "Erabiltzailea ez da existitzen"
+  erabiltzailea_hori_sortuta_dago_jadanik: "Erabiltzaile hori jadanik existitzen da"
   username: "Erabiltzailea"
   email: "Emaila"
   lep: "Lep"

@@ -9,7 +9,6 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Entity\Eskakizuna;
 use App\Form\UserFormType;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,10 +16,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use AMREU\UserBundle\Doctrine\UserManager;
-use App\Entity\Erantzuna;
 use App\Form\PasswordResetRequestFormType;
 use App\Form\PasswordResetFormType;
+use App\Repository\ErantzunaRepository;
+use App\Repository\EskakizunaRepository;
+use App\Repository\UserRepository;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -37,12 +39,20 @@ class ErabiltzaileaController extends AbstractController
     private $translator;
     private MailerInterface $mailer;
     private $userManager;
+    private EntityManagerInterface $em;
+    private UserRepository $userRepo;
+    private EskakizunaRepository $eskakizunaRepo;
+    private ErantzunaRepository $erantzunaRepo;
 
-    public function __construct(TranslatorInterface $translator, MailerInterface $mailer, UserManager $userManager)
+    public function __construct(TranslatorInterface $translator, MailerInterface $mailer, UserManager $userManager, EntityManagerInterface $em, UserRepository $userRepo, EskakizunaRepository $eskakizunaRepo, ErantzunaRepository $erantzunaRepo)
     {
         $this->translator = $translator;
         $this->mailer = $mailer;
         $this->userManager = $userManager;
+        $this->em = $em;
+        $this->userRepo = $userRepo;
+        $this->eskakizunaRepo = $eskakizunaRepo;
+        $this->erantzunaRepo = $erantzunaRepo;
     }
 
     /**
@@ -51,10 +61,9 @@ class ErabiltzaileaController extends AbstractController
      */
     public function profleAction(Request $request, LoggerInterface $logger)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        $logger->info('Showing: ' . $user->getId());
+        $user = $this->getUser();
+        $logger->info('Showing: ' . $user->getUserIdentifier());
 
-        $em = $this->getDoctrine()->getManager();
         //        $user = $em->getRepository(User::class)->find($user->getId());
         $userForm = $this->createForm(UserFormType::class, $user, [
             'profile' => true,
@@ -67,9 +76,8 @@ class ErabiltzaileaController extends AbstractController
             $user = $userForm->getData();
             if ('nopassword' === $user->getPassword()) {
                 $user->setPassword($previousPassword);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($user);
-                $em->flush();
+                $this->em->persist($user);
+                $this->em->flush();
             } else {
                 // This updates and persist the new password, no need to persist it again.
                 $this->userManager->updatePassword($user, $user->getPassword());
@@ -99,8 +107,7 @@ class ErabiltzaileaController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
-            $em = $this->getDoctrine()->getManager();
-            $aurkitutako_erabiltzailea = $em->getRepository(User::class)->findOneBy([
+            $aurkitutako_erabiltzailea = $this->userRepo->findOneBy([
                 'username' => $user->getUsername(),
             ]);
 
@@ -110,10 +117,11 @@ class ErabiltzaileaController extends AbstractController
                 return $this->render('admin/erabiltzailea/new.html.twig', [
                     'erabiltzaileaForm' => $form->createView(),
                     'profile' => false,
+                    'password_change' => true,
                 ]);
             }
 
-            $aurkitutako_erabiltzailea = $em->getRepository(User::class)->findOneBy([
+            $aurkitutako_erabiltzailea = $this->userRepo->findOneBy([
                 'email' => $user->getEmail(),
             ]);
             if ($aurkitutako_erabiltzailea) {
@@ -122,6 +130,7 @@ class ErabiltzaileaController extends AbstractController
                 return $this->render('admin/erabiltzailea/new.html.twig', [
                     'erabiltzaileaForm' => $form->createView(),
                     'profile' => false,
+                    'password_change' => true,
                 ]);
             }
             // This persists the user no need to persist again
@@ -134,7 +143,7 @@ class ErabiltzaileaController extends AbstractController
         return $this->render('admin/erabiltzailea/new.html.twig', [
             'erabiltzaileaForm' => $form->createView(),
             'profile' => false,
-            'password_change' => true
+            'password_change' => true,
         ]);
     }
 
@@ -154,9 +163,8 @@ class ErabiltzaileaController extends AbstractController
             $user = $form->getData();
             if ('nopassword' === $user->getPassword()) {
                 $user->setPassword($previousPassword);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($user);
-                $em->flush();
+                $this->em->persist($user);
+                $this->em->flush();
             } else {
                 // This updates and persist the new password, no need to persist it again.
                 $this->userManager->updatePassword($user, $user->getPassword());
@@ -168,6 +176,7 @@ class ErabiltzaileaController extends AbstractController
         return $this->render('admin/erabiltzailea/edit.html.twig', [
             'erabiltzaileaForm' => $form->createView(),
             'profile' => false,
+            'password_change' => true,
         ]);
     }
 
@@ -183,8 +192,7 @@ class ErabiltzaileaController extends AbstractController
             return $this->redirectToRoute('admin_erabiltzailea_list');
         }
 
-        $em = $this->getDoctrine()->getManager();
-        $eskakizunak = $em->getRepository(Eskakizuna::class)->findOneBy([
+        $eskakizunak = $this->eskakizunaRepo->findOneBy([
             'norkInformatua' => $user,
         ]);
 
@@ -193,7 +201,7 @@ class ErabiltzaileaController extends AbstractController
 
             return $this->redirectToRoute('admin_erabiltzailea_list');
         } else {
-            $eskakizunakErreklamatu = $em->getRepository(Eskakizuna::class)->findOneBy([
+            $eskakizunakErreklamatu = $this->eskakizunaRepo->findOneBy([
                 'norkErreklamatua' => $user,
             ]);
             if ($eskakizunakErreklamatu) {
@@ -201,7 +209,7 @@ class ErabiltzaileaController extends AbstractController
 
                 return $this->redirectToRoute('admin_erabiltzailea_list');
             }
-            $erantzun = $em->getRepository(Erantzuna::class)->findOneBy([
+            $erantzun = $this->erantzunaRepo->findOneBy([
                 'erantzulea' => $user,
             ]);
             if ($erantzun) {
@@ -211,8 +219,8 @@ class ErabiltzaileaController extends AbstractController
             }
         }
 
-        $em->remove($user);
-        $em->flush();
+        $this->em->remove($user);
+        $this->em->flush();
 
         $this->addFlash('success', 'messages.erabiltzailea_ezabatua');
 
@@ -231,6 +239,7 @@ class ErabiltzaileaController extends AbstractController
         return $this->render('admin/erabiltzailea/show.html.twig', [
             'erabiltzaileaForm' => $form->createView(),
             'profile' => false,
+            'password_change' => false,
         ]);
     }
 
@@ -240,8 +249,7 @@ class ErabiltzaileaController extends AbstractController
      */
     public function listAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $erabiltzaileak = $em->getRepository('App:User')->findAll();
+        $erabiltzaileak = $this->em->getRepository('App:User')->findAll();
 
         return $this->render('admin/erabiltzailea/list.html.twig', [
             'erabiltzaileak' => $erabiltzaileak,
@@ -258,16 +266,15 @@ class ErabiltzaileaController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $em = $this->getDoctrine()->getManager();
             /** @var User $user */
-            $user = $em->getRepository(User::class)->findOneBy(['email' => $data['email']]);
+            $user = $this->userRepo->findOneBy(['email' => $data['email']]);
             $token = $this->generateToken();
             $user->setConfirmationToken($token);
             $user->setPasswordRequestedAt(new \DateTime());
             $this->sendResetPasswordMessage($user, $token);
 
-            $em->persist($user);
-            $em->flush();
+            $this->em->persist($user);
+            $this->em->flush();
             $this->addFlash('success', 'messages.sent');
 
             return $this->redirectToRoute('user_security_login_check');
@@ -303,9 +310,8 @@ class ErabiltzaileaController extends AbstractController
      */
     public function resetPassword(Request $request, string $token)
     {
-        $em = $this->getDoctrine()->getManager();
         /** @var User $user  */
-        $user = $em->getRepository(User::class)->findOneBy(['confirmationToken' => $token]);
+        $user = $this->userRepo->findOneBy(['confirmationToken' => $token]);
 
         if (null === $user) {
             $this->addFlash('error', 'messages.erabiltzailea_ez_da_existitzen');
