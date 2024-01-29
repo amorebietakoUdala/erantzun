@@ -7,56 +7,38 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity()
- * @ORM\Table(name="eranskinak")
- * @ORM\HasLifecycleCallbacks
- * @Vich\Uploadable
- */
+#[ORM\Table(name: 'eranskinak')]
+#[ORM\Entity]
+#[ORM\HasLifecycleCallbacks]
+#[Vich\Uploadable]
 class Eranskina
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $id;
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      *
-     * @Assert\File(maxSize="4096k",mimeTypes={"application/pdf"})
      * @Vich\UploadableField(mapping="eranskina", fileNameProperty="eranskinaName", size="eranskinaSize")
-     *
      * @var File
      */
+    #[Vich\UploadableField(mapping: "eranskina", fileNameProperty: "eranskinaName", size: "eranskinaSize")]
+    #[Assert\File(maxSize: '4096k', mimeTypes: ['application/pdf'])]
     private $eranskinaFile;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     *
-     * @var string
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $eranskinaName;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     *
-     * @var integer
-     */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $eranskinaSize;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     *
-     * @var \DateTime
-     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $updatedAt;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Eskakizuna", inversedBy="eranskinak" , cascade={"persist", "merge", "remove"} )
-     * @ORM\JoinColumn(nullable=true)
-     */
+    #[ORM\ManyToOne(targetEntity: Eskakizuna::class, inversedBy: 'eranskinak', cascade: ['persist', 'merge', 'remove'])]
+    #[ORM\JoinColumn(nullable: true)]
     private $eskakizuna;
 
     /**
@@ -66,7 +48,7 @@ class Eranskina
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
      *
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $eranskina
+     * @param File|UploadedFile $eranskina
      *
      * @return File
      */
@@ -153,12 +135,12 @@ class Eranskina
         $this->updatedAt = $updatedAt;
     }
 
-    public function addEskakizuna(Eskakizuna $eskakizuna)
-    {
-        if (!$this->eskakizuna->contains($eskakizuna)) {
-            $this->setEskakizuna($eskakizuna);
-        }
-    }
+    // public function addEskakizuna(Eskakizuna $eskakizuna)
+    // {
+    //     if (!$this->eskakizuna->contains($eskakizuna)) {
+    //         $this->setEskakizuna($eskakizuna);
+    //     }
+    // }
 
     public function setEskakizuna(Eskakizuna $eskakizuna = null)
     {

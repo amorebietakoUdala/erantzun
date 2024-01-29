@@ -1,6 +1,6 @@
 <header id="header" class="container-fluid">
 	<div class="row">
-		<div id="span-logo"><img class="logo" alt="Erantzunen logoa" src="{{ asset('images/erantzun_logo2.png') }}"></div>
+		<div id="span-logo"><img class="logo" alt="Erantzunen logoa" src="{{ asset('build/images/erantzun_logo2.png') }}"></div>
 		<div id="span-titulua" class="col-lg-8 col-sm-4">
 			<h1>{{ "messages.aplikazioa" | trans }}</h1>
 		</div>
@@ -12,7 +12,7 @@
 
 						<p class="user">{{ app.user.firstName }}<br><span class="text-uppercase profile">{{ app.user.roles[0] | trans }}</span>
 						</p>
-						<img class="dropdown avatar dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" alt="Erabiltzailea" src="{{ asset('images/default-avatar.png') }}">
+						<img class="dropdown avatar dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" alt="Erabiltzailea" src="{{ asset('build/images/default-avatar.png') }}">
 					</a>
 					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="perfil_menua">
 						<a class="dropdown-item" href="{{ path('user_profile_action') }}">{{ "messages.perfila" | trans | capitalize }}</a>

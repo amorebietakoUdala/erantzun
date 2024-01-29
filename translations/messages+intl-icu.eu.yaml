@@ -147,6 +147,7 @@ messages:
   pasahitza_ondo_aldatu_da: "Pasahitza ondo aldatu da"
   token_expired: "Pasahitza berrezartzeko epea gainditu da"
   ez_da_konpontzeko_enpresarik_hautatu: "Intzidentzia ez zaio zerbitzu edo enpresa bati ezarri. Ezin zaio erreklamazio email bat bidali. Bulego teknikora abisatzen zaio."
+  existingUserOnUsernameChange: "Erabiltzaile izena aldatu egin duzu baina erabiltzaile hori jadanik existitzen da. Beste erabiltzaile izen bat hautatu"
 
 btn:
   bidali: "Bidali"

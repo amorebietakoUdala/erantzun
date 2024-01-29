@@ -15,6 +15,7 @@ namespace App\Entity;
  * @author ibilbao
  */
 
+use App\Repository\EskakizunaRepository;
 use App\Entity\Erantzuna;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,166 +23,132 @@ use JMS\Serializer\Annotation as JMS;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-/**
-* @ORM\Entity(repositoryClass="App\Repository\EskakizunaRepository")
-* @ORM\Table(name="eskakizunak")
-* @JMS\ExclusionPolicy("all")
-*/
-class Eskakizuna {
+#[JMS\ExclusionPolicy("all")]
+#[ORM\Table(name: 'eskakizunak')]
+#[ORM\Entity(repositoryClass: EskakizunaRepository::class)]
+class Eskakizuna implements \Stringable {
 
-    /**
-    * @ORM\Id
-    * @ORM\GeneratedValue(strategy="AUTO")
-    * @ORM\Column(type="integer")
-    * @JMS\Expose()
-    */
+    #[JMS\Expose()]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-    * @ORM\ManyToOne (targetEntity="Eskatzailea", inversedBy="eskakizunak")
-    * @ORM\JoinColumn(nullable=false);
-    * @Assert\NotBlank()
-    * @JMS\MaxDepth(1)
-    * @JMS\Expose()
-    */
+    #[JMS\MaxDepth(1)]
+    #[JMS\Expose()]
+    #[ORM\ManyToOne(targetEntity: 'Eskatzailea', inversedBy: 'eskakizunak')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
     private $eskatzailea;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @JMS\Expose()
-     */
+    #[JMS\Expose()]
+    #[ORM\Column(type: 'string', nullable: true)]
     private $lep;
     
-    /**
-    * @ORM\ManyToOne (targetEntity="EskakizunMota")
-    * @Assert\NotBlank()
-    * @JMS\Expose()
-    */
+    #[JMS\Expose()]
+    #[ORM\ManyToOne(targetEntity: 'EskakizunMota')]
+    #[Assert\NotBlank]
     private $eskakizunMota;
 
-    /**
-    * @ORM\ManyToOne (targetEntity="Jatorria")
-    * @Assert\NotBlank()
-    * @JMS\Expose()
-    */
+    #[JMS\Expose()]
+    #[ORM\ManyToOne(targetEntity: 'Jatorria')]
+    #[Assert\NotBlank]
     private $jatorria;
 
-    /**
-     * @ORM\Column(type="text")
-     * @Assert\NotBlank()
-     * @JMS\Expose()
-     */
+    #[JMS\Expose()]
+    #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank]
     private $mamia;
  
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Assert\NotBlank()
-     * @JMS\Expose()
-     */
+    #[JMS\Expose()]
+    #[ORM\Column(type: 'string', nullable: true)]
+    #[Assert\NotBlank]
     private $kalea;
 
-    /**
-    * @ORM\ManyToOne (targetEntity="Enpresa", inversedBy="eskakizunak")
-    * @ORM\JoinColumn(nullable=true);
-    * @JMS\MaxDepth(1)
-    * @JMS\Expose()
-    */
+    #[JMS\MaxDepth(1)]
+    #[JMS\Expose()]
+    #[ORM\ManyToOne(targetEntity: 'Enpresa', inversedBy: 'eskakizunak')]
+    #[ORM\JoinColumn(nullable: true)]
     private $enpresa;
-    /**
-    * @ORM\ManyToOne (targetEntity="Zerbitzua", inversedBy="eskakizunak")
-    * @ORM\JoinColumn(nullable=true);
-    * @JMS\MaxDepth(1)
-    * @JMS\Expose()
-    */
+
+    #[JMS\MaxDepth(1)]
+    #[JMS\Expose()]
+    #[ORM\ManyToOne(targetEntity: 'Zerbitzua', inversedBy: 'eskakizunak')]
+    #[ORM\JoinColumn(nullable: true)]
     private $zerbitzua;
-    /**
-     * @ORM\Column(type="datetime")
-     * @Assert\NotBlank()
-     * @JMS\Expose()     
-    */
+
+    #[JMS\Expose()]
+    #[ORM\Column(type: 'datetime')]
+    #[Assert\NotBlank]
     private $noiz;
 
-    /**
-    * @ORM\Column(type="datetime", nullable=true)
-    * @JMS\Expose()     
-    */
+    #[JMS\Expose()]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $noizInformatua;
 
-    /**
-    * @ORM\Column(type="datetime", nullable=true)
-    * @JMS\Expose()     
-    */
+    #[JMS\Expose()]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $noizBidalia;
 
-    /**
-    * @ORM\Column(type="datetime", nullable=true)
-    * @JMS\Expose()     
-    */
+    #[JMS\Expose()]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $noizErreklamatua;
 
-    /**
-    * @ORM\ManyToOne (targetEntity="User")
-    * @ORM\JoinColumn(nullable=true);
-    * @JMS\MaxDepth(1)
-    * @JMS\Expose()
-    */
+    #[JMS\MaxDepth(1)]
+    #[JMS\Expose()]
+    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\JoinColumn(nullable: true)]
     private $norkErreklamatua;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     * @JMS\Expose()     
-     */
+    #[JMS\Expose()]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $itxieraData;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @JMS\Expose()     
-     */
+    #[JMS\Expose()]
+    #[ORM\Column(type: 'string', nullable: true)]
     private $argazkia;
 
     /**
-    * Eskakizun askok egoera bat daukate (OWNING SIDE)
-    * @ORM\ManyToOne (targetEntity="Egoera")
-    * @ORM\JoinColumn(nullable=true);
-    * @JMS\MaxDepth(1)
-    * @JMS\Expose()
-    */
+     * Eskakizun askok egoera bat daukate (OWNING SIDE)
+     */
+    #[JMS\MaxDepth(1)]
+    #[JMS\Expose()]
+    #[ORM\ManyToOne(targetEntity: 'Egoera')]
+    #[ORM\JoinColumn(nullable: true)]
     private $egoera;
 
     /**
-    * Eskakizun askok georeferentziazio bat daukate (OWNING SIDE)
-    * @ORM\ManyToOne (targetEntity="Georeferentziazioa", cascade={"persist", "remove"} )
-    * @ORM\JoinColumn(nullable=true);
-    * @JMS\MaxDepth(1)
-    * @JMS\Expose()
-    */
+     * Eskakizun askok georeferentziazio bat daukate (OWNING SIDE)
+     */
+    #[JMS\MaxDepth(1)]
+    #[JMS\Expose()]
+    #[ORM\ManyToOne(targetEntity: 'Georeferentziazioa', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true)]
     private $georeferentziazioa;
 
-    /**
-    * @ORM\OneToMany (targetEntity="Erantzuna", mappedBy="eskakizuna", cascade={"persist", "remove"})
-    * @ORM\JoinColumn(nullable=true);
-    */
+    #[ORM\OneToMany(targetEntity: 'Erantzuna', mappedBy: 'eskakizuna', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true)]
     private $erantzunak;
 
     /**
-    * Eskakizun askok informatzailea bat daukate
-    * @ORM\ManyToOne (targetEntity="User")
-    * @ORM\JoinColumn(nullable=true);
-    */
+     * Eskakizun askok informatzailea bat daukate
+     */
+    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\JoinColumn(nullable: true)]
     private $norkInformatua;
 
     /**
-    * @var \Doctrine\Common\Collections\Collection
-    * @ORM\OneToMany (targetEntity="Eranskina", mappedBy="eskakizuna", cascade={"persist", "remove"})
-    * @ORM\JoinColumn(nullable=true);
-    */
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    #[ORM\OneToMany(targetEntity: 'Eranskina', mappedBy: 'eskakizuna', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true)]
     private $eranskinak;
 
     /**
-    * @var \Doctrine\Common\Collections\Collection
-    * @ORM\OneToMany (targetEntity="Argazkia", mappedBy="eskakizuna", cascade={"persist", "remove"})
-    * @ORM\JoinColumn(nullable=true);
-    */
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    #[ORM\OneToMany(targetEntity: 'Argazkia', mappedBy: 'eskakizuna', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true)]
     private $argazkiak;
 
     public function __construct() {
@@ -239,7 +206,7 @@ class Eskakizuna {
     * @return ArrayCollection|Erantzunak[]
     */
     public function getErantzunak() {
-	return $this->erantzunak;
+	    return $this->erantzunak;
     }
     
     public function addErantzunak(Erantzuna $erantzuna)
@@ -388,7 +355,7 @@ class Eskakizuna {
 	return $this->argazkiak;
     }
 
-    public function __toString() {
+    public function __toString(): string {
 	return strval($this->getId());
     }
 }

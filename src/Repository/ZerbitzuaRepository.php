@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Enpresa;
 use App\Entity\Zerbitzua;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Zerbitzua|null find($id, $lockMode = null, $lockVersion = null)
@@ -35,11 +36,9 @@ class ZerbitzuaRepository extends ServiceEntityRepository
     {
 	$qb = $this->createQueryBuilder('qb');
         $qb->select('qb')
-//	    ->from('App\Entity\Zerbitzua', 'z')
-	    ->leftJoin('App\Entity\Enpresa','e',
+	    ->leftJoin(Enpresa::class,'e',
 		\Doctrine\ORM\Query\Expr\Join::WITH,
 		'qb.enpresa = e.id')
-//	    ->andWhere('e.aktibatua = true')
 	;
         if ( $criteria !== null )
         {

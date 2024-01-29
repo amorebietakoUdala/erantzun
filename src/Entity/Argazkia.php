@@ -8,77 +8,66 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Eskakizuna;
 
-/**
- * @ORM\Entity()
- * @ORM\Table(name="argazkiak")
- * @ORM\HasLifecycleCallbacks
- * @Vich\Uploadable
- */
+#[ORM\Table(name: 'argazkiak')]
+#[ORM\Entity]
+#[ORM\HasLifecycleCallbacks]
+#[Vich\Uploadable]
 class Argazkia {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $id;
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
-     * @Assert\File(maxSize="4096k",mimeTypes={"image/png", "image/jpeg", "image/pjpeg"})
      * @Vich\UploadableField(mapping="argazkia", fileNameProperty="imageName", size="imageSize")
-     * 
      * @var File
      */
+    #[Vich\UploadableField(mapping: "argazkia", fileNameProperty:"imageName", size: "imageSize")]
+    #[Assert\File(maxSize: '4096k', mimeTypes: ['image/png', 'image/jpeg', 'image/pjpeg'])]
     private $imageFile;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     *
      * @var string
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $imageName;
 
      /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
-     * @Assert\File(maxSize="4096k",mimeTypes={"image/png", "image/jpeg", "image/pjpeg"})
      * @Vich\UploadableField(mapping="thumbnail", fileNameProperty="imageThumbnail", size="imageThumbnailSize")
-     * 
      * @var File
      */
+    #[Vich\UploadableField(mapping: "thumbnail", fileNameProperty:"imageThumbnail", size: "imageThumbnailSize")]
+    #[Assert\File(maxSize: '4096k', mimeTypes: ['image/png', 'image/jpeg', 'image/pjpeg'])]
     private $imageThumbnailFile;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     *
      * @var string
      */
+    #[ORM\Column(type: 'string', length: 255)]
     private $imageThumbnail;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     *
      * @var integer
      */
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $imageThumbnailSize;
 
     /**
-     * @ORM\Column(type="integer")
-     *
      * @var integer
      */
+    #[ORM\Column(type: 'integer')]
     private $imageSize;
 
     /**
-     * @ORM\Column(type="datetime")
-     *
      * @var \DateTime
      */
+    #[ORM\Column(type: 'datetime')]
     private $updatedAt;
 
-    /**
-    * @ORM\ManyToOne(targetEntity="App\Entity\Eskakizuna", inversedBy="argazkiak" , cascade={"persist", "remove"} )
-    * @ORM\JoinColumn(nullable=false)
-    */
+    #[ORM\ManyToOne(targetEntity: Eskakizuna::class, inversedBy: 'argazkiak', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private $eskakizuna;
     
     
@@ -89,15 +78,15 @@ class Argazkia {
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
      *
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     * @param File|UploadedFile $image
      *
      * @return File
      */
-    public function setImageFile(File $image = null)
+    public function setImageFile(File $imageFile = null)
     {
-        $this->imageFile = $image;
+        $this->imageFile = $imageFile;
 
-        if ($image) {
+        if (null != $imageFile) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
             $this->updatedAt = new \DateTimeImmutable();
@@ -199,7 +188,7 @@ class Argazkia {
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
      *
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $imageThumbnailFile
+     * @param File|UploadedFile $imageThumbnailFile
      *
      * @return File
      */

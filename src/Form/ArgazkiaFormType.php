@@ -8,6 +8,7 @@
 
 namespace App\Form;
 
+use App\Entity\Argazkia;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,7 +22,7 @@ use Vich\UploaderBundle\Form\Type\VichImageType;
  */
 class ArgazkiaFormType extends AbstractType {
 
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+    public function buildForm(FormBuilderInterface $builder, array $options) :void {
 	$builder
 	    ->add('imageFile', VichImageType::class,[
 			'required' => false,
@@ -36,15 +37,12 @@ class ArgazkiaFormType extends AbstractType {
 	//		    new NotBlank(),
 		    ],
 	    ])
-//	    ->add('imageName',null,[
-//		'attr' => ['readonly' => true ],
-//	    ])
 	;
     }
 
-    public function configureOptions(OptionsResolver $resolver) {
+    public function configureOptions(OptionsResolver $resolver): void {
 	$resolver->setDefaults([
-	    'data_class' => '\App\Entity\Argazkia',
+	    'data_class' => Argazkia::class,
 	    'csrf_protection' => false,
 	]);
     }

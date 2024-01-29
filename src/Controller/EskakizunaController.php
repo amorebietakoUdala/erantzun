@@ -15,21 +15,27 @@ use App\Entity\User;
 use App\Entity\Erantzuna;
 use App\Entity\Eskakizuna;
 use App\Entity\Eskatzailea;
-use App\Entity\Georeferentziazioa;
-use App\Entity\Zerbitzua;
 use App\Form\EskakizunaBilatzaileaFormType;
 use App\Form\EskakizunaFormType;
+use App\Repository\EgoeraRepository;
+use App\Repository\EnpresaRepository;
+use App\Repository\EskakizunaRepository;
+use App\Repository\EskatzaileaRepository;
+use App\Repository\GeoreferentziazioaRepository;
+use App\Repository\UserRepository;
+use App\Repository\ZerbitzuaRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 use Imagick;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Description of EskakizunaController.
@@ -37,28 +43,34 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author ibilbao
  */
 
-/**
- * @isGranted("ROLE_ERANTZUN");
- * @Route("/{_locale}/eskakizuna")
- */
+#[IsGranted('ROLE_ERANTZUN')]
+#[Route(path: '/{_locale}/eskakizuna')]
 class EskakizunaController extends AbstractController
 {
     private $eskatzailea;
     private $eskakizuna;
     private $georeferentziazioa;
-    private MailerInterface $mailer;
 
-    public function __construct(MailerInterface $mailer)
+    public function __construct(
+        private readonly EntityManagerInterface $em, 
+        private readonly MailerInterface $mailer,
+        private readonly EskakizunaRepository $repo,
+        private readonly EskatzaileaRepository $eskatzaileaRepo,
+        private readonly EgoeraRepository $egoeraRepo,
+        private readonly GeoreferentziazioaRepository $georeferentziazioaRepo,
+        private readonly UserRepository $userRepo,
+        private readonly ZerbitzuaRepository $zerbitzuaRepo,
+        private readonly EnpresaRepository $enpresaRepo,
+    )
     {
-        $this->mailer = $mailer;
     }
-    /**
-     * @Route("/new", name="admin_eskakizuna_new", options={"expose" = true})
-     */
-    public function newAction(Request $request)
+
+    #[Route(path: '/new', name: 'admin_eskakizuna_new', options: ['expose' => true])]
+    public function new(Request $request)
     {
         $params = $request->query->all();
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        /** @var User $user */
+        $user = $this->getUser();        
         $form = $this->createForm(EskakizunaFormType::class, new Eskakizuna(), [
             'editatzen' => false,
             'role' => $user->getRoles(),
@@ -67,13 +79,12 @@ class EskakizunaController extends AbstractController
         // Only handles data on POST request
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
 
-            /* @var data \App\Entity\Eskakizuna */
+            /** @var Eskakizuna data */
             $this->eskakizuna = $form->getData();
             $this->eskatzailea = $this->eskakizuna->getEskatzailea();
             if (null !== $this->eskatzailea->getId()) {
-                $this->eskatzailea = $em->getRepository(Eskatzailea::class)->find($this->eskatzailea->getId());
+                $this->eskatzailea = $this->eskatzaileaRepo->find($this->eskatzailea->getId());
             } else {
                 $this->eskatzailea = new Eskatzailea();
             }
@@ -83,7 +94,7 @@ class EskakizunaController extends AbstractController
             $georeferentziazioa = $form->getData()->getGeoreferentziazioa();
             if (null !== $georeferentziazioa->getLongitudea() && null !== $georeferentziazioa->getLatitudea()) {
                 $this->eskakizuna->setGeoreferentziazioa($georeferentziazioa);
-                $em->persist($georeferentziazioa);
+                $this->em->persist($georeferentziazioa);
             }
             $zerbitzua = $this->eskakizuna->getZerbitzua();
             $zerbitzua_hautatua = false;
@@ -94,20 +105,20 @@ class EskakizunaController extends AbstractController
             $this->_argazkia_gorde_multi();
             $this->_eranskinak_gorde_multi();
             if (null != $this->eskakizuna->getZerbitzua()) {
-                $egoera = $em->getRepository(Egoera::class)->find(Egoera::EGOERA_BIDALIA);
+                $egoera = $this->egoeraRepo->find(Egoera::EGOERA_BIDALIA);
                 $this->eskakizuna->setEgoera($egoera);
                 $this->eskakizuna->setNoizBidalia(new DateTime());
             } else {
-                $egoera = $em->getRepository(Egoera::class)->find(Egoera::EGOERA_BIDALI_GABE);
+                $egoera = $this->egoeraRepo->find(Egoera::EGOERA_BIDALI_GABE);
                 $this->eskakizuna->setEgoera($egoera);
             }
 
             $this->eskakizuna->setNorkInformatua($user);
             $this->eskakizuna->setNoizInformatua(new DateTime());
 
-            $em->persist($this->eskatzailea);
-            $em->persist($this->eskakizuna);
-            $em->flush();
+            $this->em->persist($this->eskatzailea);
+            $this->em->persist($this->eskakizuna);
+            $this->em->flush();
             $mezuak_bidali = $this->getParameter('mezuak_bidali');
             if ($mezuak_bidali && $zerbitzua_hautatua) {
                 $title = 'Eskakizun Berria. Eskakizun zenbakia:';
@@ -115,7 +126,6 @@ class EskakizunaController extends AbstractController
             }
 
             $this->addFlash('success', 'messages.eskakizuna_gordea');
-
             return $this->redirectToRoute('admin_eskakizuna_new', $params);
         }
 
@@ -130,10 +140,8 @@ class EskakizunaController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/atzotik", name="admin_eskakizuna_atzotik", options={"expose" = true})
-     */
-    public function listAtzotikAction()
+    #[Route(path: '/atzotik', name: 'admin_eskakizuna_atzotik', options: ['expose' => true])]
+    public function listAtzotik()
     {
         $gaur = new DateTime();
 
@@ -143,10 +151,8 @@ class EskakizunaController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/azkenastea", name="admin_eskakizuna_azken_astea", options={"expose" = true})
-     */
-    public function listAzkenAsteaAction()
+    #[Route(path: '/azkenastea', name: 'admin_eskakizuna_azken_astea', options: ['expose' => true])]
+    public function listAzkenAstea()
     {
         $gaur = new DateTime();
 
@@ -156,22 +162,20 @@ class EskakizunaController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/", name="admin_eskakizuna_list", options={"expose" = true})
-     */
-    public function listAction(Request $request)
+    #[Route(path: '/', name: 'admin_eskakizuna_list', options: ['expose' => true])]
+    public function list(Request $request)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        $authorization_checker = $this->get('security.authorization_checker');
+        /** @var User $user */
+        $user = $this->getUser();
         $session = $request->getSession();
-        $this->_setPageSize($request);
+        $this->setPageSize($request);
 
         $azkenBilaketa = $this->_getAzkenBilaketa($request);
         $azkenBilaketa['role'] = $user->getRoles();
         $from = array_key_exists('noiztik', $azkenBilaketa) ? $azkenBilaketa['noiztik'] : null;
         $to = array_key_exists('nora', $azkenBilaketa) ? $azkenBilaketa['nora'] : null;
         $criteria = [];
-        if ($authorization_checker->isGranted('ROLE_KANPOKO_TEKNIKARIA') || $authorization_checker->isGranted('ROLE_INFORMATZAILEA')) {
+        if ($this->isGranted('ROLE_KANPOKO_TEKNIKARIA') || $this->isGranted('ROLE_INFORMATZAILEA')) {
             $azkenBilaketa['enpresa'] = $user->getEnpresa();
         }
 
@@ -191,14 +195,9 @@ class EskakizunaController extends AbstractController
         unset($criteria_without_blanks['locale']);
 
         if (array_key_exists('egoera', $criteria_without_blanks)) {
-            $eskakizunak = $this->getDoctrine()
-                ->getRepository(Eskakizuna::class)
-                ->findAllFromTo($criteria_without_blanks, $from, $to);
+            $eskakizunak = $this->repo->findAllFromTo($criteria_without_blanks, $from, $to);
         } else {
-            $eskakizunak = $this->getDoctrine()
-                ->getRepository(Eskakizuna::class)
-                ->findAllOpen($criteria_without_blanks, $from, $to);
-            //            dd($eskakizunak);
+            $eskakizunak = $this->repo->findAllOpen($criteria_without_blanks, $from, $to);
         }
 
         return $this->render('/eskakizuna/list.html.twig', [
@@ -207,12 +206,11 @@ class EskakizunaController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="admin_eskakizuna_edit")
-     */
-    public function editAction(Request $request, Eskakizuna $eskakizuna, LoggerInterface $logger)
+    #[Route(path: '/{id}/edit', name: 'admin_eskakizuna_edit')]
+    public function edit(Request $request, Eskakizuna $eskakizuna, LoggerInterface $logger)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        /** @var User $user */
+        $user = $this->getUser();        
         $form = $this->createForm(EskakizunaFormType::class, $eskakizuna, [
             'editatzen' => true,
             'role' => $user->getRoles(),
@@ -224,41 +222,37 @@ class EskakizunaController extends AbstractController
         $zerbitzuaAldatuAurretik = $eskakizuna->getZerbitzua();
         $erantzunak = $eskakizuna->getErantzunak();
         $eranskinakAldatuAurretik = new ArrayCollection();
-
         foreach ($eskakizuna->getEranskinak() as $eranskina) {
             $eranskinakAldatuAurretik->add($eranskina);
         }
 
         $argazkiakAldatuAurretik = new ArrayCollection();
-
         foreach ($eskakizuna->getArgazkiak() as $argazkia) {
             $argazkiakAldatuAurretik->add($argazkia);
         }
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $this->eskakizuna = $form->getData();
             $geo = $this->eskakizuna->getGeoreferentziazioa();
 
             if (null !== $geo && null !== $geo->getId()) {
-                $geo = $em->getRepository(Georeferentziazioa::class)->find($eskakizuna->getId());
+                $geo = $this->georeferentziazioaRepo->find($eskakizuna->getId());
             } elseif (null !== $geo->getLongitudea() && null !== $geo->getLatitudea()) {
                 $this->georeferentziazioa = $geo;
                 $this->eskakizuna->setGeoreferentziazioa($this->georeferentziazioa);
-                $em->persist($this->georeferentziazioa);
+                $this->em->persist($this->georeferentziazioa);
             }
 
             $logger->debug('Zerbitzua: ' . $eskakizuna->getZerbitzua());
             if (null !== $this->eskakizuna->getZerbitzua()) {
                 $zerbitzua = $this->eskakizuna->getZerbitzua();
                 $this->eskakizuna->setEnpresa($zerbitzua->getEnpresa());
-                if (
-                    Egoera::EGOERA_BIDALI_GABE === $this->eskakizuna->getEgoera()->getId()
+                if ( Egoera::EGOERA_BIDALI_GABE === $this->eskakizuna->getEgoera()->getId()
                     || null !== $zerbitzuaAldatuAurretik && ($zerbitzua->getId() !== $zerbitzuaAldatuAurretik->getId())
                 ) {
                     $logger->debug('Egoera: Bidali gabe edo zerbitzua aldatua');
-                    $egoera = $em->getRepository(Egoera::class)->find(Egoera::EGOERA_BIDALIA);
+                    $egoera = $this->egoeraRepo->find(Egoera::EGOERA_BIDALIA);
                     $this->eskakizuna->setEgoera($egoera);
                     $this->eskakizuna->setNoizBidalia(new DateTime());
                     $title = 'Eskakizuna esleitu egin zaizu. Eskakizun zenbakia:';
@@ -269,7 +263,7 @@ class EskakizunaController extends AbstractController
                     }
                 }
             } else {
-                $egoera = $em->getRepository(Egoera::class)->find(Egoera::EGOERA_BIDALI_GABE);
+                $egoera = $this->egoeraRepo->find(Egoera::EGOERA_BIDALI_GABE);
                 $this->eskakizuna->setEgoera($egoera);
             }
 
@@ -283,13 +277,13 @@ class EskakizunaController extends AbstractController
                 $erantzuna->setEskakizuna($this->eskakizuna);
                 $erantzuna->setErantzuna($erantzun_berria);
                 $erantzuna->setNoiz(new DateTime());
-                $em->persist($erantzuna);
+                $this->em->persist($erantzuna);
                 $erantzunak = $form_erantzunak->getValues();
                 array_push($erantzunak, $erantzuna);
             }
 
             if ($erantzunak_count > 0) {
-                $egoera = $em->getRepository(Egoera::class)->find(Egoera::EGOERA_ERANTZUNDA);
+                $egoera = $this->egoeraRepo->find(Egoera::EGOERA_ERANTZUNDA);
                 $this->eskakizuna->setEgoera($egoera);
             }
 
@@ -303,22 +297,20 @@ class EskakizunaController extends AbstractController
                 $erantzuna->setEskakizuna($this->eskakizuna);
                 $erantzuna->setErantzuna($erantzun_berria);
                 $erantzuna->setNoiz(new DateTime());
-                $em->persist($erantzuna);
+                $this->em->persist($erantzuna);
                 $erantzunak = $form_erantzunak->getValues();
                 array_push($erantzunak, $erantzuna);
             }
 
             if ($erantzunak_count > 0) {
-                $egoera = $em->getRepository(Egoera::class)->find(Egoera::EGOERA_ERANTZUNDA);
+                $egoera = $this->egoeraRepo->find(Egoera::EGOERA_ERANTZUNDA);
                 $this->eskakizuna->setEgoera($egoera);
             }
 
             $this->_argazkia_gorde_multi($argazkiakAldatuAurretik);
-
             $this->_eranskinak_gorde_multi($eranskinakAldatuAurretik);
-
-            $em->persist($this->eskakizuna);
-            $em->flush();
+            $this->em->persist($this->eskakizuna);
+            $this->em->flush();
 
             $this->addFlash('success', 'messages.eskakizuna_gordea');
 
@@ -335,37 +327,33 @@ class EskakizunaController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/delete", name="admin_eskakizuna_delete")
-     */
-    public function deleteAction(Request $request, $id)
+    #[Route(path: '/{id}/delete', name: 'admin_eskakizuna_delete')]
+    public function delete(Request $request, Eskakizuna $id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $eskakizuna = $em->getRepository(Eskakizuna::class)->findOneBy([
+        $eskakizuna = $this->repo->findOneBy([
             'id' => $id,
         ]);
 
         if (!$eskakizuna) {
             $this->addFlash('error', 'messages.eskakizuna_ez_da_existitzen');
 
-            return $this->listAction();
+            return $this->redirectToRoute('admin_');
         }
 
         $params = $request->query->all();
-        $em->remove($eskakizuna);
-        $em->flush();
+        $this->em->remove($eskakizuna);
+        $this->em->flush();
 
         $this->addFlash('success', 'messages.eskakizuna_ezabatua');
 
         return $this->redirectToRoute('admin_eskakizuna_list', $params);
     }
 
-    /**
-     * @Route("/{id}", name="admin_eskakizuna_show")
-     */
-    public function showAction(Request $request, Eskakizuna $eskakizuna, LoggerInterface $logger)
+    #[Route(path: '/{id}', name: 'admin_eskakizuna_show')]
+    public function show(Request $request, Eskakizuna $eskakizuna, LoggerInterface $logger)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        /** @var User $user */
+        $user = $this->getUser();
         $logger->debug('Show. Eskakizun zenbakia: ' . $eskakizuna->getId());
 
         $eskakizunaForm = $this->createForm(EskakizunaFormType::class, $eskakizuna, [
@@ -378,7 +366,6 @@ class EskakizunaController extends AbstractController
         $erantzunak = $eskakizuna->getErantzunak();
         $eskakizunaForm->handleRequest($request);
         if ($eskakizunaForm->isSubmitted() && $eskakizunaForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $this->eskakizuna = $eskakizunaForm->getData();
             $form_erantzunak = $this->eskakizuna->getErantzunak();
             $erantzunak_count = $form_erantzunak->count();
@@ -390,7 +377,7 @@ class EskakizunaController extends AbstractController
                 $erantzuna->setEskakizuna($this->eskakizuna);
                 $erantzuna->setErantzuna($erantzun_berria);
                 $erantzuna->setNoiz(new DateTime());
-                $em->persist($erantzuna);
+                $this->em->persist($erantzuna);
                 $erantzunak = $form_erantzunak->getValues();
                 array_push($erantzunak, $erantzuna);
             }
@@ -400,7 +387,7 @@ class EskakizunaController extends AbstractController
 
             // Zerbitzurik ez badauka ez dugu emailik bidaltzen.
             if ($erantzunak_count > 0 && null !== $this->eskakizuna->getZerbitzua()) {
-                $egoera = $em->getRepository(Egoera::class)->find(Egoera::EGOERA_ERANTZUNDA);
+                $egoera = $this->egoeraRepo->find(Egoera::EGOERA_ERANTZUNDA);
                 $this->eskakizuna->setEgoera($egoera);
                 $erantzundakoan_mezua_bidali = $this->getParameter('erantzundakoan_mezua_bidali');
                 $mezuak_bidali = $this->getParameter('mezuak_bidali');
@@ -409,8 +396,8 @@ class EskakizunaController extends AbstractController
                     $this->_mezuaBidaliArduradunei($title, $this->eskakizuna);
                 }
             }
-            $em->persist($this->eskakizuna);
-            $em->flush();
+            $this->em->persist($this->eskakizuna);
+            $this->em->flush();
 
             $this->addFlash('success', 'messages.erantzuna_gordea');
         }
@@ -425,10 +412,8 @@ class EskakizunaController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/close", name="admin_eskakizuna_close")
-     */
-    public function closeAction(Request $request, Eskakizuna $eskakizuna)
+    #[Route(path: '/{id}/close', name: 'admin_eskakizuna_close')]
+    public function close(Request $request, Eskakizuna $eskakizuna)
     {
         $params = $request->query->all();
         if (!$eskakizuna) {
@@ -436,26 +421,24 @@ class EskakizunaController extends AbstractController
             $this->redirectToRoute('admin_eskakizuna_list', $params);
         }
 
-        $em = $this->getDoctrine()->getManager();
         $eskakizuna->setItxieraData(new DateTime());
-        $egoera = $em->getRepository(Egoera::class)->find(Egoera::EGOERA_ITXIA);
+        $egoera = $this->egoeraRepo->find(Egoera::EGOERA_ITXIA);
         $eskakizuna->setEgoera($egoera);
 
-        $em->persist($eskakizuna);
-        $em->flush();
+        $this->em->persist($eskakizuna);
+        $this->em->flush();
 
         $this->addFlash('success', 'messages.eskakizuna_itxia');
 
         return $this->redirectToRoute('admin_eskakizuna_list', $params);
     }
 
-    /**
-     * @Route("/{id}/resend", name="admin_eskakizuna_resend")
-     */
-    public function resendAction(Request $request, Eskakizuna $eskakizuna)
+    #[Route(path: '/{id}/resend', name: 'admin_eskakizuna_resend')]
+    public function resend(Request $request, Eskakizuna $eskakizuna)
     {
         $params = $request->query->all();
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        /** @var User $user */
+        $user = $this->getUser();        
         if (!$eskakizuna) {
             $this->addFlash('error', 'messages.eskakizuna_ez_da_existitzen');
             return $this->redirectToRoute('admin_eskakizuna_list', $params);
@@ -467,14 +450,13 @@ class EskakizunaController extends AbstractController
             $this->_mezuaBidaliArduradunei($title,$eskakizuna);
             return $this->redirectToRoute('admin_eskakizuna_list', $params);
         }
-        $em = $this->getDoctrine()->getManager();
         $eskakizuna->setNoizErreklamatua(new DateTime());
         $eskakizuna->setNorkErreklamatua($user);
         $title = 'Eskakizuna erreklamatua. Eskakizun zenbakia: ';
         $this->_mezuaBidaliEnpresari($title, $eskakizuna, $eskakizuna->getEnpresa());
 
-        $em->persist($eskakizuna);
-        $em->flush();
+        $this->em->persist($eskakizuna);
+        $this->em->flush();
 
         $this->addFlash('success', 'messages.eskakizuna_erreklamatua');
 
@@ -518,8 +500,7 @@ class EskakizunaController extends AbstractController
 
     private function _mezuaBidaliArduradunei($title, $eskakizuna)
     {
-        $em = $this->getDoctrine()->getManager();
-        $jasotzaileak = $em->getRepository(User::class)->findByRole('ROLE_ARDURADUNA');
+        $jasotzaileak = $this->userRepo->findByRole('ROLE_ARDURADUNA');
         $emailak = [];
         foreach ($jasotzaileak as $jasotzailea) {
             $emailak[] = $jasotzailea->getEmail();
@@ -529,8 +510,7 @@ class EskakizunaController extends AbstractController
 
     private function _mezuaBidaliEnpresari($title, $eskakizuna, Enpresa $enpresa)
     {
-        $em = $this->getDoctrine()->getManager();
-        $jasotzaileak = $em->getRepository(User::class)->findBy([
+        $jasotzaileak = $this->userRepo->findBy([
             'enpresa' => $enpresa,
             'activated' => true,
         ]);
@@ -570,12 +550,11 @@ class EskakizunaController extends AbstractController
 
     private function _argazkia_gorde_multi($argazkiakAldatuAurretik = null)
     {
-        $em = $this->getDoctrine()->getManager();
         if (null !== $argazkiakAldatuAurretik) {
             foreach ($argazkiakAldatuAurretik as $aurrekoArgazkia) {
                 if (false === $this->eskakizuna->getArgazkiak()->contains($aurrekoArgazkia)) {
                     $this->eskakizuna->removeArgazkiak($aurrekoArgazkia);
-                    $em->remove($aurrekoArgazkia);
+                    $this->em->remove($aurrekoArgazkia);
                 }
             }
         }
@@ -584,11 +563,11 @@ class EskakizunaController extends AbstractController
             foreach ($argazkiak as $argaz) {
                 if (null !== $argaz->getImageName()) {
                     $argaz->setEskakizuna($this->eskakizuna);
-                    $em->persist($argaz);
+                    $this->em->persist($argaz);
                     $this->_argazkia_kudeatu($argaz);
                 } else {
                     $this->eskakizuna->getArgazkiak()->removeElement($argaz);
-                    $em->remove($argaz);
+                    $this->em->remove($argaz);
                 }
             }
         }
@@ -596,13 +575,12 @@ class EskakizunaController extends AbstractController
 
     private function _eranskinak_gorde_multi($eranskinakAldatuAurretik = null)
     {
-        $em = $this->getDoctrine()->getManager();
         /* Zaharretatik borratu direnak borratu */
         if (null != $eranskinakAldatuAurretik && !$eranskinakAldatuAurretik->isEmpty()) {
             foreach ($eranskinakAldatuAurretik as $aurrekoEranskina) {
                 if (false === $this->eskakizuna->getEranskinak()->contains($aurrekoEranskina)) {
                     $this->eskakizuna->removeEranskinak($aurrekoEranskina);
-                    $em->remove($aurrekoEranskina);
+                    $this->em->remove($aurrekoEranskina);
                 }
             }
         }
@@ -610,7 +588,7 @@ class EskakizunaController extends AbstractController
         $eranskinak = $this->eskakizuna->getEranskinak();
         if (!$eranskinak->isEmpty()) {
             foreach ($eranskinak as $erans) {
-                $em->persist($erans);
+                $this->em->persist($erans);
                 $erans->setEskakizuna($this->eskakizuna);
             }
         }
@@ -619,18 +597,17 @@ class EskakizunaController extends AbstractController
     private function _getAzkenBilaketa(Request $request)
     {
         $azkenBilaketa = null;
-        $em = $this->getDoctrine()->getManager();
         $session = $request->getSession();
         if (null != $session->get('azkenBilaketa')) {
             $azkenBilaketa = $session->get('azkenBilaketa');
             if (array_key_exists('egoera', $azkenBilaketa) && null != $azkenBilaketa['egoera']) {
-                $azkenBilaketa['egoera'] = $em->getRepository(Egoera::class)->find($azkenBilaketa['egoera']);
+                $azkenBilaketa['egoera'] = $this->egoeraRepo->find($azkenBilaketa['egoera']);
             }
             if (array_key_exists('zerbitzua', $azkenBilaketa) && null != $azkenBilaketa['zerbitzua']) {
-                $azkenBilaketa['zerbitzua'] = $em->getRepository(Zerbitzua::class)->find($azkenBilaketa['zerbitzua']);
+                $azkenBilaketa['zerbitzua'] = $this->zerbitzuaRepo->find($azkenBilaketa['zerbitzua']);
             }
             if (array_key_exists('enpresa', $azkenBilaketa) && null != $azkenBilaketa['enpresa']) {
-                $azkenBilaketa['enpresa'] = $em->getRepository(Enpresa::class)->find($azkenBilaketa['enpresa']);
+                $azkenBilaketa['enpresa'] = $this->enpresaRepo->find($azkenBilaketa['enpresa']);
             }
         } else {
             $azkenBilaketa['locale'] = $request->getLocale();
@@ -639,7 +616,7 @@ class EskakizunaController extends AbstractController
         return $this->_remove_blank_filters($azkenBilaketa);
     }
 
-    private function _setPageSize(Request $request)
+    private function setPageSize(Request $request)
     {
         $session = $request->getSession();
         if (null != $request->query->get('pageSize')) {

@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Erantzuna;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Erantzuna|null find($id, $lockMode = null, $lockVersion = null)

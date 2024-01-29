@@ -8,6 +8,7 @@
 
 namespace App\Entity;
 
+use App\Repository\EskakizunMotaRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,30 +17,22 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author ibilbao
  */
-/**
-* @ORM\Entity(repositoryClass="App\Repository\EskakizunMotaRepository")
-* @ORM\Table(name="eskakizunMotak")
-* 
-*/
 
-class EskakizunMota {
-        /**
-    * @ORM\Id
-    * @ORM\GeneratedValue(strategy="AUTO")
-    * @ORM\Column(type="integer")
-    */
+#[ORM\Table(name: 'eskakizunMotak')]
+#[ORM\Entity(repositoryClass: EskakizunMotaRepository::class)]
+#[ORM\Cache(region: 'app')]
+class EskakizunMota implements \Stringable {
+        #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-    * @ORM\Column(type="string")
-    * @Assert\NotBlank()
-    */
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank]
     private $deskripzioa_es;
 
-    /**
-    * @ORM\Column(type="string")
-    * @Assert\NotBlank()
-    */
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank]
     private $deskripzioa_eu;
 
     public function getId() {
@@ -78,7 +71,7 @@ class EskakizunMota {
 	$this->deskripzioa_eu = $deskripzioa_eu;
     }
 
-    public function __toString() {
-	return $this->getDeskripzioaEu();
+    public function __toString(): string {
+	return (string) $this->getDeskripzioaEu();
     }
 }

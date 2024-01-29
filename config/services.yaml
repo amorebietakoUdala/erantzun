@@ -2,68 +2,52 @@
 # Files in the packages/ subdirectory configure your dependencies.
 
 # Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
-
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-  app_name: erantzun
-  images_uploads_url: "/erantzun/images/uploads"
-  images_uploads_directory: "%kernel.project_dir%/public/images/uploads"
-  images_width: 640
-  images_thumb_width: 200
-  max_upload_image_size: 3M
-  erantzundakoan_mezua_bidali: false
-  mezuak_bidali: true
-  eranskinak_uploads_url: "/images/uploads"
-  eranskinak_uploads_directory: "%kernel.project_dir%/public/images/uploads"
-  mailer_from: "%env(MAILER_FROM)%"
-  googleMapsApiKey: "%env(GOOGLE_MAPS_API_KEY)%"
+    app_name: erantzun
+    images_uploads_url: "/erantzun/images/uploads"
+    images_uploads_directory: "%kernel.project_dir%/public/images/uploads"
+    images_width: 640
+    images_thumb_width: 200
+    max_upload_image_size: 3M
+    erantzundakoan_mezua_bidali: false
+    mezuak_bidali: true
+    eranskinak_uploads_url: "/images/uploads"
+    eranskinak_uploads_directory: "%kernel.project_dir%/public/images/uploads"
+    mailer_from: "%env(MAILER_FROM)%"
+    googleMapsApiKey: "%env(GOOGLE_MAPS_API_KEY)%"
 
 services:
-  # default configuration for services in *this* file
-  _defaults:
-    autowire: true # Automatically injects dependencies in your services.
-    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    Symfony\Component\Ldap\Ldap:
+        arguments: ['@Symfony\Component\Ldap\Adapter\ExtLdap\Adapter']
 
-  # makes classes in src/ available to be used as services
-  # this creates a service per class whose id is the fully-qualified class name
-  App\:
-    resource: "../src/"
-    exclude:
-      - "../src/DependencyInjection/"
-      - "../src/Entity/"
-      - "../src/Kernel.php"
-      - "../src/Tests/"
+    ldap:
+        alias: Symfony\Component\Ldap\Ldap
 
-  # controllers are imported separately to make sure services can be injected
-  # as action arguments even if you don't extend any base controller class
-  App\Controller\:
-    resource: "../src/Controller/"
-    tags: ["controller.service_arguments"]
+    Symfony\Component\Ldap\Adapter\ExtLdap\Adapter:
+        arguments:
+            - host: "%env(resolve:LDAP_HOST)%"
+              port: "%env(resolve:LDAP_PORT)%"
+              encryption: none
+              options:
+                  protocol_version: 3
+                  referrals: false
+
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            $allowedRoles: ["ROLE_ARDURADUNA", "ROLE_ADMIN", "ROLE_INFORMATZAILEA", "ROLE_KANPOKO_TEKNIKARIA"]
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-
-  Symfony\Component\Ldap\Ldap:
-    arguments: ['@Symfony\Component\Ldap\Adapter\ExtLdap\Adapter']
-
-  ldap:
-    alias: Symfony\Component\Ldap\Ldap
-
-  Symfony\Component\Ldap\Adapter\ExtLdap\Adapter:
-    arguments:
-      - host: "%env(LDAP_HOST)%"
-        port: "%env(LDAP_PORT)%"
-        encryption: none
-        options:
-          protocol_version: 3
-          referrals: false
-
-  App\Form\UserFormType:
-    arguments:
-      $allowedRoles:
-        [
-          "ROLE_ARDURADUNA",
-          "ROLE_ADMIN",
-          "ROLE_INFORMATZAILEA",
-          "ROLE_KANPOKO_TEKNIKARIA",
-        ]

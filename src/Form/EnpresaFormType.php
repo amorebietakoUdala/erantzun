@@ -8,6 +8,7 @@
 
 namespace App\Form;
 
+use App\Entity\Enpresa;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,21 +21,21 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
  */
 class EnpresaFormType extends AbstractType {
     
-    public function buildForm(FormBuilderInterface $builder, array $options) {
-	$builder
-	    ->add('izena')
-	    ->add('ordena')
+    public function buildForm(FormBuilderInterface $builder, array $options) :void {
+        $builder
+            ->add('izena')
+            ->add('ordena')
             ->add('aktibatua', CheckboxType::class,[
                 'data' => true,
                 'label' => 'messages.aktibatua',
                 'label_attr' => ['class' => 'checkbox-inline']                
             ])
-	;
+        ;
     }
 
-    public function configureOptions(OptionsResolver $resolver) {
+    public function configureOptions(OptionsResolver $resolver): void {
 	$resolver->setDefaults([
-	    'data_class' => '\App\Entity\Enpresa'
+	    'data_class' => Enpresa::class
 	]);
     }
 

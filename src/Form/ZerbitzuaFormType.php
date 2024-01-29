@@ -8,6 +8,7 @@
 
 namespace App\Form;
 
+use App\Entity\Zerbitzua;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,37 +24,27 @@ use App\Repository\EnpresaRepository;
  */
 class ZerbitzuaFormType extends AbstractType {
 
-    public function buildForm(FormBuilderInterface $builder, array $options) {
-	$builder
-	    ->add('izena_es')
-	    ->add('izena_eu')
-
-//	    ->add('arduraduna', EntityType::class, [
-//		'placeholder'=>'messages.hautatu_arduraduna',
-//		'class' => Erabiltzailea::class,
-//     		'query_builder' => function (ErabiltzaileaRepository $repo) {
-//		    return $repo->findAllOrderedByOrdena();
-//		}
-//		])
-            ->add('enpresa', EntityType::class, [
-		'placeholder'=>'messages.hautatu_enpresa',
-		'class' => Enpresa::class,
-     		'query_builder' => function (EnpresaRepository $repo) {
-		    return $repo->createOrderedQueryBuilder();
-		}
-		])
-	    ->add('ordena')
-	    ->add('aktibatua', CheckboxType::class, [
-					 'data' => true,
-					 'label' => 'messages.aktibatua',
-					 'label_attr' => ['class' => 'checkbox-inline']
-            ])
-	;
+    public function buildForm(FormBuilderInterface $builder, array $options) :void {
+		$builder
+			->add('izena_es')
+			->add('izena_eu')
+			->add('enpresa', EntityType::class, [
+				'placeholder'=>'messages.hautatu_enpresa',
+				'class' => Enpresa::class,
+				'query_builder' => fn(EnpresaRepository $repo) => $repo->createOrderedQueryBuilder()
+			])
+			->add('ordena')
+			->add('aktibatua', CheckboxType::class, [
+					'data' => true,
+					'label' => 'messages.aktibatua',
+					'label_attr' => ['class' => 'checkbox-inline']
+			])
+		;
     }
 
-    public function configureOptions(OptionsResolver $resolver) {
+    public function configureOptions(OptionsResolver $resolver): void {
 	$resolver->setDefaults([
-	    'data_class' => '\App\Entity\Zerbitzua'
+	    'data_class' => Zerbitzua::class
 	]);
     }
 

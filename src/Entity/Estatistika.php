@@ -8,67 +8,52 @@
 
 namespace App\Entity;
 
+use App\Repository\EstatistikaRepository;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\EstatistikaRepository", readOnly=true)
- * @ORM\Table(name="view_estatistikak")
- */
-class Estatistika
+#[ORM\Table(name: 'view_estatistikak')]
+#[ORM\Entity(repositoryClass: EstatistikaRepository::class, readOnly: true)]
+class Estatistika implements \Stringable
 {
-    /**
-     * @ORM\Id
-     * @ORM\ManyToOne (targetEntity="Enpresa")
-     * @ORM\JoinColumn(nullable=false);
-     * @JMS\MaxDepth(1)
-     * @JMS\Expose()
-     */
+    #[JMS\MaxDepth(1)]
+    #[JMS\Expose()]
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: 'Enpresa')]
+    #[ORM\JoinColumn(name: 'enpresa_id', referencedColumnName: 'id', nullable: false)]
     private $enpresa;
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="date", nullable=false)
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'date', nullable: false)]
     private $data;
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer", nullable=false)
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer', nullable: false)]
     private $urtea;
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer", nullable=false)
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer', nullable: false)]
     private $hilabetea;
 
-    /**
-     * @ORM\Column(type="integer", nullable=false , options={"default":0})
-     */
+    #[ORM\Column(type: 'integer', nullable: false, options: ['default' => 0])]
     private $eskakizunak;
-
-    private function __construct()
-    {
-    }
 
     public function getId()
     {
         return $this->enpresa->getId().$this->urtea;
     }
 
-    public function getEnpresa()
+    public function getEnpresa(): ?String
     {
         return $this->enpresa;
     }
 
-    public function getUrtea()
+    public function getUrtea(): int
     {
         return $this->urtea;
     }
 
-    public function getEskakizunak()
+    public function getEskakizunak(): int
     {
         return $this->eskakizunak;
     }
@@ -88,7 +73,7 @@ class Estatistika
         $this->eskakizunak = $eskakizunak;
     }
 
-    public function getHilabetea()
+    public function getHilabetea(): int
     {
         return $this->hilabetea;
     }
@@ -98,7 +83,7 @@ class Estatistika
         $this->hilabetea = $hilabetea;
     }
 
-    public function getData()
+    public function getData(): \DateTime
     {
         return $this->data;
     }
@@ -108,8 +93,15 @@ class Estatistika
         $this->data = $data;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getUrtea().''.$this->getHilabetea();
+    }
+
+    public function fill(array $data): self {
+        $this->enpresa = $data['enpresa'];
+        $this->urtea = $data['urtea'];
+        $this->eskakizunak = $data['eskakizunak'];
+        return $this;
     }
 }

@@ -27,7 +27,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
  */
 class EskakizunaBilatzaileaFormType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) :void
     {
         $locale = $options['data']['locale'];
         $builder
@@ -61,9 +61,7 @@ class EskakizunaBilatzaileaFormType extends AbstractType
             $builder->add('enpresa', EntityType::class, [
                 'placeholder' => 'messages.hautatu_enpresa',
                 'class' => Enpresa::class,
-                'query_builder' => function (EnpresaRepository $repo) {
-                    return $repo->createOrderedQueryBuilder();
-                },
+                'query_builder' => fn(EnpresaRepository $repo) => $repo->createOrderedQueryBuilder(),
             ])
             ->add('zerbitzua', EntityType::class, [
                     'placeholder' => 'messages.hautatu_zerbitzua',
@@ -76,9 +74,7 @@ class EskakizunaBilatzaileaFormType extends AbstractType
                             return $zerbitzua->getIzenaEu();
                         }
                     },
-                    'query_builder' => function (ZerbitzuaRepository $repo) {
-                        return $repo->createOrderedQueryBuilder();
-                    },
+                    'query_builder' => fn(ZerbitzuaRepository $repo) => $repo->createOrderedQueryBuilder(),
             ]);
         } else {
             $builder->add('zerbitzua', EntityType::class, [
@@ -95,7 +91,7 @@ class EskakizunaBilatzaileaFormType extends AbstractType
         }
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'csrf_protection' => true,

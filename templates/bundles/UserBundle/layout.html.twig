@@ -9,22 +9,7 @@
 {% block javascripts %}
 	{{ parent() }}
 	{{ encore_entry_script_tags('login') }}
-	{# <script type="text/javascript" language="javascript">
-		$(document).ready(function () {
-$("#atzera").click(function () {
-window.location.href = Routing.generate('admin_users_list');
-});
-});
-	</script> #}
 {% endblock %}
-
-{# {% block menu %}
-	{{ parent() }}
-{% endblock %}
-
-{% block message %}
-	{{ parent() }}
-{% endblock %} #}
 
 {% block body %}
 	{% block user_content %}{% endblock %}

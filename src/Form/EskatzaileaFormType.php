@@ -8,6 +8,7 @@
 
 namespace App\Form;
 
+use App\Entity\Eskatzailea;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -26,17 +27,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 class EskatzaileaFormType extends AbstractType
 {
 
-	public function buildForm(FormBuilderInterface $builder, array $options)
+	public function buildForm(FormBuilderInterface $builder, array $options) :void
 	{
 		$builder
 			->add('id', HiddenType::class)
-			->add('nan', TextType::class, [
-				// If I enable the following error message appears twice because it's validated here and in the entity. So I'll comment this for now.			 
-				// 'constraints' => [new Regex([
-				//     'pattern' => '/^\d{7,8}[a-z]$/i',
-				//     'message' => 'NANa ez da zuzena'
-				// ]),]
-			])
+			->add('nan', TextType::class)
 			->add('izena', TextType::class, [
 				'constraints' => [new NotBlank(),]
 			])
@@ -53,10 +48,10 @@ class EskatzaileaFormType extends AbstractType
 		;
 	}
 
-	public function configureOptions(OptionsResolver $resolver)
+	public function configureOptions(OptionsResolver $resolver): void
 	{
 		$resolver->setDefaults([
-			'data_class' => '\App\Entity\Eskatzailea'
+			'data_class' => Eskatzailea::class
 		]);
 	}
 }

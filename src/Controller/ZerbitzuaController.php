@@ -10,122 +10,90 @@ namespace App\Controller;
 
 use App\Entity\Zerbitzua;
 use App\Form\ZerbitzuaFormType;
+use App\Repository\ZerbitzuaRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Description of EnpresaController.
- *
- * @author ibilbao
-*/
-
- /**
- * @Route("/{_locale}/admin/zerbitzua")
- */
+#[Route(path: '/{_locale}/admin/zerbitzua')]
 class ZerbitzuaController extends AbstractController
 {
-    /**
-     * @Route("/new", name="admin_zerbitzua_new")
-     */
-    public function newAction(Request $request)
+    public function __construct (
+        private readonly EntityManagerInterface $em,
+        private readonly ZerbitzuaRepository $repo,
+    ) 
+    {
+    }
+
+    #[Route(path: '/new', name: 'admin_zerbitzua_new')]
+    public function new(Request $request)
     {
         $form = $this->createForm(ZerbitzuaFormType::class);
-
-        // Only handles data on POST request
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $zerbitzua = $form->getData();
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($zerbitzua);
-            $em->flush();
-
+            $this->em->persist($zerbitzua);
+            $this->em->flush();
             $this->addFlash('success', 'messages.zerbitzua_gordea');
-
             return $this->redirectToRoute('admin_zerbitzua_list');
         }
 
         return $this->render('admin/zerbitzua/new.html.twig', [
-        'zerbitzuaForm' => $form->createView(),
-    ]);
+            'zerbitzuaForm' => $form->createView(),
+        ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="admin_zerbitzua_edit")
-     */
-    public function editAction(Request $request, Zerbitzua $zerbitzua)
+    #[Route(path: '/{id}/edit', name: 'admin_zerbitzua_edit')]
+    public function edit(Request $request, Zerbitzua $zerbitzua)
     {
         $form = $this->createForm(ZerbitzuaFormType::class, $zerbitzua);
-
-        // Only handles data on POST request
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $zerbitzua = $form->getData();
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($zerbitzua);
-            $em->flush();
-
+            $this->em->persist($zerbitzua);
+            $this->em->flush();
             $this->addFlash('success', 'messages.zerbitzua_gordea');
-
             return $this->redirectToRoute('admin_zerbitzua_list');
         }
 
         return $this->render('admin/zerbitzua/edit.html.twig', [
-        'zerbitzuaForm' => $form->createView(),
-    ]);
+            'zerbitzuaForm' => $form->createView(),
+        ]);
     }
 
-    /**
-     * @Route("/{id}/delete", name="admin_zerbitzua_delete")
-     */
-    public function deleteAction(Request $request, $id)
+    #[Route(path: '/{id}/delete', name: 'admin_zerbitzua_delete')]
+    public function delete($id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $zerbitzua = $em->getRepository(Zerbitzua::class)->findOneBy([
-        'id' => $id,
-    ]);
-
+        $zerbitzua = $this->repo->find($id);
         if (!$zerbitzua) {
             $this->addFlash('error', 'messages.zerbitzua_ez_da_existitzen');
-
-            return $this->listAction();
+            return $this->redirectToRoute('admin_zerbitzua_list');
         }
-
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($zerbitzua);
-        $em->flush();
-
+        $this->em->remove($zerbitzua);
+        $this->em->flush();
         $this->addFlash('success', 'messages.zerbitzua_ezabatua');
-
         return $this->redirectToRoute('admin_zerbitzua_list');
     }
 
-    /**
-     * @Route("/{id}", name="admin_zerbitzua_show", options={"expose" = true}))
-     */
-    public function showAction(Zerbitzua $zerbitzua, LoggerInterface $logger)
+    #[Route(path: '/{id}', name: 'admin_zerbitzua_show', options: ['expose' => true])]
+    public function show(Zerbitzua $zerbitzua, LoggerInterface $logger)
     {
         $logger->debug('Showing: '.$zerbitzua->getId());
         $form = $this->createForm(ZerbitzuaFormType::class, $zerbitzua);
 
         return $this->render('admin/zerbitzua/show.html.twig', [
-        'zerbitzuaForm' => $form->createView(),
-    ]);
+            'zerbitzuaForm' => $form->createView(),
+        ]);
     }
 
-    /**
-     * @Route("/", name="admin_zerbitzua_list", options={"expose" = true})
-     */
-    public function listAction()
+    #[Route(path: '/', name: 'admin_zerbitzua_list', options: ['expose' => true])]
+    public function list()
     {
-        $em = $this->getDoctrine()->getManager();
-        $zerbitzuak = $em->getRepository('App:Zerbitzua')->findAll();
-
+        $zerbitzuak = $this->repo->findAll();
         return $this->render('admin/zerbitzua/list.html.twig', [
-        'zerbitzuak' => $zerbitzuak,
-    ]);
+            'zerbitzuak' => $zerbitzuak,
+        ]);
     }
 }
