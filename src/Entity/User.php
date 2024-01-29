@@ -26,7 +26,6 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[JMS\ExclusionPolicy('all')]
 #[ORM\Table(name: 'user')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Cache(region: 'app')]
 class User extends BaseUser implements AMREUserInterface,  PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]

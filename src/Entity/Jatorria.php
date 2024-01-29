@@ -20,7 +20,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'jatorriak')]
 #[ORM\Entity(repositoryClass: JatorriaRepository::class)]
-#[ORM\Cache(region: 'app')]
 class Jatorria implements \Stringable {
     
     #[ORM\Id]

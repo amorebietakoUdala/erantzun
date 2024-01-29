@@ -22,12 +22,6 @@ doctrine:
                 prefix: 'App\Entity'
                 alias: App
 
-        second_level_cache:
-            enabled: true
-            regions:
-                app:
-                    lifetime: 3600
-
 when@test:
     doctrine:
         dbal:

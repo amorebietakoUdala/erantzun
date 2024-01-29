@@ -21,7 +21,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'egoerak')]
 #[ORM\Entity(repositoryClass: EgoeraRepository::class)]
-#[ORM\Cache(region: 'app')]
 class Egoera implements \Stringable {
     final public const EGOERA_BIDALI_GABE = 1;
     final public const EGOERA_BIDALIA = 2;

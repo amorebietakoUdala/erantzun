@@ -20,7 +20,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'enpresak')]
 #[ORM\Entity(repositoryClass: EnpresaRepository::class)]
-#[ORM\Cache(region: 'app')]
 class Enpresa implements \Stringable {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
