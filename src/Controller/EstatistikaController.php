@@ -4,48 +4,43 @@ namespace App\Controller;
 
 use App\Entity\Estatistika;
 use App\Form\EstatistikaFormType;
+use App\Repository\EstatistikaRepository;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use SaadTazi\GChartBundle\DataTable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @Route("/{_locale}/estatistika")
- */
+#[Route(path: '/{_locale}/estatistika')]
 class EstatistikaController extends AbstractController
 {
-    private $translator;
-
-    public function __construct(TranslatorInterface $translator = null)
+    public function __construct(
+        private readonly EntityManagerInterface $em, 
+        private readonly EstatistikaRepository $estatistikaRepo,
+        private readonly ?TranslatorInterface $translator = null,
+    )
     {
-        $this->translator = $translator;
     }
 
-    /**
-     * @Route("/enpresako", name="admin_estatistika_enpresako")
-     */
-    public function estatistikaEnpresakoAction(Request $request)
+    #[Route(path: '/enpresako', name: 'admin_estatistika_enpresako')]
+    public function estatistikaEnpresako(Request $request)
     {
         $estatistikaForm = $this->createForm(EstatistikaFormType::class);
         $criteria = [
             'noiztik' => DateTime::createFromFormat('Y-m-d H:i:s', date('Y').'-01-01 00:00:00'),
         ];
-        $estatistikak = $this->getDoctrine()->getRepository(Estatistika::class)
-            ->findEskakizunKopuruakNoiztikNora($criteria);
+        $estatistikak = $this->estatistikaRepo->findEskakizunKopuruakNoiztikNora($criteria);
         $estatistikaForm->handleRequest($request);
 
         if ($estatistikaForm->isSubmitted() && $estatistikaForm->isValid()) {
             $criteria = $estatistikaForm->getData();
-            $estatistikak = $this->getDoctrine()->getRepository(Estatistika::class)
-                ->findEskakizunKopuruakNoiztikNora($criteria);
+            $estatistikak = $this->estatistikaRepo->findEskakizunKopuruakNoiztikNora($criteria);
         }
         $estatiskaBatuak = $this->sumValuesOfTheSameKey($estatistikak);
         $dataTable2 = $this->createDataTable($estatistikak);
-        $guztira = array_reduce($estatistikak, function ($i, $obj) {
-            return $i += $obj->getEskakizunak();
-        });
+        $guztira = array_reduce($estatistikak, fn($i, $obj) => $i += $obj->getEskakizunak());
         return $this->render('/estatistika/estatistika.html.twig', [
             'dataTable2' => $dataTable2->toArray(),
             'estatistikak' => $estatiskaBatuak,
@@ -77,7 +72,7 @@ class EstatistikaController extends AbstractController
 
     private function sumValuesOfTheSameKey($myArray)
     {
-        $sumArray = array();
+        $sumArray = [];
         $currentEnpresa = '';
         foreach ($myArray as $estatistika) {
             $currentEnpresa = $estatistika->getEnpresa();

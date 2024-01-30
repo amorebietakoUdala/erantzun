@@ -13,42 +13,30 @@ namespace App\Entity;
  *
  * @author ibilbao
  */
+use App\Repository\ErantzunaRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\User;
 
-/**
-* @ORM\Entity(repositoryClass="App\Repository\ErantzunaRepository")
-* @ORM\Table(name="erantzunak")
-*/
-
-class Erantzuna {
-    /**
-    * @ORM\Id
-    * @ORM\GeneratedValue(strategy="AUTO")
-    * @ORM\Column(type="integer")
-    */
+#[ORM\Table(name: 'erantzunak')]
+#[ORM\Entity(repositoryClass: ErantzunaRepository::class)]
+class Erantzuna implements \Stringable {
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-    * @ORM\Column(type="text")
-    */
+    #[ORM\Column(type: 'text')]
     private $erantzuna;
 
-    /**
-    * @ORM\Column(type="datetime")
-    * @Assert\NotBlank()
-    */
+    #[ORM\Column(type: 'datetime')]
+    #[Assert\NotBlank]
     private $noiz;
 
-    /**
-    * @ORM\ManyToOne(targetEntity="Eskakizuna", inversedBy="erantzunak")
-    */
+    #[ORM\ManyToOne(targetEntity: 'Eskakizuna', inversedBy: 'erantzunak')]
     private $eskakizuna;
 
-    /**
-    * @ORM\ManyToOne(targetEntity="User")
-    */
+    #[ORM\ManyToOne(targetEntity: 'User')]
     private $erantzulea;
 
     public function getId() {
@@ -91,7 +79,7 @@ class Erantzuna {
 	$this->noiz = $noiz;
     }
 
-    public function __toString() {
-	return $this->getErantzuna();
+    public function __toString(): string {
+	return (string) $this->getErantzuna();
     }
 }

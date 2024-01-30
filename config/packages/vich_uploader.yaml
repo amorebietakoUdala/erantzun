@@ -1,18 +1,15 @@
 vich_uploader:
     db_driver: orm
 
+    # metadata:
+    #     type: attribute
+
     mappings:
-        eranskina:
-            uri_prefix: '/%eranskinak_uploads_url%'
-            upload_destination: '%eranskinak_uploads_directory%'
-            namer: vich_uploader.namer_origname
-            inject_on_load:     true
-            delete_on_update:   false
-            delete_on_remove:   true
         argazkia:
-            uri_prefix: '%images_uploads_url%'
-            upload_destination: '%images_uploads_directory%'
-            namer: vich_uploader.namer_uniqid
-            inject_on_load:     true
-            delete_on_update:   false
-            delete_on_remove:   true
+            uri_prefix: /erantzun/images/uploads
+            upload_destination: "%kernel.project_dir%/public/images/uploads"
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+        eranskina:
+            uri_prefix: /images/uploads
+            upload_destination: "%kernel.project_dir%/public/images/uploads"
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer            

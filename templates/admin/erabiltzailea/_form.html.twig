@@ -17,12 +17,12 @@
 	<div class="md-form form-group form-sm">
 		<i class="fa fa-lock prefix"></i>
 		<label for="username">{{ 'user.new_password'|trans | capitalize}}</label>
-		{{ form_widget(erabiltzaileaForm.password.first, { 'attr': { 'class' : 'form-control', 'autocomplete': 'off'} }) }}
+		{{ form_widget(erabiltzaileaForm.password.first, { 'attr': { 'class' : 'form-control js-removeReadonly', 'autocomplete': 'off'} }) }}
 	</div>
 	<div class="md-form form-group form-sm">
 		<i class="fa fa-lock prefix"></i>
 		<label for="username">{{ 'user.repeat_new_password'|trans | capitalize}}</label>
-		{{ form_widget(erabiltzaileaForm.password.second, { 'attr': { 'class' : 'form-control', 'autocomplete': 'off'} }) }}
+		{{ form_widget(erabiltzaileaForm.password.second, { 'attr': { 'class' : 'form-control js-removeReadonly', 'autocomplete': 'off'} }) }}
 		{{ form_errors(erabiltzaileaForm.password) }}
 	</div>
 {% endif %}

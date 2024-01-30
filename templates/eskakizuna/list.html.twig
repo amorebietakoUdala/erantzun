@@ -19,47 +19,6 @@
 	{{ encore_entry_script_tags('eskakizuna_list') }}
 {% endblock %}
 
-{# {% block stylesheets %}
-	{{ parent() }}
-	<link href="{{ asset('bower_components/bootstrap-table/dist/bootstrap-table.css') }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset('css/bootstrap-table-personalization.css') }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset('bower_components/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet" type="text/css">
-	<link href="{{ asset('bower_components/jquery-ui/themes/base/jquery-ui.css') }}" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}">
-{% endblock %} #}
-
-{# {% block javascripts %}
-{{ parent() }}
-
-<script type="text/javascript" src="{{ asset('bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('bower_components/moment/min/moment.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('bower_components/sweetalert2/dist/sweetalert2.min.js') }}"></script>
-{% set agent = app.request.headers.get('user-agent') %}
-{% if 'Trident' in agent %}
-	<script type="text/javascript" src="{{ asset('bower_components/core.js/client/core.js') }}"></script>
-{% endif %}
-<script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
-
-{{ include('default/bootstrap_table_js.html.twig') }}
-{% if app.request.locale == 'es' %}
-	<script type="text/javascript" src="{{ asset('js/locales/bootstrap-datetimepicker.es.js') }}"></script>
-{% else %}
-	<script type="text/javascript" src="{{ asset('js/locales/bootstrap-datetimepicker.eu.js') }}"></script>
-{% endif %}
-
-<script type="text/javascript" src="{{ asset('js/eskakizunak/eskakizuna_list.js') }}"></script>
-
-{% endblock%} #}
-
-
-{% block header %}
-	{{ parent()}}
-{% endblock %}
-
-{% block menu %}
-	{{ parent() }}
-{% endblock %}
-
 {% block message %}
 	{% for msg in app.session.flashBag.get('success') %}
 		<div class="alert alert-success margin-top-13">
@@ -118,7 +77,7 @@
 							<th data-sortable="true">{{"messages.zerbitzua" | trans | capitalize}}</th>
 							<th data-sortable="true">{{"messages.noiz" | trans | capitalize}}</th>
 							<th data-field="erantzunak" data-sortable="true" data-visible="true">{{"messages.erantzunak" | trans | capitalize}}</th>
-							<th data-sortable="true">{{"messages.egun" | trans | capitalize}}</th>
+							<th data-sortable="true">{{"messages.egun" | trans | capitalize}}</th> 
 							<th data-field="aukerak">{{"messages.aukerak" | trans | capitalize}}</th>
 						</tr>
 					</thead>
@@ -207,10 +166,12 @@
 				</table>
 			</div>
 		</div>
-		<span id="btn-berria" class="pull-right">
-			<a href="#" class="btn btn-primary btn-rounded btn-fixed js-berria_botoia" data-url="{{ absolute_url(path ('admin_eskakizuna_new')) }}">
-				<i class="fa fa-plus"></i>
-			</a>
-		</span>
+		{% if is_granted("ROLE_INFORMATZAILEA") or is_granted("ROLE_ARDURADUNA") %}
+			<span id="btn-berria" class="pull-right">
+				<a href="#" class="btn btn-primary btn-rounded btn-fixed js-berria_botoia" data-url="{{ absolute_url(path ('admin_eskakizuna_new')) }}">
+					<i class="fa fa-plus"></i>
+				</a>
+			</span>
+		{% endif %}
 	</div>
 {% endblock %}

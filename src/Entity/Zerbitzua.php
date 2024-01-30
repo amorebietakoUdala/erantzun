@@ -13,56 +13,47 @@ namespace App\Entity;
  *
  * @author ibilbao
  */
+use App\Repository\ZerbitzuaRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\Enpresa;
 
-/**
-* @ORM\Entity(repositoryClass="App\Repository\ZerbitzuaRepository")
-* @ORM\Table(name="zerbitzuak")
-*/
-class Zerbitzua {
-    /**
-    * @ORM\Id
-    * @ORM\GeneratedValue(strategy="AUTO")
-    * @ORM\Column(type="integer")
-    */
+#[ORM\Table(name: 'zerbitzuak')]
+#[ORM\Entity(repositoryClass: ZerbitzuaRepository::class)]
+#[ORM\Cache(region: 'app')]
+class Zerbitzua implements \Stringable {
+    
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-    * @ORM\Column(type="string")
-    */
+    #[ORM\Column(type: 'string')]
     private $izena_es;
 
-    /**
-    * @ORM\Column(type="string")
-    */
+    #[ORM\Column(type: 'string')]
     private $izena_eu;
 
     /**
-    * Many Zerbitzuak have One Enpresa
-    * @ORM\ManyToOne (targetEntity="Enpresa", inversedBy="zerbitzuak")
-    * @ORM\JoinColumn(nullable=true);
-    */
+     * Many Zerbitzuak have One Enpresa
+     */
+    #[ORM\ManyToOne(targetEntity: 'Enpresa', inversedBy: 'zerbitzuak')]
+    #[ORM\JoinColumn(nullable: true)]
     private $enpresa;
 
-    /**
-    * @Assert\GreaterThan(0)
-    * @ORM\Column(type="integer", nullable=true)
-    */
+    #[Assert\GreaterThan(0)]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $ordena;
 
-    /**
-    * @ORM\Column(type="boolean", options={"default":true})
-    */
+    #[ORM\Column(type: 'boolean', options: ['default' => true])]
     private $aktibatua;
     
     /**
-    * Zerbitzu batek eskakizun asko dauzka
-    * @ORM\OneToMany (targetEntity="Eskakizuna", mappedBy="zerbitzua")
-    * @ORM\JoinColumn(nullable=true);
-    */
+     * Zerbitzu batek eskakizun asko dauzka
+     */
+    #[ORM\OneToMany(targetEntity: 'Eskakizuna', mappedBy: 'zerbitzua')]
+    #[ORM\JoinColumn(nullable: true)]
     private $eskakizunak;
     
 
@@ -122,8 +113,8 @@ class Zerbitzua {
 	$this->izena_es = $izena_es;
     }
 
-    public function __toString() {
-	return $this->getIzenaEu();
+    public function __toString(): string {
+	return (string) $this->getIzenaEu();
     }
 
     public function getAktibatua() {

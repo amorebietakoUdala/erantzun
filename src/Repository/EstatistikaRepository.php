@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Enpresa;
 use App\Entity\Estatistika;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Estatistika|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,6 +19,7 @@ class EstatistikaRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Estatistika::class);
     }
+
     /**
      * @return \Doctrine\DBAL\Query\QueryBuilder
      */
@@ -53,8 +55,6 @@ class EstatistikaRepository extends ServiceEntityRepository
     /**
      *  Return an Estatistika array of the resulting records from the criteria.
      *
-     * @param array $criteria
-     * @param mixed $orderBy
      * @param type  $limit
      * @param type  $offset
      *
@@ -67,33 +67,31 @@ class EstatistikaRepository extends ServiceEntityRepository
         $nora = (array_key_exists('nora', $criteria1)) ? $criteria1['nora'] : new \DateTime();
         $enpresa = (array_key_exists('enpresa', $criteria1)) ? $criteria1['enpresa'] : null;
 
-        $sql =
-            'SELECT e.urtea, enp.izena as enpresa, sum(e.eskakizunak) as eskakizunak
-             FROM view_estatistikak e 
-             LEFT JOIN enpresak enp on enpresa_id = enp.id';
+        $queryBuilder = $this->createQueryBuilder('e');
+
+        $queryBuilder->select('e.urtea, enp.izena as enpresa, SUM(e.eskakizunak) as eskakizunak')
+                     ->leftJoin(Enpresa::class, 'enp', 'WITH', 'e.enpresa = enp.id')
+                     ->groupBy('e.urtea, enp.izena');
+
         if (null !== $nora) {
-            $sql = $sql.' WHERE e.data <= :nora';
+            $queryBuilder->andWhere('e.data <= :nora')
+                            ->setParameter('nora', $nora);
         }
         if (null !== $noiztik) {
-            $sql = $sql.' AND e.data >= :noiztik';
+            $queryBuilder->andWhere('e.data >= :noiztik')
+                            ->setParameter('noiztik', $noiztik);
         }
         if (null !== $enpresa) {
-            $sql = $sql.' AND e.enpresa_id = :enpresa';
+            $queryBuilder->andWhere('e.enpresa_id = :enpresa')
+                            ->setParameter('enpresa', $enpresa);
         }
-        $sql = $sql.' GROUP BY e.urtea, enp.izena';
-        $conn = $this->getEntityManager()->getConnection();
-        $stmt = $conn->prepare($sql);
-        if (null !== $noiztik) {
-            $stmt->bindValue('noiztik', $noiztik->format('Y-m-d H:i'));
+
+        $resultsArray = $queryBuilder->getQuery()->getResult();
+        $results = [];
+        foreach($resultsArray as $resultData) {
+            $result = new Estatistika();
+            $results[] = $result->fill($resultData);
         }
-        if (null !== $nora) {
-            $stmt->bindValue('nora', $nora->format('Y-m-d H:i'));
-        }
-        if (null !== $enpresa) {
-            $stmt->bindValue('enpresa', $enpresa->getId());
-        }
-        $stmt->execute();
-        $result = $stmt->fetchAll(\PDO::FETCH_CLASS, 'App\Entity\Estatistika');
-        return $result;
+        return $results;
     }
 }

@@ -8,6 +8,7 @@
 
 namespace App\Form;
 
+use App\Entity\Georeferentziazioa;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,7 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
  */
 class GeoreferentziazioaFormType extends AbstractType {
 
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+    public function buildForm(FormBuilderInterface $builder, array $options) :void {
 	$builder
 	    ->add('longitudea',HiddenType::class)
 	    ->add('latitudea',HiddenType::class)
@@ -30,9 +31,9 @@ class GeoreferentziazioaFormType extends AbstractType {
 	;
     }
 
-    public function configureOptions(OptionsResolver $resolver) {
+    public function configureOptions(OptionsResolver $resolver): void {
 	$resolver->setDefaults([
-	    'data_class' => '\App\Entity\Georeferentziazioa'
+	    'data_class' => Georeferentziazioa::class
 	]);
     }
 

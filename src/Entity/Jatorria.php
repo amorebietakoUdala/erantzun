@@ -8,6 +8,7 @@
 
 namespace App\Entity;
 
+use App\Repository\JatorriaRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,30 +17,22 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author ibilbao
  */
-/**
-* @ORM\Entity(repositoryClass="App\Repository\JatorriaRepository")
-* @ORM\Table(name="jatorriak")
-* 
-*/
 
-class Jatorria {
-        /**
-    * @ORM\Id
-    * @ORM\GeneratedValue(strategy="AUTO")
-    * @ORM\Column(type="integer")
-    */
+#[ORM\Table(name: 'jatorriak')]
+#[ORM\Entity(repositoryClass: JatorriaRepository::class)]
+class Jatorria implements \Stringable {
+    
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-    * @ORM\Column(type="string")
-    * @Assert\NotBlank()
-    */
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank]
     private $deskripzioa_es;
 
-    /**
-    * @ORM\Column(type="string")
-    * @Assert\NotBlank()
-    */
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank]
     private $deskripzioa_eu;
 
     public function getId() {
@@ -78,8 +71,8 @@ class Jatorria {
 	$this->deskripzioa_eu = $deskripzioa_eu;
     }
 
-    public function __toString() {
-	return $this->getDeskripzioaEu();
+    public function __toString(): string {
+	return (string) $this->getDeskripzioaEu();
     }
 
 }

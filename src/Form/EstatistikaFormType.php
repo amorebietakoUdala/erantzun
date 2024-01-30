@@ -23,7 +23,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class EstatistikaFormType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) :void
     {
         $builder
         ->add('noiztik', DateTimeType::class, [
@@ -41,14 +41,12 @@ class EstatistikaFormType extends AbstractType
         ->add('enpresa', EntityType::class, [
             'placeholder' => 'messages.hautatu_enpresa',
             'class' => Enpresa::class,
-            'query_builder' => function (EnpresaRepository $repo) {
-                return $repo->createOrderedQueryBuilder();
-            },
+            'query_builder' => fn(EnpresaRepository $repo) => $repo->createOrderedQueryBuilder(),
         ])
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'csrf_protection' => true,

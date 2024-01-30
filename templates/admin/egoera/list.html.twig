@@ -12,10 +12,10 @@
 
 {% block javascripts %}
 	{{ parent() }}
-	{% set agent = app.request.headers.get('user-agent') %}
-	{% if 'Trident' in agent %}
+	{# {% set agent = app.request.headers.get('user-agent') %} #}
+	{# {% if 'Trident' in agent %}
 		<script type="text/javascript" src="{{ asset('bower_components/core.js/client/core.js') }}"></script>
-	{% endif %}
+	{% endif %} #}
 	{{ encore_entry_script_tags('egoera_list') }}
 {% endblock %}
 

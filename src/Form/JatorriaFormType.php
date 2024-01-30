@@ -8,6 +8,7 @@
 
 namespace App\Form;
 
+use App\Entity\Jatorria;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,16 +20,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class JatorriaFormType extends AbstractType {
 
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+    public function buildForm(FormBuilderInterface $builder, array $options) :void {
 	$builder
 	    ->add('deskripzioa_es')
 	    ->add('deskripzioa_eu')
 	;
     }
 
-    public function configureOptions(OptionsResolver $resolver) {
+    public function configureOptions(OptionsResolver $resolver): void {
 	$resolver->setDefaults([
-	    'data_class' => '\App\Entity\Jatorria'
+	    'data_class' => Jatorria::class
 	]);
     }
 

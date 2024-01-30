@@ -14,7 +14,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use AMREU\UserBundle\Doctrine\UserManager;
 use App\Form\PasswordResetRequestFormType;
 use App\Form\PasswordResetFormType;
@@ -26,6 +25,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Description of ErabiltzaileakController.
@@ -36,35 +36,25 @@ use Symfony\Component\Mime\Email;
 class ErabiltzaileaController extends AbstractController
 {
 
-    private $translator;
-    private MailerInterface $mailer;
-    private $userManager;
-    private EntityManagerInterface $em;
-    private UserRepository $userRepo;
-    private EskakizunaRepository $eskakizunaRepo;
-    private ErantzunaRepository $erantzunaRepo;
-
-    public function __construct(TranslatorInterface $translator, MailerInterface $mailer, UserManager $userManager, EntityManagerInterface $em, UserRepository $userRepo, EskakizunaRepository $eskakizunaRepo, ErantzunaRepository $erantzunaRepo)
+    public function __construct(
+        private readonly TranslatorInterface $translator, 
+        private readonly MailerInterface $mailer, 
+        private readonly UserManager $userManager, 
+        private readonly EntityManagerInterface $em, 
+        private readonly UserRepository $userRepo, 
+        private readonly EskakizunaRepository $eskakizunaRepo, 
+        private readonly ErantzunaRepository $erantzunaRepo
+    )
     {
-        $this->translator = $translator;
-        $this->mailer = $mailer;
-        $this->userManager = $userManager;
-        $this->em = $em;
-        $this->userRepo = $userRepo;
-        $this->eskakizunaRepo = $eskakizunaRepo;
-        $this->erantzunaRepo = $erantzunaRepo;
     }
 
-    /**
-     * @Route("/{_locale}/profile", name="user_profile_action")
-     * @IsGranted("ROLE_ERANTZUN")
-     */
-    public function profleAction(Request $request, LoggerInterface $logger)
+    #[IsGranted('ROLE_ERANTZUN')]
+    #[Route(path: '/{_locale}/profile', name: 'user_profile_action')]
+    public function profile(Request $request, LoggerInterface $logger)
     {
+        /** @var User $user */
         $user = $this->getUser();
         $logger->info('Showing: ' . $user->getUserIdentifier());
-
-        //        $user = $em->getRepository(User::class)->find($user->getId());
         $userForm = $this->createForm(UserFormType::class, $user, [
             'profile' => true,
             'password_change' => true
@@ -73,6 +63,7 @@ class ErabiltzaileaController extends AbstractController
         $previousPassword = $user->getPassword();
         $userForm->handleRequest($request);
         if ($userForm->isSubmitted() && $userForm->isValid()) {
+            /** @var User $user */
             $user = $userForm->getData();
             if ('nopassword' === $user->getPassword()) {
                 $user->setPassword($previousPassword);
@@ -93,17 +84,14 @@ class ErabiltzaileaController extends AbstractController
             'password_change' => true
         ]);
     }
-    /**
-     * @Route("/{_locale}/admin/erabiltzaileak/new", name="admin_erabiltzailea_new")
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function newAction(Request $request)
+
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route(path: '/{_locale}/admin/erabiltzaileak/new', name: 'admin_erabiltzailea_new')]
+    public function new(Request $request)
     {
         $form = $this->createForm(UserFormType::class, null, [
             'password_change' => true
         ]);
-
-        // Only handles data on POST request
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
@@ -147,20 +135,30 @@ class ErabiltzaileaController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{_locale}/admin/erabiltzaileak/{id}/edit", name="admin_erabiltzailea_edit")
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function editAction(Request $request, User $user)
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route(path: '/{_locale}/admin/erabiltzaileak/{id}/edit', name: 'admin_erabiltzailea_edit')]
+    public function edit(Request $request, User $user)
     {
         $form = $this->createForm(UserFormType::class, $user, [
             'password_change' => true
         ]);
-
+        $previousUsername = $user->getUsername();
         $previousPassword = $user->getPassword();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var User $user */
             $user = $form->getData();
+            if ($previousUsername !== $user->getUsername()) {
+                $existingUser = $this->userRepo->findOneBy(['username' => $user->getUsername()]);
+                if ( null !== $existingUser ) {
+                    $this->addFlash('error','messages.existingUserOnUsernameChange');
+                    return $this->render('admin/erabiltzailea/edit.html.twig', [
+                        'erabiltzaileaForm' => $form->createView(),
+                        'profile' => false,
+                        'password_change' => true,
+                    ]);                    
+                }
+            }
             if ('nopassword' === $user->getPassword()) {
                 $user->setPassword($previousPassword);
                 $this->em->persist($user);
@@ -180,11 +178,9 @@ class ErabiltzaileaController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{_locale}/admin/erabiltzaileak/{id}/delete", name="admin_erabiltzailea_delete")
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function deleteAction(Request $request, User $user)
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route(path: '/{_locale}/admin/erabiltzaileak/{id}/delete', name: 'admin_erabiltzailea_delete')]
+    public function delete(User $user)
     {
         if (!$user) {
             $this->addFlash('error', 'messages.erabiltzailea_ez_da_existitzen');
@@ -227,11 +223,9 @@ class ErabiltzaileaController extends AbstractController
         return $this->redirectToRoute('admin_erabiltzailea_list');
     }
 
-    /**
-     * @Route("/{_locale}/admin/erabiltzaileak/{id}", name="admin_erabiltzailea_show")
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function showAction(User $erabiltzailea, LoggerInterface $logger)
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route(path: '/{_locale}/admin/erabiltzaileak/{id}', name: 'admin_erabiltzailea_show')]
+    public function show(User $erabiltzailea, LoggerInterface $logger)
     {
         $logger->debug('Showing: ' . $erabiltzailea->getId());
         $form = $this->createForm(UserFormType::class, $erabiltzailea);
@@ -243,22 +237,18 @@ class ErabiltzaileaController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{_locale}/admin/erabiltzaileak/", name="admin_erabiltzailea_list", options={"expose" = true})
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function listAction()
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route(path: '/{_locale}/admin/erabiltzaileak/', name: 'admin_erabiltzailea_list', options: ['expose' => true])]
+    public function list()
     {
-        $erabiltzaileak = $this->em->getRepository('App:User')->findAll();
+        $erabiltzaileak = $this->userRepo->findAll();
 
         return $this->render('admin/erabiltzailea/list.html.twig', [
             'erabiltzaileak' => $erabiltzaileak,
         ]);
     }
 
-    /**
-     * @Route("/{_locale}/request_reset", name="user_request_reset_action")
-     */
+    #[Route(path: '/{_locale}/request_reset', name: 'user_request_reset_action')]
     public function resetRequest(Request $request)
     {
         $form = $this->createForm(PasswordResetRequestFormType::class);
@@ -305,9 +295,7 @@ class ErabiltzaileaController extends AbstractController
         return rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
     }
 
-    /**
-     * @Route("/{_locale}/reset/{token}", name="user_reset_password_action", methods={"GET","POST"})
-     */
+    #[Route(path: '/{_locale}/reset/{token}', name: 'user_reset_password_action', methods: ['GET', 'POST'])]
     public function resetPassword(Request $request, string $token)
     {
         /** @var User $user  */

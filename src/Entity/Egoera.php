@@ -14,37 +14,30 @@ namespace App\Entity;
  * @author ibilbao
  */
 
+use App\Repository\EgoeraRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
-* @ORM\Entity(repositoryClass="App\Repository\EgoeraRepository", readOnly=true)
-* @ORM\Table(name="egoerak")
-* 
-*/
-class Egoera {
-    const EGOERA_BIDALI_GABE = 1;
-    const EGOERA_BIDALIA = 2;
-    const EGOERA_ERANTZUNDA = 3;
-    const EGOERA_ITXIA = 4;
+
+#[ORM\Table(name: 'egoerak')]
+#[ORM\Entity(repositoryClass: EgoeraRepository::class)]
+class Egoera implements \Stringable {
+    final public const EGOERA_BIDALI_GABE = 1;
+    final public const EGOERA_BIDALIA = 2;
+    final public const EGOERA_ERANTZUNDA = 3;
+    final public const EGOERA_ITXIA = 4;
     
-    /**
-    * @ORM\Id
-    * @ORM\GeneratedValue(strategy="AUTO")
-    * @ORM\Column(type="integer")
-    */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-    * @ORM\Column(type="string")
-    * @Assert\NotBlank()
-    */
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank]
     private $deskripzioa_es;
 
-    /**
-    * @ORM\Column(type="string")
-    * @Assert\NotBlank()
-    */
+    #[ORM\Column(type: 'string')]
+    #[Assert\NotBlank]
     private $deskripzioa_eu;
 
     public function getId() {
@@ -87,8 +80,8 @@ class Egoera {
         $this->id = $id;
     }
 
-    public function __toString() {
-	return $this->getDeskripzioaEs();
+    public function __toString(): string {
+	return (string) $this->getDeskripzioaEs();
     }
 
     public function __toDebug() {

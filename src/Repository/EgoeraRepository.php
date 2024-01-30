@@ -4,7 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Egoera;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Egoera|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,12 +20,14 @@ class EgoeraRepository extends ServiceEntityRepository
         parent::__construct($registry, Egoera::class);
     }
 
-     /**
-     * @return \Doctrine\DBAL\Query\QueryBuilder
-     */
-    public function createOrderedQueryBuilder()
+    public function createOrderedQueryBuilder(): QueryBuilder
     {
         return $this->createQueryBuilder('egoera')
+            ->indexBy('egoera', 'egoera.id')
             ->orderBy('egoera.id', 'DESC');
+    }
+
+    public function findAllIndexedById() {
+        return $this->createOrderedQueryBuilder()->getQuery()->getResult();
     }
 }

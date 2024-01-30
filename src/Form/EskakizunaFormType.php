@@ -31,7 +31,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  */
 class EskakizunaFormType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options) :void
     {
         $readonly = $options['readonly'];
         $locale = $options['locale'];
@@ -62,9 +62,7 @@ class EskakizunaFormType extends AbstractType
                         return $zerbitzua->getIzenaEu();
                     }
                 },
-                'query_builder' => function (ZerbitzuaRepository $repo) {
-                    return $repo->createZerbitzuAktiboakQueryBuilder();
-                },
+                'query_builder' => fn(ZerbitzuaRepository $repo) => $repo->createZerbitzuAktiboakQueryBuilder(),
             ])
             // ->add('argazkia', FileType::class, [
             //     'disabled' => $readonly,
@@ -76,14 +74,10 @@ class EskakizunaFormType extends AbstractType
                 'label' => false,
                 'placeholder' => 'messages.hautatu_eskakizun_mota',
                 'class' => EskakizunMota::class,
-                'choice_attr' => function ($choice, $key, $value) {
-                    return ['class' => 'form-check-input ml-1'];
-                },
+                'choice_attr' => fn($choice, $key, $value) => ['class' => 'form-check-input ml-1'],
                 'expanded' => true,
                 'multiple' => false,
-                'query_builder' => function (EskakizunMotaRepository $repo) {
-                    return $repo->createOrderedQueryBuilder();
-                },
+                'query_builder' => fn(EskakizunMotaRepository $repo) => $repo->createOrderedQueryBuilder(),
                 'choice_label' => function (EskakizunMota $eskakizunMota) use ($locale) {
                     if ('es' === $locale) {
                         return $eskakizunMota->getDeskripzioaEs();
@@ -97,9 +91,7 @@ class EskakizunaFormType extends AbstractType
                 'label' => false,
                 'placeholder' => 'messages.hautatu_jatorria',
                 'class' => Jatorria::class,
-                'choice_attr' => function ($choice, $key, $value) {
-                    return ['class' => 'form-check-input'];
-                },
+                'choice_attr' => fn($choice, $key, $value) => ['class' => 'form-check-input'],
                 'expanded' => true,
                 'multiple' => false,
                 'choice_label' => function (Jatorria $jatorria) use ($locale) {
@@ -109,9 +101,7 @@ class EskakizunaFormType extends AbstractType
                         return $jatorria->getDeskripzioaEu();
                     }
                 },
-                'query_builder' => function (JatorriaRepository $repo) {
-                    return $repo->createOrderedQueryBuilder();
-                },
+                'query_builder' => fn(JatorriaRepository $repo) => $repo->createOrderedQueryBuilder(),
             ])
             ->add('georeferentziazioa', GeoreferentziazioaFormType::class, [
                 'label' => false,
@@ -160,12 +150,9 @@ class EskakizunaFormType extends AbstractType
         }
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setRequired(array(
-            'editatzen',
-            'role',
-        ));
+        $resolver->setRequired(['editatzen', 'role']);
         $resolver->setDefaults([
             'csrf_protection' => false,
             'readonly' => false,

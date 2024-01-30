@@ -13,59 +13,43 @@ namespace App\Entity;
  *
  * @author ibilbao
  */
+use App\Repository\EnpresaRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
-* @ORM\Entity(repositoryClass="App\Repository\EnpresaRepository")
-* @ORM\Table(name="enpresak")
-*/
-
-class Enpresa {
-    /**
-    * @ORM\Id
-    * @ORM\GeneratedValue(strategy="AUTO")
-    * @ORM\Column(type="integer")
-    */
+#[ORM\Table(name: 'enpresak')]
+#[ORM\Entity(repositoryClass: EnpresaRepository::class)]
+class Enpresa implements \Stringable {
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-    * @ORM\Column(type="string")
-    */
+    #[ORM\Column(type: 'string')]
     private $izena;
 
-    /**
-    * @ORM\OneToMany(targetEntity="Zerbitzua", mappedBy="enpresa")
-    * @ORM\OrderBy({"ordena"="DESC"})
-    */
+    #[ORM\OneToMany(targetEntity: 'Zerbitzua', mappedBy: 'enpresa')]
+    #[ORM\OrderBy(['ordena' => 'DESC'])]
     private $zerbitzuak;
 
-    /**
-    * @Assert\GreaterThan(0)
-    * @ORM\Column(type="integer", nullable=true)
-    */
+    #[Assert\GreaterThan(0)]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $ordena;
 
-    /**
-    * @ORM\Column(type="boolean", options={"default":true})
-    */
+    #[ORM\Column(type: 'boolean', options: ['default' => true])]
     private $aktibatua;
     
-    /**
-     * @ORM\OneToMany(targetEntity="User", mappedBy="enpresa")
-     * @ORM\OrderBy({"ordena"="DESC"})
-     */
+    #[ORM\OneToMany(targetEntity: 'User', mappedBy: 'enpresa')]
+    #[ORM\OrderBy(['ordena' => 'DESC'])]
     private $erabiltzaileak;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Eskakizuna", mappedBy="enpresa")
-     * @ORM\JoinColumn(nullable=true)
-     */
+    #[ORM\OneToMany(targetEntity: 'Eskakizuna', mappedBy: 'enpresa')]
+    #[ORM\JoinColumn(nullable: true)]
     private $eskakizunak;
 
     public function __construct() {
-	$this->erabiltzaileak = new ArrayCollection();
+	    $this->erabiltzaileak = new ArrayCollection();
         $this->zerbitzuak = new ArrayCollection();
         $this->eskakizunak = new ArrayCollection();
     }
@@ -118,8 +102,8 @@ class Enpresa {
     }
 
         
-    public function __toString() {
-	return $this->getIzena();
+    public function __toString(): string {
+	return (string) $this->getIzena();
     }
 
     /**

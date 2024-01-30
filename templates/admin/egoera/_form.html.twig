@@ -7,22 +7,22 @@
 {{ form_errors(egoeraForm) }}
 
     <div class="md-form form-group form-sm">
-	<i class="fa fa-user prefix"></i>
-	<label for="deskripzioa_es">{{ 'messages.deskripzioa_es' | trans | capitalize }}</label>
-	{{ form_widget(egoeraForm.deskripzioa_es, { 'attr': { 'class' : 'form-control' } }) }}
-	{{ form_errors(egoeraForm.deskripzioa_es) }}
+		<i class="fa fa-user prefix"></i>
+		<label for="deskripzioa_es">{{ 'messages.deskripzioa_es' | trans | capitalize }}</label>
+		{{ form_widget(egoeraForm.deskripzioa_es, { 'attr': { 'class' : 'form-control' } }) }}
+		{{ form_errors(egoeraForm.deskripzioa_es) }}
     </div>
     <div class="md-form form-group form-sm">
-	<i class="fa fa-user prefix"></i>
-	<label for="izena_eu">{{ 'messages.deskripzioa_eu' | trans | capitalize }}</label>
-	{{ form_widget(egoeraForm.deskripzioa_eu, { 'attr': { 'class' : 'form-control' } }) }}
-	{{ form_errors(egoeraForm.deskripzioa_eu) }}
+		<i class="fa fa-user prefix"></i>
+		<label for="izena_eu">{{ 'messages.deskripzioa_eu' | trans | capitalize }}</label>
+		{{ form_widget(egoeraForm.deskripzioa_eu, { 'attr': { 'class' : 'form-control' } }) }}
+		{{ form_errors(egoeraForm.deskripzioa_eu) }}
     </div>
     <div class="row md-form form-group form-sm col">
-	{% if (gordeBotoia == true) %}
-	    <button class="col-3 btn btn-primary form-control mr-2" type="submit" formnovalidate><i class="fa fa-save left"></i>{{"messages.gorde" | trans | capitalize}}</button>
-	{% endif %}
-	<button id="atzera" class="col-3 btn btn-primary form-control" type="button"><i class="fa fa-arrow-circle-left left"></i>{{"messages.utzi" | trans | capitalize}}</button>
+		{% if (gordeBotoia == true) %}
+			<button class="col-3 btn btn-primary form-control mr-2" type="submit" formnovalidate><i class="fa fa-save left"></i>{{"messages.gorde" | trans | capitalize}}</button>
+		{% endif %}
+		<button id="atzera" class="col-3 btn btn-primary form-control" type="button"><i class="fa fa-arrow-circle-left left"></i>{{"messages.utzi" | trans | capitalize}}</button>
     </div>
 
 {{ form_end(egoeraForm) }}
