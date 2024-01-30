@@ -118,7 +118,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/amorebietakoUdala/SaadTaziGChartBundle.git"
+            "url": "https://github.com/saadtazi/SaadTaziGChartBundle.git"
         }
     ]
 }
