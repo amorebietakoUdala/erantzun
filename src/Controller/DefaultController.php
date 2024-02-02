@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefaultController extends AbstractController
 {
     #[IsGranted('ROLE_ERANTZUN')]
-    #[Route(path: '/', name: 'homepage')]
+    #[Route(path: '/', name: 'app_home')]
     public function home(Request $request, LoggerInterface $logger)
     {
         /** @var User $user */

@@ -75,7 +75,7 @@ class ErabiltzaileaController extends AbstractController
             }
             $this->addFlash('success', 'messages.erabiltzailea_gordea');
 
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('app_home');
         }
 
         return $this->render('/admin/erabiltzailea/edit.html.twig', [
@@ -303,7 +303,7 @@ class ErabiltzaileaController extends AbstractController
 
         if (null === $user) {
             $this->addFlash('error', 'messages.erabiltzailea_ez_da_existitzen');
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('app_home');
         }
 
         $datediff = date_diff(new \DateTime(),  $user->getPasswordRequestedAt());

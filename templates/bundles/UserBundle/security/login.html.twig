@@ -1,0 +1,7 @@
+{% extends "@User/layout.html.twig" %}
+
+{% block menu %}{% endblock menu %}
+
+{% block user_content %}
+    {{ include('@User/security/login_content.html.twig') }}
+{% endblock user_content %}

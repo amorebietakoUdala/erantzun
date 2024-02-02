@@ -12,4 +12,4 @@ user:
   ldap_users_dn: "%env(LDAP_USERS_DN)%"
   ldap_users_filter: "(&(objectclass=Person)(%env(LDAP_USERS_UUID)%={username}))"
   ldap_users_uuid: "%env(LDAP_USERS_UUID)%"
-  successPath: homepage
+  successPath: app_home

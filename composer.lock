@@ -95,17 +95,17 @@
                 {
                     "name": "Nils Adermann",
                     "email": "naderman@naderman.de",
-                    "homepage": "http://www.naderman.de"
+                    "app_home": "http://www.naderman.de"
                 },
                 {
                     "name": "Jordi Boggiano",
                     "email": "j.boggiano@seld.be",
-                    "homepage": "http://seld.be"
+                    "app_home": "http://seld.be"
                 },
                 {
                     "name": "Rob Bast",
                     "email": "rob.bast@gmail.com",
-                    "homepage": "http://robbast.nl"
+                    "app_home": "http://robbast.nl"
                 }
             ],
             "description": "Semver library that offers utilities, version constraint parsing and validation.",
@@ -200,7 +200,7 @@
                 }
             ],
             "description": "Docblock Annotations Parser",
-            "homepage": "https://www.doctrine-project.org/projects/annotations.html",
+            "app_home": "https://www.doctrine-project.org/projects/annotations.html",
             "keywords": [
                 "annotations",
                 "docblock",
@@ -273,7 +273,7 @@
                 }
             ],
             "description": "PHP Doctrine Cache library is a popular cache implementation that supports many different drivers such as redis, memcache, apc, mongodb and others.",
-            "homepage": "https://www.doctrine-project.org/projects/cache.html",
+            "app_home": "https://www.doctrine-project.org/projects/cache.html",
             "keywords": [
                 "abstraction",
                 "apcu",
@@ -364,7 +364,7 @@
                 }
             ],
             "description": "PHP Doctrine Collections library that adds additional functionality on top of PHP arrays.",
-            "homepage": "https://www.doctrine-project.org/projects/collections.html",
+            "app_home": "https://www.doctrine-project.org/projects/collections.html",
             "keywords": [
                 "array",
                 "collections",
@@ -456,7 +456,7 @@
                 }
             ],
             "description": "PHP Doctrine Common project is a library that provides additional functionality that other Doctrine projects depend on such as better reflection support, proxies and much more.",
-            "homepage": "https://www.doctrine-project.org/projects/common.html",
+            "app_home": "https://www.doctrine-project.org/projects/common.html",
             "keywords": [
                 "common",
                 "doctrine",
@@ -554,7 +554,7 @@
                 }
             ],
             "description": "Powerful PHP database abstraction layer (DBAL) with many features for database schema introspection and management.",
-            "homepage": "https://www.doctrine-project.org/projects/dbal.html",
+            "app_home": "https://www.doctrine-project.org/projects/dbal.html",
             "keywords": [
                 "abstraction",
                 "database",
@@ -635,7 +635,7 @@
                 "MIT"
             ],
             "description": "A small layer on top of trigger_error(E_USER_DEPRECATED) or PSR-3 logging with options to disable all deprecations or selectively for packages.",
-            "homepage": "https://www.doctrine-project.org/",
+            "app_home": "https://www.doctrine-project.org/",
             "support": {
                 "issues": "https://github.com/doctrine/deprecations/issues",
                 "source": "https://github.com/doctrine/deprecations/tree/1.1.2"
@@ -726,15 +726,15 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 },
                 {
                     "name": "Doctrine Project",
-                    "homepage": "https://www.doctrine-project.org/"
+                    "app_home": "https://www.doctrine-project.org/"
                 }
             ],
             "description": "Symfony DoctrineBundle",
-            "homepage": "https://www.doctrine-project.org",
+            "app_home": "https://www.doctrine-project.org",
             "keywords": [
                 "database",
                 "dbal",
@@ -818,15 +818,15 @@
                 },
                 {
                     "name": "Doctrine Project",
-                    "homepage": "https://www.doctrine-project.org"
+                    "app_home": "https://www.doctrine-project.org"
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony DoctrineMigrationsBundle",
-            "homepage": "https://www.doctrine-project.org",
+            "app_home": "https://www.doctrine-project.org",
             "keywords": [
                 "dbal",
                 "migrations",
@@ -915,7 +915,7 @@
                 }
             ],
             "description": "The Doctrine Event Manager is a simple PHP event system that was built to be used with the various Doctrine projects.",
-            "homepage": "https://www.doctrine-project.org/projects/event-manager.html",
+            "app_home": "https://www.doctrine-project.org/projects/event-manager.html",
             "keywords": [
                 "event",
                 "event dispatcher",
@@ -1001,7 +1001,7 @@
                 }
             ],
             "description": "PHP Doctrine Inflector is a small library that can perform string manipulations with regard to upper/lowercase and singular/plural forms of words.",
-            "homepage": "https://www.doctrine-project.org/projects/inflector.html",
+            "app_home": "https://www.doctrine-project.org/projects/inflector.html",
             "keywords": [
                 "inflection",
                 "inflector",
@@ -1075,11 +1075,11 @@
                 {
                     "name": "Marco Pivetta",
                     "email": "ocramius@gmail.com",
-                    "homepage": "https://ocramius.github.io/"
+                    "app_home": "https://ocramius.github.io/"
                 }
             ],
             "description": "A small, lightweight utility to instantiate objects in PHP without invoking their constructors",
-            "homepage": "https://www.doctrine-project.org/projects/instantiator.html",
+            "app_home": "https://www.doctrine-project.org/projects/instantiator.html",
             "keywords": [
                 "constructor",
                 "instantiate"
@@ -1154,7 +1154,7 @@
                 }
             ],
             "description": "PHP Doctrine Lexer parser library that can be used in Top-Down, Recursive Descent Parsers.",
-            "homepage": "https://www.doctrine-project.org/projects/lexer.html",
+            "app_home": "https://www.doctrine-project.org/projects/lexer.html",
             "keywords": [
                 "annotations",
                 "docblock",
@@ -1258,7 +1258,7 @@
                 }
             ],
             "description": "PHP Doctrine Migrations project offer additional functionality on top of the database abstraction layer (DBAL) for versioning your database schema and easily deploying changes to it. It is a very easy to use and a powerful tool.",
-            "homepage": "https://www.doctrine-project.org/projects/migrations.html",
+            "app_home": "https://www.doctrine-project.org/projects/migrations.html",
             "keywords": [
                 "database",
                 "dbal",
@@ -1374,7 +1374,7 @@
                 }
             ],
             "description": "Object-Relational-Mapper for PHP",
-            "homepage": "https://www.doctrine-project.org/projects/orm.html",
+            "app_home": "https://www.doctrine-project.org/projects/orm.html",
             "keywords": [
                 "database",
                 "orm"
@@ -1455,7 +1455,7 @@
                 }
             ],
             "description": "The Doctrine Persistence project is a set of shared interfaces and functionality that the different Doctrine object mappers share.",
-            "homepage": "https://www.doctrine-project.org/projects/persistence.html",
+            "app_home": "https://www.doctrine-project.org/projects/persistence.html",
             "keywords": [
                 "mapper",
                 "object",
@@ -1520,11 +1520,11 @@
                 {
                     "name": "Jeremy Dorn",
                     "email": "jeremy@jeremydorn.com",
-                    "homepage": "https://jeremydorn.com/"
+                    "app_home": "https://jeremydorn.com/"
                 }
             ],
             "description": "a PHP SQL highlighting library",
-            "homepage": "https://github.com/doctrine/sql-formatter/",
+            "app_home": "https://github.com/doctrine/sql-formatter/",
             "keywords": [
                 "highlight",
                 "sql"
@@ -1582,7 +1582,7 @@
                 }
             ],
             "description": "A library for validating emails against several RFCs",
-            "homepage": "https://github.com/egulias/EmailValidator",
+            "app_home": "https://github.com/egulias/EmailValidator",
             "keywords": [
                 "email",
                 "emailvalidation",
@@ -1652,11 +1652,11 @@
                 },
                 {
                     "name": "FriendsOfSymfony Community",
-                    "homepage": "https://github.com/friendsofsymfony/FOSJsRoutingBundle/contributors"
+                    "app_home": "https://github.com/friendsofsymfony/FOSJsRoutingBundle/contributors"
                 }
             ],
             "description": "A pretty nice way to expose your Symfony routing to client applications.",
-            "homepage": "http://friendsofsymfony.github.com",
+            "app_home": "http://friendsofsymfony.github.com",
             "keywords": [
                 "Js Routing",
                 "javascript",
@@ -1808,7 +1808,7 @@
                 }
             ],
             "description": "Library for (de-)serializing data of any complexity; supports XML, and JSON.",
-            "homepage": "http://jmsyst.com/libs/serializer",
+            "app_home": "http://jmsyst.com/libs/serializer",
             "keywords": [
                 "deserialization",
                 "jaxb",
@@ -1897,7 +1897,7 @@
                 }
             ],
             "description": "Allows you to easily serialize, and deserialize data of any complexity",
-            "homepage": "http://jmsyst.com/bundles/JMSSerializerBundle",
+            "app_home": "http://jmsyst.com/bundles/JMSSerializerBundle",
             "keywords": [
                 "deserialization",
                 "json",
@@ -1991,11 +1991,11 @@
                 {
                     "name": "Jordi Boggiano",
                     "email": "j.boggiano@seld.be",
-                    "homepage": "https://seld.be"
+                    "app_home": "https://seld.be"
                 }
             ],
             "description": "Sends your logs to files, sockets, inboxes, databases and various web services",
-            "homepage": "https://github.com/Seldaek/monolog",
+            "app_home": "https://github.com/Seldaek/monolog",
             "keywords": [
                 "log",
                 "logging",
@@ -2056,7 +2056,7 @@
                 }
             ],
             "description": "Common reflection classes used by phpdocumentor to reflect the code structure",
-            "homepage": "http://www.phpdoc.org",
+            "app_home": "http://www.phpdoc.org",
             "keywords": [
                 "FQSEN",
                 "phpDocumentor",
@@ -2267,7 +2267,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
+                    "app_home": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interface for caching libraries",
@@ -2311,11 +2311,11 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
+                    "app_home": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interface for reading the clock.",
-            "homepage": "https://github.com/php-fig/clock",
+            "app_home": "https://github.com/php-fig/clock",
             "keywords": [
                 "clock",
                 "now",
@@ -2364,11 +2364,11 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
+                    "app_home": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common Container Interface (PHP FIG PSR-11)",
-            "homepage": "https://github.com/php-fig/container",
+            "app_home": "https://github.com/php-fig/container",
             "keywords": [
                 "PSR-11",
                 "container",
@@ -2417,7 +2417,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "app_home": "http://www.php-fig.org/"
                 }
             ],
             "description": "Standard interfaces for event handling.",
@@ -2470,11 +2470,11 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "app_home": "http://www.php-fig.org/"
                 }
             ],
             "description": "Common interfaces for HTTP links",
-            "homepage": "https://github.com/php-fig/link",
+            "app_home": "https://github.com/php-fig/link",
             "keywords": [
                 "http",
                 "http-link",
@@ -2523,11 +2523,11 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
+                    "app_home": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interface for logging libraries",
-            "homepage": "https://github.com/php-fig/log",
+            "app_home": "https://github.com/php-fig/log",
             "keywords": [
                 "log",
                 "psr",
@@ -2652,11 +2652,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Manages URL generation and versioning of web assets such as CSS stylesheets, JavaScript files and image files",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/asset/tree/v6.4.0"
             },
@@ -2731,11 +2731,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Maps directories of assets & makes them available in a public directory with versioned filenames.",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/asset-mapper/tree/v6.4.2"
             },
@@ -2823,11 +2823,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides extended PSR-6, PSR-16 (and tags) implementations",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "caching",
                 "psr6"
@@ -2895,11 +2895,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Generic abstractions related to caching",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "abstractions",
                 "contracts",
@@ -2972,11 +2972,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Decouples applications from the system clock",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "clock",
                 "psr20",
@@ -3052,11 +3052,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Helps you find, load, combine, autofill and validate configuration values of any kind",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/config/tree/v6.4.0"
             },
@@ -3140,11 +3140,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Eases the creation of beautiful and testable command line interfaces",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "cli",
                 "command-line",
@@ -3227,11 +3227,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Allows you to standardize and centralize the way objects are constructed in your application",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/dependency-injection/tree/v6.4.2"
             },
@@ -3294,11 +3294,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "A generic function and convention to trigger deprecation notices",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/deprecation-contracts/tree/v3.4.0"
             },
@@ -3402,11 +3402,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides integration for Doctrine with various Symfony components",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/doctrine-bridge/tree/v6.4.2"
             },
@@ -3474,11 +3474,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony Doctrine Messenger Bridge",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/doctrine-messenger/tree/v6.4.2"
             },
@@ -3543,11 +3543,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Registers environment variables from a .env file",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "dotenv",
                 "env",
@@ -3623,11 +3623,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides tools to manage errors and ease debugging PHP code",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/error-handler/tree/v6.4.0"
             },
@@ -3703,11 +3703,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides tools that allow your application components to communicate with each other by dispatching events and listening to them",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/event-dispatcher/tree/v6.4.2"
             },
@@ -3771,11 +3771,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Generic abstractions related to dispatching event",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "abstractions",
                 "contracts",
@@ -3843,11 +3843,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides an engine that can compile and evaluate expressions",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/expression-language/tree/v6.4.2"
             },
@@ -3906,11 +3906,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides basic utilities for the filesystem",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/filesystem/tree/v6.4.0"
             },
@@ -3970,11 +3970,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Finds files and directories via an intuitive fluent interface",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/finder/tree/v6.4.0"
             },
@@ -4132,11 +4132,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Allows to easily create, process and reuse HTML forms",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/form/tree/v6.4.1"
             },
@@ -4280,11 +4280,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides a tight integration between Symfony components and the Symfony full-stack framework",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/framework-bundle/tree/v6.4.2"
             },
@@ -4370,11 +4370,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides powerful methods to fetch HTTP resources synchronously or asynchronously",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "http"
             ],
@@ -4443,11 +4443,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Generic abstractions related to HTTP clients",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "abstractions",
                 "contracts",
@@ -4528,11 +4528,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Defines an object-oriented layer for the HTTP specification",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/http-foundation/tree/v6.4.2"
             },
@@ -4641,11 +4641,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides a structured process for converting a Request into a Response",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/http-kernel/tree/v6.4.2"
             },
@@ -4715,11 +4715,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides access to the localization data of the ICU library",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "i18n",
                 "icu",
@@ -4795,11 +4795,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides a LDAP client for PHP on top of PHP's ldap extension",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "active-directory",
                 "ldap"
@@ -4879,11 +4879,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Helps sending emails",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/mailer/tree/v6.4.2"
             },
@@ -4966,11 +4966,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Helps applications send and receive messages to/from other applications or via message queues",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/messenger/tree/v6.4.0"
             },
@@ -5046,11 +5046,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Allows manipulating MIME messages",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "mime",
                 "mime-type"
@@ -5129,11 +5129,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides integration for Monolog with various Symfony components",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/monolog-bridge/tree/v6.4.0"
             },
@@ -5205,11 +5205,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony MonologBundle",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "log",
                 "logging"
@@ -5284,11 +5284,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Sends notifications via one or more channels (email, SMS, ...)",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "notification",
                 "notifier"
@@ -5350,11 +5350,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides an improved replacement for the array_replace PHP function",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "config",
                 "configuration",
@@ -5423,11 +5423,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides password hashing utilities",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "hashing",
                 "password"
@@ -5500,11 +5500,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony polyfill for intl's grapheme_* functions",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "compatibility",
                 "grapheme",
@@ -5587,11 +5587,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony polyfill for intl's ICU-related data and classes",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "compatibility",
                 "icu",
@@ -5674,11 +5674,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony polyfill for intl's idn_to_ascii and idn_to_utf8 functions",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "compatibility",
                 "idn",
@@ -5758,11 +5758,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony polyfill for intl's Normalizer class and related functions",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "compatibility",
                 "intl",
@@ -5842,11 +5842,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony polyfill for the Mbstring extension",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "compatibility",
                 "mbstring",
@@ -5923,11 +5923,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony polyfill backporting some PHP 8.3+ features to lower PHP versions",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "compatibility",
                 "polyfill",
@@ -5990,11 +5990,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Executes commands in sub-processes",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/process/tree/v6.4.2"
             },
@@ -6056,11 +6056,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides functions to read and write from/to an object or array using a simple string notation",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "access",
                 "array",
@@ -6142,11 +6142,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Extracts information about PHP class' properties using metadata of popular sources",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "doctrine",
                 "phpdoc",
@@ -6227,11 +6227,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Maps an HTTP request to a set of configuration variables",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "router",
                 "routing",
@@ -6309,11 +6309,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Enables decoupling PHP applications from global state",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "runtime"
             ],
@@ -6424,11 +6424,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides a tight integration of the Security component into the Symfony full-stack framework",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/security-bundle/tree/v6.4.2"
             },
@@ -6509,11 +6509,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony Security Component - Core Library",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/security-core/tree/v6.4.0"
             },
@@ -6577,11 +6577,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony Security Component - CSRF Library",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/security-csrf/tree/v6.4.0"
             },
@@ -6665,11 +6665,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony Security Component - HTTP Integration",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/security-http/tree/v6.4.0"
             },
@@ -6763,11 +6763,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Handles serializing and deserializing data structures, including object graphs, into array structures or other formats like XML and JSON.",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/serializer/tree/v6.4.2"
             },
@@ -6837,11 +6837,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Generic abstractions related to writing services",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "abstractions",
                 "contracts",
@@ -6912,7 +6912,7 @@
             "authors": [
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Integration with your Symfony app & Stimulus!",
@@ -6976,11 +6976,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides a way to profile code",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/stopwatch/tree/v6.4.0"
             },
@@ -7054,11 +7054,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides an object-oriented API to strings and deals with bytes, UTF-8 code points and grapheme clusters in a unified way",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "grapheme",
                 "i18n",
@@ -7157,11 +7157,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides tools to internationalize your application",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/translation/tree/v6.4.2"
             },
@@ -7227,11 +7227,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Generic abstractions related to translation",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "abstractions",
                 "contracts",
@@ -7344,11 +7344,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides integration for Twig with various Symfony components",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/twig-bridge/tree/v6.4.2"
             },
@@ -7428,11 +7428,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides a tight integration of Twig into the Symfony full-stack framework",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/twig-bundle/tree/v6.4.0"
             },
@@ -7516,11 +7516,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Hotwire Turbo integration for Symfony",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "hotwire",
                 "javascript",
@@ -7620,11 +7620,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides tools to validate values",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/validator/tree/v6.4.2"
             },
@@ -7701,11 +7701,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides mechanisms for walking through any arbitrary PHP variable",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "debug",
                 "dump"
@@ -7770,11 +7770,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Allows exporting any serializable PHP data structure to plain PHP code",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "clone",
                 "construct",
@@ -7851,11 +7851,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Manages links between resources",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "dns-prefetch",
                 "http",
@@ -7934,7 +7934,7 @@
             "authors": [
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Integration with your Symfony app & Webpack Encore!",
@@ -8006,11 +8006,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Loads and dumps YAML files",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/yaml/tree/v6.4.0"
             },
@@ -8078,12 +8078,12 @@
                 {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
+                    "app_home": "http://fabien.potencier.org",
                     "role": "Lead Developer"
                 }
             ],
             "description": "A Symfony bundle for extra Twig extensions",
-            "homepage": "https://twig.symfony.com",
+            "app_home": "https://twig.symfony.com",
             "keywords": [
                 "bundle",
                 "extra",
@@ -8142,7 +8142,7 @@
                 {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com",
-                    "homepage": "http://fabien.potencier.org",
+                    "app_home": "http://fabien.potencier.org",
                     "role": "Lead Developer"
                 },
                 {
@@ -8156,7 +8156,7 @@
                 }
             ],
             "description": "Twig, the flexible, fast, and secure template language for PHP",
-            "homepage": "https://twig.symfony.com",
+            "app_home": "https://twig.symfony.com",
             "keywords": [
                 "templating"
             ],
@@ -8274,7 +8274,7 @@
                 }
             ],
             "description": "Ease file uploads attached to entities",
-            "homepage": "https://github.com/dustin10/VichUploaderBundle",
+            "app_home": "https://github.com/dustin10/VichUploaderBundle",
             "keywords": [
                 "file uploads",
                 "upload"
@@ -8515,7 +8515,7 @@
                 }
             ],
             "description": "Data Fixtures for all Doctrine Object Managers",
-            "homepage": "https://www.doctrine-project.org",
+            "app_home": "https://www.doctrine-project.org",
             "keywords": [
                 "database"
             ],
@@ -8593,15 +8593,15 @@
                 },
                 {
                     "name": "Doctrine Project",
-                    "homepage": "https://www.doctrine-project.org"
+                    "app_home": "https://www.doctrine-project.org"
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony DoctrineFixturesBundle",
-            "homepage": "https://www.doctrine-project.org",
+            "app_home": "https://www.doctrine-project.org",
             "keywords": [
                 "Fixture",
                 "persistence"
@@ -8740,7 +8740,7 @@
                 }
             ],
             "description": "An HTML5 parser and serializer.",
-            "homepage": "http://masterminds.github.io/html5-php",
+            "app_home": "http://masterminds.github.io/html5-php",
             "keywords": [
                 "HTML5",
                 "dom",
@@ -9103,7 +9103,7 @@
                 }
             ],
             "description": "Library that provides collection, processing, and rendering functionality for PHP code coverage information.",
-            "homepage": "https://github.com/sebastianbergmann/php-code-coverage",
+            "app_home": "https://github.com/sebastianbergmann/php-code-coverage",
             "keywords": [
                 "coverage",
                 "testing",
@@ -9165,7 +9165,7 @@
                 }
             ],
             "description": "FilterIterator implementation that filters files based on a list of suffixes.",
-            "homepage": "https://github.com/sebastianbergmann/php-file-iterator/",
+            "app_home": "https://github.com/sebastianbergmann/php-file-iterator/",
             "keywords": [
                 "filesystem",
                 "iterator"
@@ -9229,7 +9229,7 @@
                 }
             ],
             "description": "Invoke callables with a timeout",
-            "homepage": "https://github.com/sebastianbergmann/php-invoker/",
+            "app_home": "https://github.com/sebastianbergmann/php-invoker/",
             "keywords": [
                 "process"
             ],
@@ -9288,7 +9288,7 @@
                 }
             ],
             "description": "Simple template engine.",
-            "homepage": "https://github.com/sebastianbergmann/php-text-template/",
+            "app_home": "https://github.com/sebastianbergmann/php-text-template/",
             "keywords": [
                 "template"
             ],
@@ -9347,7 +9347,7 @@
                 }
             ],
             "description": "Utility class for timing",
-            "homepage": "https://github.com/sebastianbergmann/php-timer/",
+            "app_home": "https://github.com/sebastianbergmann/php-timer/",
             "keywords": [
                 "timer"
             ],
@@ -9439,7 +9439,7 @@
                 }
             ],
             "description": "The PHP Unit Testing framework.",
-            "homepage": "https://phpunit.de/",
+            "app_home": "https://phpunit.de/",
             "keywords": [
                 "phpunit",
                 "testing",
@@ -9565,7 +9565,7 @@
                 }
             ],
             "description": "Library for parsing CLI options",
-            "homepage": "https://github.com/sebastianbergmann/cli-parser",
+            "app_home": "https://github.com/sebastianbergmann/cli-parser",
             "support": {
                 "issues": "https://github.com/sebastianbergmann/cli-parser/issues",
                 "source": "https://github.com/sebastianbergmann/cli-parser/tree/1.0.1"
@@ -9621,7 +9621,7 @@
                 }
             ],
             "description": "Collection of value objects that represent the PHP code units",
-            "homepage": "https://github.com/sebastianbergmann/code-unit",
+            "app_home": "https://github.com/sebastianbergmann/code-unit",
             "support": {
                 "issues": "https://github.com/sebastianbergmann/code-unit/issues",
                 "source": "https://github.com/sebastianbergmann/code-unit/tree/1.0.8"
@@ -9676,7 +9676,7 @@
                 }
             ],
             "description": "Looks up which function or method a line of code belongs to",
-            "homepage": "https://github.com/sebastianbergmann/code-unit-reverse-lookup/",
+            "app_home": "https://github.com/sebastianbergmann/code-unit-reverse-lookup/",
             "support": {
                 "issues": "https://github.com/sebastianbergmann/code-unit-reverse-lookup/issues",
                 "source": "https://github.com/sebastianbergmann/code-unit-reverse-lookup/tree/2.0.3"
@@ -9745,7 +9745,7 @@
                 }
             ],
             "description": "Provides the functionality to compare PHP values for equality",
-            "homepage": "https://github.com/sebastianbergmann/comparator",
+            "app_home": "https://github.com/sebastianbergmann/comparator",
             "keywords": [
                 "comparator",
                 "compare",
@@ -9807,7 +9807,7 @@
                 }
             ],
             "description": "Library for calculating the complexity of PHP code units",
-            "homepage": "https://github.com/sebastianbergmann/complexity",
+            "app_home": "https://github.com/sebastianbergmann/complexity",
             "support": {
                 "issues": "https://github.com/sebastianbergmann/complexity/issues",
                 "source": "https://github.com/sebastianbergmann/complexity/tree/2.0.3"
@@ -9867,7 +9867,7 @@
                 }
             ],
             "description": "Diff implementation",
-            "homepage": "https://github.com/sebastianbergmann/diff",
+            "app_home": "https://github.com/sebastianbergmann/diff",
             "keywords": [
                 "diff",
                 "udiff",
@@ -9931,7 +9931,7 @@
                 }
             ],
             "description": "Provides functionality to handle HHVM/PHP environments",
-            "homepage": "http://www.github.com/sebastianbergmann/environment",
+            "app_home": "http://www.github.com/sebastianbergmann/environment",
             "keywords": [
                 "Xdebug",
                 "environment",
@@ -10009,7 +10009,7 @@
                 }
             ],
             "description": "Provides the functionality to export PHP variables for visualization",
-            "homepage": "https://www.github.com/sebastianbergmann/exporter",
+            "app_home": "https://www.github.com/sebastianbergmann/exporter",
             "keywords": [
                 "export",
                 "exporter"
@@ -10074,7 +10074,7 @@
                 }
             ],
             "description": "Snapshotting of global state",
-            "homepage": "http://www.github.com/sebastianbergmann/global-state",
+            "app_home": "http://www.github.com/sebastianbergmann/global-state",
             "keywords": [
                 "global state"
             ],
@@ -10134,7 +10134,7 @@
                 }
             ],
             "description": "Library for counting the lines of code in PHP source code",
-            "homepage": "https://github.com/sebastianbergmann/lines-of-code",
+            "app_home": "https://github.com/sebastianbergmann/lines-of-code",
             "support": {
                 "issues": "https://github.com/sebastianbergmann/lines-of-code/issues",
                 "source": "https://github.com/sebastianbergmann/lines-of-code/tree/1.0.4"
@@ -10191,7 +10191,7 @@
                 }
             ],
             "description": "Traverses array structures and object graphs to enumerate all referenced objects",
-            "homepage": "https://github.com/sebastianbergmann/object-enumerator/",
+            "app_home": "https://github.com/sebastianbergmann/object-enumerator/",
             "support": {
                 "issues": "https://github.com/sebastianbergmann/object-enumerator/issues",
                 "source": "https://github.com/sebastianbergmann/object-enumerator/tree/4.0.4"
@@ -10246,7 +10246,7 @@
                 }
             ],
             "description": "Allows reflection of object attributes, including inherited and non-public ones",
-            "homepage": "https://github.com/sebastianbergmann/object-reflector/",
+            "app_home": "https://github.com/sebastianbergmann/object-reflector/",
             "support": {
                 "issues": "https://github.com/sebastianbergmann/object-reflector/issues",
                 "source": "https://github.com/sebastianbergmann/object-reflector/tree/2.0.4"
@@ -10309,7 +10309,7 @@
                 }
             ],
             "description": "Provides functionality to recursively process PHP variables",
-            "homepage": "https://github.com/sebastianbergmann/recursion-context",
+            "app_home": "https://github.com/sebastianbergmann/recursion-context",
             "support": {
                 "issues": "https://github.com/sebastianbergmann/recursion-context/issues",
                 "source": "https://github.com/sebastianbergmann/recursion-context/tree/4.0.5"
@@ -10364,7 +10364,7 @@
                 }
             ],
             "description": "Provides a list of PHP built-in functions that operate on resources",
-            "homepage": "https://www.github.com/sebastianbergmann/resource-operations",
+            "app_home": "https://www.github.com/sebastianbergmann/resource-operations",
             "support": {
                 "issues": "https://github.com/sebastianbergmann/resource-operations/issues",
                 "source": "https://github.com/sebastianbergmann/resource-operations/tree/3.0.3"
@@ -10420,7 +10420,7 @@
                 }
             ],
             "description": "Collection of value objects that represent the types of the PHP type system",
-            "homepage": "https://github.com/sebastianbergmann/type",
+            "app_home": "https://github.com/sebastianbergmann/type",
             "support": {
                 "issues": "https://github.com/sebastianbergmann/type/issues",
                 "source": "https://github.com/sebastianbergmann/type/tree/3.2.1"
@@ -10473,7 +10473,7 @@
                 }
             ],
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
-            "homepage": "https://github.com/sebastianbergmann/version",
+            "app_home": "https://github.com/sebastianbergmann/version",
             "support": {
                 "issues": "https://github.com/sebastianbergmann/version/issues",
                 "source": "https://github.com/sebastianbergmann/version/tree/3.0.2"
@@ -10530,11 +10530,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Simulates the behavior of a web browser, allowing you to make requests, click on links and submit forms programmatically",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/browser-kit/tree/v6.4.0"
             },
@@ -10595,11 +10595,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Converts CSS selectors to XPath expressions",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/css-selector/tree/v6.4.0"
             },
@@ -10669,11 +10669,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides a tight integration of the Symfony VarDumper component and the ServerLogCommand from MonologBridge into the Symfony full-stack framework",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/debug-bundle/tree/v6.4.0"
             },
@@ -10736,11 +10736,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Eases DOM navigation for HTML and XML documents",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/dom-crawler/tree/v6.4.0"
             },
@@ -10820,11 +10820,11 @@
             "authors": [
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony Maker helps you create empty commands, controllers, form classes, tests and more so you can forget about writing boilerplate code.",
-            "homepage": "https://symfony.com/doc/current/bundles/SymfonyMakerBundle/index.html",
+            "app_home": "https://symfony.com/doc/current/bundles/SymfonyMakerBundle/index.html",
             "keywords": [
                 "code generator",
                 "dev",
@@ -10909,11 +10909,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides utilities for PHPUnit, especially user deprecation notices management",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/phpunit-bridge/tree/v7.0.2"
             },
@@ -10988,11 +10988,11 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
+                    "app_home": "https://symfony.com/contributors"
                 }
             ],
             "description": "Provides a development tool that gives detailed information about the execution of any request",
-            "homepage": "https://symfony.com",
+            "app_home": "https://symfony.com",
             "keywords": [
                 "dev"
             ],

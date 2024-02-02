@@ -21,14 +21,15 @@
 				</div>
 			</div>
 		{% endif %}
-		{% set currentPath = path(app.request.attributes.get('_route'),
-                       app.request.attributes.get('_route_params')) %}
 
-		<div id="hizkuntza" class="text-black padding-top-18 margin-left-08">
-			<a href="{{currentPath | replace ({'/eu/': '/es/'}) }}">es</a>
-			/
-			<a href="{{currentPath | replace ({'/es/': '/eu/'}) }}">eu</a>
-		</div>
+		{% if  app.request.attributes.get('_route') is not null %}
+			{% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
 
+			<div id="hizkuntza" class="text-black padding-top-18 margin-left-08">
+				<a href="{{currentPath | replace ({'/eu/': '/es/'}) }}">es</a>
+				/
+				<a href="{{currentPath | replace ({'/es/': '/eu/'}) }}">eu</a>
+			</div>
+		{% endif %}
 	</div>
 </header>
