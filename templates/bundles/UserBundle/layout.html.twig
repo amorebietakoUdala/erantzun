@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 {% trans_default_domain 'user_bundle' %}
 
+{% block menu %}{% endblock %}
+
 {% block stylesheets %}
 	{{ parent() }}
 	{{ encore_entry_link_tags('login') }}
@@ -10,6 +12,10 @@
 	{{ parent() }}
 	{{ encore_entry_script_tags('login') }}
 {% endblock %}
+
+{% block message %}
+	{{ include('@User/user/_messages.html.twig') }}
+{% endblock message %}
 
 {% block body %}
 	{% block user_content %}{% endblock %}

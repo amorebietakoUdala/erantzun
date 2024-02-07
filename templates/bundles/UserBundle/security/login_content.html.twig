@@ -1,25 +1,14 @@
 {% trans_default_domain 'user_bundle' %}
 
-{% block message %}
-	{% for msg in app.session.flashBag.get('error') %}
-		<div>
-			{{ msg | trans}}
-		</div>
-	{% endfor %}
-	{% for msg in app.session.flashBag.get('success') %}
-		<div>
-			{{ msg | trans}}
-		</div>
-	{% endfor %}
-{% endblock message %}
-
-
 {% block user_content %}
 	<div class="container margin-top-13">
 		<div class="col">
 			<div class="container col-lg-5 col-md-5 primary-color rounder-edge padding-08">
 				<form class="login-form" action="{{ path("user_security_login_check") }}" method="post">
 					<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey | trans }}</div>
+                {% endif %}
 					<div class="form-group">
 						<label for="username">{{ 'user.username'| trans }}</label>
 						<input class="form-control" type="text" id="username" name="username" value="{{ last_username }}" required="required"/>
