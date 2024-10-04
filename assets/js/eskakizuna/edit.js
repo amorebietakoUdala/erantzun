@@ -6,8 +6,13 @@ import Routing from '../../../vendor/friendsofsymfony/jsrouting-bundle/Resources
 import Swal from 'sweetalert2';
 import 'jquery-ui-bundle/jquery-ui';
 import '../common/datetime-picker-personalization';
+
 import 'tinymce/tinymce';
-import 'tinymce/themes/modern';
+import 'tinymce/icons/default';
+import 'tinymce/models/dom';
+import 'tinymce/themes/silver';
+import 'tinymce/skins/ui/oxide/skin';
+import 'tinymce/skins/ui/oxide/content';
 
 $(function() {
     console.log('Ready!!');
@@ -119,17 +124,17 @@ $(function() {
 
     tinymce.init({
         selector: 'textarea',
+        height: 150,
         menubar: false,
         resize: false,
         statusbar: false,
-        theme: 'modern',
         init_instance_callback: function(editor) {
             if (editor.id === 'eskakizuna_form_mamia') {
                 if (role === "KANPOKO_TEKNIKARIA") {
-                    editor.setMode('readonly');
+                    editor.mode.set('readonly');
                 }
             }
-        }
+        },
     });
 
     /* INICIO Eventos */

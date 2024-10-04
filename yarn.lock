@@ -6643,7 +6643,7 @@ __metadata:
     regenerator-runtime: ^0.13.9
     sweetalert2: ^6.6.6
     tableexport.jquery.plugin: 1.26.0
-    tinymce: ^4.6.5
+    tinymce: ^7.3.0
     webpack: ^5.74.0
     webpack-cli: ^4.10.0
     webpack-notifier: ^1.15.0
@@ -7338,10 +7338,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinymce@npm:^4.6.5":
-  version: 4.9.11
-  resolution: "tinymce@npm:4.9.11"
-  checksum: 353f50d7996e4dfdbc8d8f1c02f57460f13d8bc9c16078e55767a7c63eaaaf9511f3c2e50af2513064bce02142c4f8c23c741450b2ba5d50dacd995e5a86ac63
+"tinymce@npm:^7.3.0":
+  version: 7.3.0
+  resolution: "tinymce@npm:7.3.0"
+  checksum: 8c2205e8f316ae86c713ba09d8072921050011fbb6a28060c02c53d79d34d470995f286b478966e42c767d5905fd9d89a808338d63ac63a0ea0f96a017b020e2
   languageName: node
   linkType: hard
 

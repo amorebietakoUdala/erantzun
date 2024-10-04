@@ -86,13 +86,14 @@ Encore
 
     // uncomment if you're having problems with a jQuery plugin
     .autoProvidejQuery()
-    .copyFiles({
-        from: './assets/images',
-        to: 'images/[path][name].[hash:8].[ext]'
-    },{
-        from: './node_modules/tinymce/skins',
-        to: 'skins/[path][name].[ext]'
-    })    
+    .copyFiles([{
+            from: './assets/images',
+            to: 'images/[path][name].[hash:8].[ext]'
+        },
+        {
+            from: './node_modules/tinymce/skins',
+            to: 'skins/[path][name].[ext]'
+        }])    
     ;
 
 module.exports = Encore.getWebpackConfig();
