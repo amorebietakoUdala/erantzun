@@ -1,5 +1,6 @@
 doctrine:
     dbal:
+        schema_filter: ~^(?!view_)~
         url: '%env(resolve:DATABASE_URL)%'
 
         # IMPORTANT: You MUST configure your server version,
@@ -8,6 +9,9 @@ doctrine:
 
         profiling_collect_backtrace: '%kernel.debug%'
     orm:
+        schema_ignore_classes:
+            - App\Entity\Estatistika
+
         controller_resolver:
             auto_mapping: false
         auto_generate_proxy_classes: true
