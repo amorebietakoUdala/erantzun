@@ -14,6 +14,7 @@ use App\Repository\EskakizunaRepository;
 use App\Repository\EskakizunMotaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,7 +26,8 @@ class EskakizunMotaController extends AbstractController
     public function __construct (
         private readonly EntityManagerInterface $em,
         private readonly EskakizunMotaRepository $repo,
-        private readonly EskakizunaRepository $eskakizunaRepo
+        private readonly EskakizunaRepository $eskakizunaRepo,
+        private readonly LoggerInterface $logger,
     ) 
     {
     }
@@ -49,7 +51,7 @@ class EskakizunMotaController extends AbstractController
     }
 
     #[Route(path: '/{id}/edit', name: 'admin_eskakizun_mota_edit')]
-    public function edit(Request $request, EskakizunMota $eskakizunmota)
+    public function edit(Request $request, #[MapEntity(id: 'id')] EskakizunMota $eskakizunmota)
     {
         $form = $this->createForm(EskakizunMotaFormType::class, $eskakizunmota);
         $form->handleRequest($request);
@@ -67,7 +69,7 @@ class EskakizunMotaController extends AbstractController
     }
 
     #[Route(path: '/{id}/delete', name: 'admin_eskakizun_mota_delete')]
-    public function delete(EskakizunMota $eskakizunMota)
+    public function delete(#[MapEntity(id: 'id')] EskakizunMota $eskakizunMota)
     {
         if (!$eskakizunMota) {
             $this->addFlash('error', 'messages.eskakizun_mota_ez_da_existitzen');
@@ -91,9 +93,9 @@ class EskakizunMotaController extends AbstractController
     }
 
     #[Route(path: '/{id}', name: 'admin_eskakizun_mota_show')]
-    public function show(EskakizunMota $eskakizunmota, LoggerInterface $logger)
+    public function show(#[MapEntity(id: 'id')] EskakizunMota $eskakizunmota)
     {
-        $logger->debug('Showing: '.$eskakizunmota->getId());
+        $this->logger->debug('Showing: '.$eskakizunmota->getId());
         $form = $this->createForm(EskakizunMotaFormType::class, $eskakizunmota);
 
         return $this->render('admin/eskakizun_mota/show.html.twig', [

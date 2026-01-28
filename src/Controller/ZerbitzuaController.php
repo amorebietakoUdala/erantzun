@@ -13,6 +13,7 @@ use App\Form\ZerbitzuaFormType;
 use App\Repository\ZerbitzuaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,6 +24,7 @@ class ZerbitzuaController extends AbstractController
     public function __construct (
         private readonly EntityManagerInterface $em,
         private readonly ZerbitzuaRepository $repo,
+        private readonly LoggerInterface $logger,
     ) 
     {
     }
@@ -46,7 +48,7 @@ class ZerbitzuaController extends AbstractController
     }
 
     #[Route(path: '/{id}/edit', name: 'admin_zerbitzua_edit')]
-    public function edit(Request $request, Zerbitzua $zerbitzua)
+    public function edit(Request $request, #[MapEntity(id: 'id')] Zerbitzua $zerbitzua)
     {
         $form = $this->createForm(ZerbitzuaFormType::class, $zerbitzua);
         $form->handleRequest($request);
@@ -78,9 +80,9 @@ class ZerbitzuaController extends AbstractController
     }
 
     #[Route(path: '/{id}', name: 'admin_zerbitzua_show', options: ['expose' => true])]
-    public function show(Zerbitzua $zerbitzua, LoggerInterface $logger)
+    public function show(#[MapEntity(id: 'id')] Zerbitzua $zerbitzua)
     {
-        $logger->debug('Showing: '.$zerbitzua->getId());
+        $this->logger->debug('Showing: '.$zerbitzua->getId());
         $form = $this->createForm(ZerbitzuaFormType::class, $zerbitzua);
 
         return $this->render('admin/zerbitzua/show.html.twig', [

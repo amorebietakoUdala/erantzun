@@ -10,9 +10,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
+
+    public function __construct(
+        private readonly LoggerInterface $logger
+    )
+    {
+    }
+
     #[IsGranted('ROLE_ERANTZUN')]
     #[Route(path: '/', name: 'app_home')]
-    public function home(Request $request, LoggerInterface $logger)
+    public function home(Request $request)
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -37,7 +44,7 @@ class DefaultController extends AbstractController
             '_locale' => $request->getLocale(),
             ]);
         } elseif ($this->isGranted('ROLE_KANPOKO_TEKNIKARIA')) {
-            $logger->debug('Kanpoko Teknikaria erabiltzailea: '.$user->getUsername());
+            $this->logger->debug('Kanpoko Teknikaria erabiltzailea: '.$user->getUsername());
         }
         return $this->redirectToRoute('admin_eskakizuna_list', [
             '_locale' => $request->getLocale(),

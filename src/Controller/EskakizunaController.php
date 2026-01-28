@@ -29,6 +29,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Imagick;
 use Psr\Log\LoggerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -61,6 +62,7 @@ class EskakizunaController extends AbstractController
         private readonly UserRepository $userRepo,
         private readonly ZerbitzuaRepository $zerbitzuaRepo,
         private readonly EnpresaRepository $enpresaRepo,
+        private readonly LoggerInterface $logger,
     )
     {
     }
@@ -207,7 +209,7 @@ class EskakizunaController extends AbstractController
     }
 
     #[Route(path: '/{id}/edit', name: 'admin_eskakizuna_edit')]
-    public function edit(Request $request, Eskakizuna $eskakizuna, LoggerInterface $logger)
+    public function edit(Request $request, #[MapEntity(id: 'id')] Eskakizuna $eskakizuna)
     {
         /** @var User $user */
         $user = $this->getUser();        
@@ -244,14 +246,14 @@ class EskakizunaController extends AbstractController
                 $this->em->persist($this->georeferentziazioa);
             }
 
-            $logger->debug('Zerbitzua: ' . $eskakizuna->getZerbitzua());
+            $this->logger->debug('Zerbitzua: ' . $eskakizuna->getZerbitzua());
             if (null !== $this->eskakizuna->getZerbitzua()) {
                 $zerbitzua = $this->eskakizuna->getZerbitzua();
                 $this->eskakizuna->setEnpresa($zerbitzua->getEnpresa());
                 if ( Egoera::EGOERA_BIDALI_GABE === $this->eskakizuna->getEgoera()->getId()
                     || null !== $zerbitzuaAldatuAurretik && ($zerbitzua->getId() !== $zerbitzuaAldatuAurretik->getId())
                 ) {
-                    $logger->debug('Egoera: Bidali gabe edo zerbitzua aldatua');
+                    $this->logger->debug('Egoera: Bidali gabe edo zerbitzua aldatua');
                     $egoera = $this->egoeraRepo->find(Egoera::EGOERA_BIDALIA);
                     $this->eskakizuna->setEgoera($egoera);
                     $this->eskakizuna->setNoizBidalia(new DateTime());
@@ -259,7 +261,7 @@ class EskakizunaController extends AbstractController
                     $mezuak_bidali = $this->getParameter('mezuak_bidali');
                     if ($mezuak_bidali) {
                         $this->_mezuaBidaliEnpresari($title, $this->eskakizuna, $this->eskakizuna->getEnpresa());
-                        $logger->debug('Mezua Bidalia');
+                        $this->logger->debug('Mezua Bidalia');
                     }
                 }
             } else {
@@ -328,7 +330,7 @@ class EskakizunaController extends AbstractController
     }
 
     #[Route(path: '/{id}/delete', name: 'admin_eskakizuna_delete')]
-    public function delete(Request $request, Eskakizuna $id)
+    public function delete(Request $request, #[MapEntity(id: 'id')] Eskakizuna $id)
     {
         $eskakizuna = $this->repo->findOneBy([
             'id' => $id,
@@ -350,11 +352,11 @@ class EskakizunaController extends AbstractController
     }
 
     #[Route(path: '/{id}', name: 'admin_eskakizuna_show')]
-    public function show(Request $request, Eskakizuna $eskakizuna, LoggerInterface $logger)
+    public function show(Request $request, #[MapEntity(id: 'id')] Eskakizuna $eskakizuna)
     {
         /** @var User $user */
         $user = $this->getUser();
-        $logger->debug('Show. Eskakizun zenbakia: ' . $eskakizuna->getId());
+        $this->logger->debug('Show. Eskakizun zenbakia: ' . $eskakizuna->getId());
 
         $eskakizunaForm = $this->createForm(EskakizunaFormType::class, $eskakizuna, [
             'editatzen' => false,
@@ -413,7 +415,7 @@ class EskakizunaController extends AbstractController
     }
 
     #[Route(path: '/{id}/close', name: 'admin_eskakizuna_close')]
-    public function close(Request $request, Eskakizuna $eskakizuna)
+    public function close(Request $request, #[MapEntity(id: 'id')] Eskakizuna $eskakizuna)
     {
         $params = $request->query->all();
         if (!$eskakizuna) {
@@ -434,7 +436,7 @@ class EskakizunaController extends AbstractController
     }
 
     #[Route(path: '/{id}/resend', name: 'admin_eskakizuna_resend')]
-    public function resend(Request $request, Eskakizuna $eskakizuna)
+    public function resend(Request $request, #[MapEntity(id: 'id')] Eskakizuna $eskakizuna)
     {
         $params = $request->query->all();
         /** @var User $user */

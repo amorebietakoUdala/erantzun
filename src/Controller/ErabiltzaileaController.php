@@ -22,6 +22,7 @@ use App\Repository\EskakizunaRepository;
 use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -43,18 +44,19 @@ class ErabiltzaileaController extends AbstractController
         private readonly EntityManagerInterface $em, 
         private readonly UserRepository $userRepo, 
         private readonly EskakizunaRepository $eskakizunaRepo, 
-        private readonly ErantzunaRepository $erantzunaRepo
+        private readonly ErantzunaRepository $erantzunaRepo,
+        private readonly LoggerInterface $logger
     )
     {
     }
 
     #[IsGranted('ROLE_ERANTZUN')]
     #[Route(path: '/{_locale}/profile', name: 'user_profile_action')]
-    public function profile(Request $request, LoggerInterface $logger)
+    public function profile(Request $request)
     {
         /** @var User $user */
         $user = $this->getUser();
-        $logger->info('Showing: ' . $user->getUserIdentifier());
+        $this->logger->info('Showing: ' . $user->getUserIdentifier());
         $userForm = $this->createForm(UserFormType::class, $user, [
             'profile' => true,
             'password_change' => true
@@ -137,7 +139,7 @@ class ErabiltzaileaController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route(path: '/{_locale}/admin/erabiltzaileak/{id}/edit', name: 'admin_erabiltzailea_edit')]
-    public function edit(Request $request, User $user)
+    public function edit(Request $request, #[MapEntity(id: 'id')] User $user)
     {
         $form = $this->createForm(UserFormType::class, $user, [
             'password_change' => true
@@ -180,7 +182,7 @@ class ErabiltzaileaController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route(path: '/{_locale}/admin/erabiltzaileak/{id}/delete', name: 'admin_erabiltzailea_delete')]
-    public function delete(User $user)
+    public function delete(#[MapEntity(id: 'id')] User $user)
     {
         if (!$user) {
             $this->addFlash('error', 'messages.erabiltzailea_ez_da_existitzen');
@@ -225,9 +227,9 @@ class ErabiltzaileaController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route(path: '/{_locale}/admin/erabiltzaileak/{id}', name: 'admin_erabiltzailea_show')]
-    public function show(User $erabiltzailea, LoggerInterface $logger)
+    public function show(#[MapEntity(id: 'id')] User $erabiltzailea)
     {
-        $logger->debug('Showing: ' . $erabiltzailea->getId());
+        $this->logger->debug('Showing: ' . $erabiltzailea->getId());
         $form = $this->createForm(UserFormType::class, $erabiltzailea);
 
         return $this->render('admin/erabiltzailea/show.html.twig', [

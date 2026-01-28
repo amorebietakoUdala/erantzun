@@ -14,6 +14,7 @@ use App\Repository\EnpresaRepository;
 use App\Repository\EskakizunaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,7 +27,8 @@ class EnpresaController extends AbstractController
     public function __construct (
         private readonly EntityManagerInterface $em,
         private readonly EnpresaRepository $repo,
-        private readonly EskakizunaRepository $eskakizunaRepo) 
+        private readonly EskakizunaRepository $eskakizunaRepo,
+        private readonly LoggerInterface $logger) 
     {
     }
 
@@ -50,7 +52,7 @@ class EnpresaController extends AbstractController
     }
 
     #[Route(path: '/{id}/edit', name: 'admin_enpresa_edit')]
-    public function edit(Request $request, Enpresa $enpresa)
+    public function edit(Request $request, #[MapEntity(id: 'id')] Enpresa $enpresa)
     {
         $form = $this->createForm(EnpresaFormType::class, $enpresa);
         $form->handleRequest($request);
@@ -69,7 +71,7 @@ class EnpresaController extends AbstractController
     }
 
     #[Route(path: '/{id}/delete', name: 'admin_enpresa_delete')]
-    public function delete(Enpresa $enpresa)
+    public function delete(#[MapEntity(id: 'id')] Enpresa $enpresa)
     {
         if (!$enpresa) {
             $this->addFlash('error', 'messages.enpresa_ez_da_existitzen');
@@ -90,9 +92,9 @@ class EnpresaController extends AbstractController
     }
 
     #[Route(path: '/{id}', name: 'admin_enpresa_show')]
-    public function show(Enpresa $enpresa, LoggerInterface $logger)
+    public function show(#[MapEntity(id: 'id')] Enpresa $enpresa)
     {
-        $logger->debug('EnpresaController->showAction->Enpresa->'.$enpresa->__toDebug());
+        $this->logger->debug('EnpresaController->showAction->Enpresa->'.$enpresa->__toDebug());
         $form = $this->createForm(EnpresaFormType::class, $enpresa);
         return $this->render('admin/enpresa/show.html.twig', [
         'enpresaForm' => $form->createView(),

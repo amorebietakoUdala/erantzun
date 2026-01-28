@@ -14,6 +14,7 @@ use App\Repository\EskakizunaRepository;
 use App\Repository\EskatzaileaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,7 +26,8 @@ class EskatzaileaController extends AbstractController
     public function __construct (
         private readonly EntityManagerInterface $em, 
         private readonly EskatzaileaRepository  $repo,
-        private readonly EskakizunaRepository $eskakizunaRepo,) 
+        private readonly EskakizunaRepository $eskakizunaRepo,
+        private readonly LoggerInterface $logger) 
     {
     }
 
@@ -51,7 +53,7 @@ class EskatzaileaController extends AbstractController
     }
 
     #[Route(path: '/{id}/edit', name: 'admin_eskatzailea_edit')]
-    public function edit(Request $request, Eskatzailea $eskatzailea)
+    public function edit(Request $request, #[MapEntity(id: 'id')] Eskatzailea $eskatzailea)
     {
         $form = $this->createForm(EskatzaileaFormType::class, $eskatzailea);
         $form->handleRequest($request);
@@ -69,7 +71,7 @@ class EskatzaileaController extends AbstractController
     }
 
     #[Route(path: '/{id}/delete', name: 'admin_eskatzailea_delete')]
-    public function delete(Request $request, Eskatzailea $eskatzailea)
+    public function delete(Request $request, #[MapEntity(id: 'id')] Eskatzailea $eskatzailea)
     {
         $params = $request->query->all();
         if (!$eskatzailea) {
@@ -91,9 +93,9 @@ class EskatzaileaController extends AbstractController
     }
 
     #[Route(path: '/{id}', name: 'admin_eskatzailea_show')]
-    public function show(Eskatzailea $eskatzailea, LoggerInterface $logger)
+    public function show(#[MapEntity(id: 'id')] Eskatzailea $eskatzailea)
     {
-        $logger->debug('Showing: ' . $eskatzailea->getId());
+        $this->logger->debug('Showing: ' . $eskatzailea->getId());
         $form = $this->createForm(EskatzaileaFormType::class, $eskatzailea);
         return $this->render('admin/eskatzailea/show.html.twig', [
             'eskatzaileaForm' => $form->createView(),

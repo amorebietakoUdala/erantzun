@@ -17,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 
  #[Route(path: '/{_locale}/admin/egoera')]
 class EgoeraController extends AbstractController
@@ -26,6 +27,7 @@ class EgoeraController extends AbstractController
         private readonly EntityManagerInterface $em,
         private readonly EgoeraRepository $repo,
         private readonly EskakizunaRepository $eskakizunaRepo,
+        private readonly LoggerInterface $logger,
     ) 
     {
     }
@@ -50,7 +52,7 @@ class EgoeraController extends AbstractController
     }
 
     #[Route(path: '/{id}/edit', name: 'admin_egoera_edit')]
-    public function edit(Request $request, Egoera $egoera)
+    public function edit(Request $request, #[MapEntity(id: 'id')] Egoera $egoera)
     {
         $form = $this->createForm(EgoeraFormType::class, $egoera);
         $form->handleRequest($request);
@@ -69,7 +71,7 @@ class EgoeraController extends AbstractController
     }
 
     #[Route(path: '/{id}/delete', name: 'admin_egoera_delete')]
-    public function delete(Egoera $egoera)
+    public function delete(#[MapEntity(id: 'id')] Egoera $egoera)
     {
         if (!$egoera) {
             $this->addFlash('error', 'messages.egoera_ez_da_existitzen');
@@ -92,11 +94,11 @@ class EgoeraController extends AbstractController
     }
 
     #[Route(path: '/{id}', name: 'admin_egoera_show')]
-    public function show(Egoera $egoera, LoggerInterface $logger)
+    public function show(#[MapEntity(id: 'id')] Egoera $egoera)
     {
-        $logger->debug('EgoeraController->showAction->Egoera->'.$egoera->__toDebug());
+        $this->logger->debug('EgoeraController->showAction->Egoera->'.$egoera->__toDebug());
         $form = $this->createForm(EgoeraFormType::class, $egoera);
-        $logger->debug('EgoeraController->showAction->Egoera->render: admin/egoera/show.html.twig');
+        $this->logger->debug('EgoeraController->showAction->Egoera->render: admin/egoera/show.html.twig');
 
         return $this->render('admin/egoera/show.html.twig', [
             'egoeraForm' => $form->createView(),

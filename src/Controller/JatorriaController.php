@@ -15,6 +15,7 @@ use App\Repository\EskakizunaRepository;
 use App\Repository\JatorriaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,7 +27,8 @@ class JatorriaController extends AbstractController
     public function __construct (
         private readonly EntityManagerInterface $em,
         private readonly JatorriaRepository $repo,
-        private readonly EskakizunaRepository $eskakizunaRepo,    
+        private readonly EskakizunaRepository $eskakizunaRepo,
+        private readonly LoggerInterface $logger,    
     ) 
     {
     }
@@ -51,7 +53,7 @@ class JatorriaController extends AbstractController
     }
 
     #[Route(path: '/{id}/edit', name: 'admin_jatorria_edit')]
-    public function edit(Request $request, Jatorria $jatorria)
+    public function edit(Request $request, #[MapEntity(id: 'id')] Jatorria $jatorria)
     {
         $form = $this->createForm(JatorriaFormType::class, $jatorria);
         $form->handleRequest($request);
@@ -69,7 +71,7 @@ class JatorriaController extends AbstractController
     }
 
     #[Route(path: '/{id}/delete', name: 'admin_jatorria_delete')]
-    public function delete(Jatorria $jatorria)
+    public function delete(#[MapEntity(id: 'id')] Jatorria $jatorria)
     {
         if (!$jatorria) {
             $this->addFlash('error', 'messages.jatorria_ez_da_existitzen');
@@ -89,9 +91,9 @@ class JatorriaController extends AbstractController
     }
 
     #[Route(path: '/{id}', name: 'admin_jatorria_show')]
-    public function show(Jatorria $jatorria, LoggerInterface $logger)
+    public function show(#[MapEntity(id: 'id')] Jatorria $jatorria)
     {
-        $logger->debug('Showing: '.$jatorria->getId());
+        $this->logger->debug('Showing: '.$jatorria->getId());
         $form = $this->createForm(JatorriaFormType::class, $jatorria);
 
         return $this->render('admin/jatorria/show.html.twig', [

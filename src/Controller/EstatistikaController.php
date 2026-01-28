@@ -17,7 +17,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class EstatistikaController extends AbstractController
 {
     public function __construct(
-        private readonly EntityManagerInterface $em, 
         private readonly EstatistikaRepository $estatistikaRepo,
         private readonly ?TranslatorInterface $translator = null,
     )
