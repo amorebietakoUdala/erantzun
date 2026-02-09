@@ -21,7 +21,7 @@
         "sweetalert2": "^6.6.6",
         "tableexport.jquery.plugin": "1.26.0",
         "tinymce": "^7.3.0",
-        "webpack": "^5.74.0",
+        "webpack": "^5.104.1",
         "webpack-cli": "^4.10.0",
         "webpack-notifier": "^1.15.0"
     },
